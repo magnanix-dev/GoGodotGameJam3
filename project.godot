@@ -9,7 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
+"base": "Camera",
+"class": "Freelook",
+"language": "GDScript",
+"path": "res://assets/scenes/world/Freelook.gd"
+}, {
+"base": "Spatial",
 "class": "Generator",
 "language": "GDScript",
 "path": "res://assets/scripts/world/Generator.gd"
@@ -20,6 +25,7 @@ _global_script_classes=[ {
 "path": "res://assets/scripts/world/Walker.gd"
 } ]
 _global_script_class_icons={
+"Freelook": "",
 "Generator": "",
 "Walker": ""
 }
