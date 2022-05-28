@@ -30,15 +30,18 @@ func _init(start, size_x, size_y, distance):
 func step():
 	if randf() <= turn_chance or dist >= max_dist:
 		change_direction()
-	var target = pos + dir
-	#print(target.x, ", ", target.y)
-	if not out_of_bounds(target):
-		dist += 1
-		pos = target
-		return pos
+	if pos:
+		var target = pos + dir
+		#print(target.x, ", ", target.y)
+		if not out_of_bounds(target):
+			dist += 1
+			pos = target
+			return pos
+		else:
+			change_direction()
+			step()
 	else:
-		change_direction()
-		step()
+		return false
 
 func change_direction():
 	var turn = direction[dir].duplicate()
@@ -49,9 +52,12 @@ func change_direction():
 		dir = turn.pop_front()
 
 func out_of_bounds(target):
-	var _x = target.x
-	var _y = target.y
-	if _x <= x.min || _x >= x.max || _y <= y.min || _y >= y.max:
-		return true
+	if target:
+		var _x = target.x
+		var _y = target.y
+		if _x <= x.min || _x >= x.max || _y <= y.min || _y >= y.max:
+			return true
+		else:
+			return false
 	else:
 		return false
