@@ -45,7 +45,7 @@ func _input(event):
 
 func generate_map():
 	generate = true
-	grid = array2d(size.x, size.y, tile.ceiling)
+	grid = array2d(size.x, size.y, tile.none)
 	var midpoint = Vector2(ceil(size.x/2), ceil(size.y/2))
 	var walkers = []
 	var removal = []
@@ -80,11 +80,23 @@ func generate_map():
 	if count_ground() <= ground_minimum:
 		print("Failed! - Restarting!")
 		yield(generate_map(), "completed")
+	var _x = Vector2(-1, -1)
+	var _y = Vector2(-1, -1)
 	for x in range(1, size.x-1):
 		for y in range(1, size.y-1):
-			if grid[x][y] == tile.none:
-				if grid[x-1][y-1] == tile.ground || grid[x][y-1] == tile.ground || grid[x+1][y-1] == tile.ground || grid[x-1][y] == tile.ground || grid[x+1][y] == tile.ground || grid[x-1][y+1] == tile.ground || grid[x][y+1] == tile.ground || grid[x+1][y+1] == tile.ground:
-					grid[x][y] = tile.ceiling
+			if grid[x][y] != tile.none:
+				if x <= _x.x or _x.x == -1: _x.x = x
+				if x >= _x.y or _x.y == -1: _x.y = x
+				if y <= _y.x or _y.x == -1: _y.x = y
+				if y >= _y.y or _y.y == -1: _y.y = y
+	var xdiff = floor((size.x - (_x.y - _x.x))/2) - _x.x
+	var ydiff = floor((size.y - (_y.y - _y.x))/2) - _y.x
+	var regrid = array2d(size.x, size.y, tile.ceiling)
+	for x in range(1, size.x-1):
+		for y in range(1, size.y-1):
+			if grid[x][y] != tile.none:
+				regrid[xdiff+x][ydiff+y] = grid[x][y]
+	grid = regrid
 	yield(get_tree(), "idle_frame")
 
 func build_map():
