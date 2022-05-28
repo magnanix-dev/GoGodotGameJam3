@@ -11,7 +11,7 @@ export var walkers_maximum = 5
 export var walkers_create_chance = 0.02
 export var walkers_delete_chance = 0.01
 export var walkers_distance = 5
-export var walkers_2x_chance = 0.5
+export var walkers_2x_chance = 0.25
 export var walkers_3x_chance = 0.0
 
 export var ground_material : SpatialMaterial
@@ -58,6 +58,10 @@ func generate_map():
 			var p = w.step()
 			if p:
 				grid[p.x][p.y] = tile.ground
+				if randf() <= walkers_2x_chance:
+					make_2x_room(w)
+				if randf() <= walkers_3x_chance:
+					make_3x_room(w)
 				if randf() <= walkers_create_chance and walkers.size() < walkers_maximum:
 					walkers.append(Walker.new(p, Vector2(1, size.x-2), Vector2(1, size.y-2), walkers_distance))
 				if randf() <= walkers_delete_chance:
@@ -67,12 +71,14 @@ func generate_map():
 		if removal.size():
 			for w in removal:
 				walkers.erase(w)
+				make_2x_room(w)
 				w.queue_free()
 			removal.clear()
 		if count_ground() >= ground_maximum or walkers.size() <= 0:
 			generate = false
 	if not generate and walkers.size():
 		for w in walkers:
+			make_2x_room(w)
 			w.queue_free()
 		walkers.clear()
 	print("Iterations: ", iterations)
@@ -98,6 +104,33 @@ func generate_map():
 				regrid[xdiff+x][ydiff+y] = grid[x][y]
 	grid = regrid
 	yield(get_tree(), "idle_frame")
+
+func make_2x_room(w):
+	if not w.out_of_bounds(Vector2(w.pos.x-1, w.pos.y-1)):
+		grid[w.pos.x-1][w.pos.y-1] = tile.ground
+	if not w.out_of_bounds(Vector2(w.pos.x, w.pos.y-1)):
+		grid[w.pos.x][w.pos.y-1] = tile.ground
+	if not w.out_of_bounds(Vector2(w.pos.x-1, w.pos.y)):
+		grid[w.pos.x-1][w.pos.y] = tile.ground
+
+func make_3x_room(w):
+	if not w.out_of_bounds(Vector2(w.pos.x-1, w.pos.y-1)):
+		grid[w.pos.x-1][w.pos.y-1] = tile.ground
+	if not w.out_of_bounds(Vector2(w.pos.x, w.pos.y-1)):
+		grid[w.pos.x][w.pos.y-1] = tile.ground
+	if not w.out_of_bounds(Vector2(w.pos.x+1, w.pos.y-1)):
+		grid[w.pos.x+1][w.pos.y-1] = tile.ground
+	if not w.out_of_bounds(Vector2(w.pos.x-1, w.pos.y)):
+		grid[w.pos.x-1][w.pos.y] = tile.ground
+	if not w.out_of_bounds(Vector2(w.pos.x+1, w.pos.y)):
+		grid[w.pos.x+1][w.pos.y] = tile.ground
+	if not w.out_of_bounds(Vector2(w.pos.x-1, w.pos.y+1)):
+		grid[w.pos.x-1][w.pos.y+1] = tile.ground
+	if not w.out_of_bounds(Vector2(w.pos.x, w.pos.y+1)):
+		grid[w.pos.x][w.pos.y+1] = tile.ground
+	if not w.out_of_bounds(Vector2(w.pos.x+1, w.pos.y+1)):
+		grid[w.pos.x+1][w.pos.y+1] = tile.ground
+		
 
 func build_map():
 	var ground_verts = PoolVector3Array()
