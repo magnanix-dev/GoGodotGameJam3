@@ -16,9 +16,7 @@ export var walkers_distance = 5
 export var walkers_2x_chance = 0.25
 export var walkers_3x_chance = 0.0
 
-export var ground_material : SpatialMaterial
-export var ceiling_material : SpatialMaterial
-export var wall_material : SpatialMaterial
+export var world_material : SpatialMaterial
 
 enum tile {ground, ceiling, none}
 var grid
@@ -42,10 +40,7 @@ func _ready():
 	find_pickup_points()
 	var build_meshes = build_map()
 	if build_meshes.size():
-		#for build in build_meshes:
-		generate_mesh(build_meshes[0], ground_material)
-		generate_mesh(build_meshes[1], wall_material)
-		generate_mesh(build_meshes[2], ceiling_material)
+		generate_mesh(build_meshes[0], build_meshes[1], build_meshes[2], world_material)
 	#visualize_points()
 
 func _input(event):
@@ -234,48 +229,96 @@ func visualize_points():
 		meshes.add_child(pickup)
 
 func build_map():
-	var ground_verts = PoolVector3Array()
-	var wall_verts = PoolVector3Array()
-	var ceiling_verts = PoolVector3Array()
+	var verts = PoolVector3Array()
+	var uvs = PoolVector2Array()
+	var normals = PoolVector3Array()
 	for x in range(0, size.x-1):
 		for y in range(0, size.y-1):
 			match grid[x][y]:
 				tile.ground:
 					var z = 0
-					ground_verts.append(Vector3(x, z, y))
-					ground_verts.append(Vector3(x + 1, z, y))
-					ground_verts.append(Vector3(x + 1, z, y + 1))
-					ground_verts.append(Vector3(x, z, y + 1))
+					verts.append(Vector3(x, z, y))
+					verts.append(Vector3(x + 1, z, y))
+					verts.append(Vector3(x + 1, z, y + 1))
+					verts.append(Vector3(x, z, y + 1))
+					normals.append(Vector3.UP)
+					normals.append(Vector3.UP)
+					normals.append(Vector3.UP)
+					normals.append(Vector3.UP)
+					uvs.append(Vector2(0.1, 0.1))
+					uvs.append(Vector2(0.4, 0.1))
+					uvs.append(Vector2(0.4, 0.4))
+					uvs.append(Vector2(0.1, 0.4))
 				tile.ceiling:
 					var z = 1
-					ceiling_verts.append(Vector3(x, z, y))
-					ceiling_verts.append(Vector3(x + 1, z, y))
-					ceiling_verts.append(Vector3(x + 1, z, y + 1))
-					ceiling_verts.append(Vector3(x, z, y + 1))
+					verts.append(Vector3(x, z, y))
+					verts.append(Vector3(x + 1, z, y))
+					verts.append(Vector3(x + 1, z, y + 1))
+					verts.append(Vector3(x, z, y + 1))
+					normals.append(Vector3.UP)
+					normals.append(Vector3.UP)
+					normals.append(Vector3.UP)
+					normals.append(Vector3.UP)
+					uvs.append(Vector2(0.1, 0.6))
+					uvs.append(Vector2(0.4, 0.6))
+					uvs.append(Vector2(0.4, 0.9))
+					uvs.append(Vector2(0.1, 0.9))
 					if grid[x][y-1] == tile.ground:
-						wall_verts.append(Vector3(x + 1, z - 1, y))
-						wall_verts.append(Vector3(x + 1, z, y))
-						wall_verts.append(Vector3(x, z, y))
-						wall_verts.append(Vector3(x, z - 1, y))
+						verts.append(Vector3(x + 1, z - 1, y))
+						verts.append(Vector3(x + 1, z, y))
+						verts.append(Vector3(x, z, y))
+						verts.append(Vector3(x, z - 1, y))
+						normals.append(Vector3.FORWARD)
+						normals.append(Vector3.FORWARD)
+						normals.append(Vector3.FORWARD)
+						normals.append(Vector3.FORWARD)
+						uvs.append(Vector2(0.6, 0.1))
+						uvs.append(Vector2(0.9, 0.1))
+						uvs.append(Vector2(0.9, 0.4))
+						uvs.append(Vector2(0.6, 0.4))
 					if grid[x][y+1] == tile.ground:
-						wall_verts.append(Vector3(x, z - 1, y + 1))
-						wall_verts.append(Vector3(x, z, y + 1))
-						wall_verts.append(Vector3(x + 1, z, y + 1))
-						wall_verts.append(Vector3(x + 1, z - 1, y + 1))
+						verts.append(Vector3(x, z - 1, y + 1))
+						verts.append(Vector3(x, z, y + 1))
+						verts.append(Vector3(x + 1, z, y + 1))
+						verts.append(Vector3(x + 1, z - 1, y + 1))
+						normals.append(Vector3.BACK)
+						normals.append(Vector3.BACK)
+						normals.append(Vector3.BACK)
+						normals.append(Vector3.BACK)
+						uvs.append(Vector2(0.6, 0.1))
+						uvs.append(Vector2(0.9, 0.1))
+						uvs.append(Vector2(0.9, 0.4))
+						uvs.append(Vector2(0.6, 0.4))
 					if grid[x-1][y] == tile.ground:
-						wall_verts.append(Vector3(x, z - 1, y))
-						wall_verts.append(Vector3(x, z, y))
-						wall_verts.append(Vector3(x, z, y + 1))
-						wall_verts.append(Vector3(x, z - 1, y + 1))
+						verts.append(Vector3(x, z - 1, y))
+						verts.append(Vector3(x, z, y))
+						verts.append(Vector3(x, z, y + 1))
+						verts.append(Vector3(x, z - 1, y + 1))
+						normals.append(Vector3.LEFT)
+						normals.append(Vector3.LEFT)
+						normals.append(Vector3.LEFT)
+						normals.append(Vector3.LEFT)
+						uvs.append(Vector2(0.6, 0.1))
+						uvs.append(Vector2(0.9, 0.1))
+						uvs.append(Vector2(0.9, 0.4))
+						uvs.append(Vector2(0.6, 0.4))
 					if grid[x+1][y] == tile.ground:
-						wall_verts.append(Vector3(x + 1, z - 1, y + 1))
-						wall_verts.append(Vector3(x + 1, z, y + 1))
-						wall_verts.append(Vector3(x + 1, z, y))
-						wall_verts.append(Vector3(x + 1, z - 1, y))
+						verts.append(Vector3(x + 1, z - 1, y + 1))
+						verts.append(Vector3(x + 1, z, y + 1))
+						verts.append(Vector3(x + 1, z, y))
+						verts.append(Vector3(x + 1, z - 1, y))
+						normals.append(Vector3.RIGHT)
+						normals.append(Vector3.RIGHT)
+						normals.append(Vector3.RIGHT)
+						normals.append(Vector3.RIGHT)
+						uvs.append(Vector2(0.6, 0.1))
+						uvs.append(Vector2(0.9, 0.1))
+						uvs.append(Vector2(0.9, 0.4))
+						uvs.append(Vector2(0.6, 0.4))
 	
-	return [ground_verts, wall_verts, ceiling_verts]
+	return [verts, uvs, normals]
 
-func generate_mesh(verts, material = null):
+func generate_mesh(verts, uvs, normals, material = null):
 	var mesh_instance = MeshInstance.new()
 	meshes.add_child(mesh_instance)
 	var mesh = ArrayMesh.new()
@@ -283,8 +326,6 @@ func generate_mesh(verts, material = null):
 	var arr = []
 	arr.resize(Mesh.ARRAY_MAX)
 	
-	var uvs = PoolVector2Array()
-	var normals = PoolVector3Array()
 	var tangents = PoolRealArray()
 	var indices = PoolIntArray()
 	for n in range(0, verts.size(), 4):
@@ -294,12 +335,7 @@ func generate_mesh(verts, material = null):
 		indices.append(n)
 		indices.append(n+1)
 		indices.append(n+2)
-		uvs.append(Vector2(0, 0))
-		uvs.append(Vector2(1, 0))
-		uvs.append(Vector2(1, 1))
-		uvs.append(Vector2(0, 1))
 	for n in range(0, verts.size()):
-		normals.append(Vector3.UP)
 		tangents.append_array([-1,0,0,1])
 
 	# Assign arrays to mesh array.
