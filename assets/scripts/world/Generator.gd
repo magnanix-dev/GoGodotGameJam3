@@ -4,6 +4,8 @@ class_name Generator
 export var size = Vector2(30, 30)
 export var cell_size = 32
 
+export var pickup_distance = 10
+
 export var ground_maximum = 110
 export var ground_minimum = 70
 
@@ -20,6 +22,9 @@ export var wall_material : SpatialMaterial
 
 enum tile {ground, ceiling, none}
 var grid
+var center_point : Vector2
+var spawn_point : Vector2
+var pickup_points : Array
 
 onready var meshes = $Mesh
 
@@ -32,12 +37,16 @@ func _ready():
 	#get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
 	yield(generate_map(), "completed")
 	print("Completed!")
+	find_center_point()
+	find_spawn_point()
+	find_pickup_points()
 	var build_meshes = build_map()
 	if build_meshes.size():
 		#for build in build_meshes:
 		generate_mesh(build_meshes[0], ground_material)
 		generate_mesh(build_meshes[1], wall_material)
 		generate_mesh(build_meshes[2], ceiling_material)
+	#visualize_points()
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
@@ -130,7 +139,99 @@ func make_3x_room(w):
 		grid[w.pos.x][w.pos.y+1] = tile.ground
 	if not w.out_of_bounds(Vector2(w.pos.x+1, w.pos.y+1)):
 		grid[w.pos.x+1][w.pos.y+1] = tile.ground
-		
+
+func find_center_point():
+	var start = Vector2(floor(size.x/2), floor(size.y/2))
+	var end = start
+	var found = false
+	var offset = 0
+	print("find_center_point loop start")
+	while not found:
+		for n in range(-offset, offset):
+			if start.x+n <= 0 || start.x+n >= size.x:
+				found = true
+				break
+			if grid[start.x+n][start.y+n] == tile.ground:
+				found = true
+				end = Vector2(start.x+n, start.y+n)
+				break
+		offset += 1
+	print("find_center_point loop end")
+	center_point = end
+
+func find_spawn_point():
+	var dirs = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+	dirs.shuffle()
+	var dir = dirs.pop_front()
+	var found = false
+	var pos = center_point
+	var end = pos
+	print("find_spawn_point loop start")
+	while not found:
+		if pos.x+dir.x <= 0 || pos.x+dir.x >= size.x || pos.y+dir.y <= 0 || pos.y+dir.y >= size.y:
+			found = true
+			break
+		pos = pos + dir
+		if grid[pos.x][pos.y] == tile.ceiling:
+			found = true
+			end = pos - dir
+			break
+	print("find_spawn_point loop end")
+	spawn_point = end
+
+func find_pickup_points():
+	var tiles = []
+	var removals = []
+	var final = []
+	for x in range(0, size.x-1):
+		for y in range(0, size.y-1):
+			if grid[x][y] == tile.ground:
+				tiles.append([Vector2(x, y).distance_squared_to(spawn_point), Vector2(x,y)])
+	for n in range(3):
+		print("Tiles in pool: ", tiles.size())
+		tiles.sort_custom(self, "sort_by_distance")
+		var tile = tiles.pop_front()
+		final.append(tile[1])
+		for t in tiles:
+			if t[1].distance_squared_to(tile[1]) <= pickup_distance:
+				#print(t[1], ", ", tile[1], " : ", t[1].distance_squared_to(tile[1]))
+				removals.append(t)
+		if removals.size() > 0:
+			for r in removals:
+				tiles.erase(r)
+	pickup_points = final
+
+func sort_by_distance(a, b):
+	if a[0] > b[0]:
+		return true
+	return false
+
+func visualize_points():
+	var center = MeshInstance.new()
+	center.mesh = CubeMesh.new()
+	center.mesh.size = Vector3(1, 1, 1)
+	center.translation = Vector3(center_point.x+0.5, 0.625, center_point.y+0.5)
+	var m = SpatialMaterial.new()
+	m.albedo_color = Color.green
+	center.set_surface_material(0, m)
+	meshes.add_child(center)
+	var spawn = MeshInstance.new()
+	spawn.mesh = CubeMesh.new()
+	spawn.mesh.size = Vector3(1, 1, 1)
+	spawn.translation = Vector3(spawn_point.x+0.5, 0.75, spawn_point.y+0.5)
+	m = SpatialMaterial.new()
+	m.albedo_color = Color.blue
+	spawn.set_surface_material(0, m)
+	meshes.add_child(spawn)
+	for p in pickup_points:
+		var pickup = MeshInstance.new()
+		pickup.mesh = CubeMesh.new()
+		pickup.mesh.size = Vector3(1, 1, 1)
+		pickup.translation = Vector3(p.x+0.5, 0.825, p.y+0.5)
+		m = SpatialMaterial.new()
+		m.albedo_color = Color.red
+		pickup.set_surface_material(0, m)
+		meshes.add_child(pickup)
 
 func build_map():
 	var ground_verts = PoolVector3Array()
@@ -212,8 +313,8 @@ func generate_mesh(verts, material = null):
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
 	mesh_instance.mesh = mesh
 	if material != null: mesh_instance.material_override = material
-	#mesh_instance.create_trimesh_collision()
-	#mesh_instance.visible = true
+	mesh_instance.create_trimesh_collision()
+	mesh_instance.visible = true
 
 func count_ground():
 	var ground_count = 0

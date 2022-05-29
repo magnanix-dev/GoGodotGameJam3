@@ -14,7 +14,7 @@ ao_on_uv2 = false
 ao_texture_channel = 0
 
 [sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 1, 0.701961, 0, 1 )
+albedo_color = Color( 0.14902, 0.811765, 0.160784, 1 )
 metallic = 1.0
 metallic_specular = 1.0
 roughness = 0.5
@@ -24,7 +24,7 @@ ao_on_uv2 = false
 ao_texture_channel = 0
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 1, 0, 0, 1 )
+albedo_color = Color( 0.0156863, 0.52549, 0, 1 )
 metallic = 1.0
 metallic_specular = 1.0
 roughness = 0.5
@@ -40,12 +40,12 @@ ceiling_material = SubResource( 2 )
 wall_material = SubResource( 3 )
 
 [node name="Pivot" type="Spatial" parent="."]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 15, 1, 15 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0, 0 )
 
 [node name="Camera" type="Camera" parent="Pivot"]
-transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 45, 45 )
+transform = Transform( 1, 0, 0, 0, 0.5, 0.866026, 0, -0.866026, 0.5, 0, 27.5, 30 )
 projection = 1
-size = 30.0
+size = 25.0
 script = ExtResource( 2 )
 
 [node name="Mesh" type="Node" parent="."]
