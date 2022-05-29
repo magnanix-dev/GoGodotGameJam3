@@ -16,7 +16,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0, 0 )
 
 [node name="Camera" type="Camera" parent="Pivot"]
 transform = Transform( 1, 0, 0, 0, 0.5, 0.866026, 0, -0.866026, 0.5, 0, 27.5, 30 )
-size = 25.0
+projection = 1
+size = 7.5
 script = ExtResource( 2 )
 
 [node name="Mesh" type="Node" parent="."]
@@ -24,6 +25,8 @@ script = ExtResource( 2 )
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( -0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, 0.5, -0.5, 0, 16, 0 )
 shadow_enabled = true
+shadow_bias = -0.05
+shadow_contact = 0.05
 directional_shadow_blend_splits = true
 directional_shadow_normal_bias = 0.4
 directional_shadow_depth_range = 1
