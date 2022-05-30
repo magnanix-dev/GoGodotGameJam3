@@ -4,7 +4,8 @@ class_name Generator
 export var size = Vector2(30, 30)
 export var cell_size = 32
 
-export var pickup_distance = 10
+export var pickups_total = 3
+export var pickups_distance = 10
 
 export var ground_maximum = 110
 export var ground_minimum = 70
@@ -16,6 +17,10 @@ export var walkers_distance = 5
 export var walkers_2x_chance = 0.25
 export var walkers_3x_chance = 0.0
 
+export var enemy_spawn_chance = 0.11
+export var enemy_spawn_minimum = 10
+export var enemy_spawn_distance = 10
+
 export var world_material : SpatialMaterial
 
 enum tile {ground, ceiling, none}
@@ -23,29 +28,32 @@ var grid
 var center_point : Vector2
 var spawn_point : Vector2
 var pickup_points : Array
+var enemy_spawn_points : Array
 
 onready var meshes = $Mesh
 
 var generate = true
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	#randomize()
 	#VisualServer.set_debug_generate_wireframes(true)
 	#get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
+	randomize()
+
+func initialize():
 	yield(generate_map(), "completed")
 	print("Completed!")
 	find_center_point()
 	find_spawn_point()
 	find_pickup_points()
+	find_enemy_spawn_points()
+	# Sanity Checks:
+	if enemy_spawn_points.size() < enemy_spawn_minimum || pickup_points.size() < pickups_total || not spawn_point || not center_point:
+		initialize()
+		return
 	var build_meshes = build_map()
 	if build_meshes.size():
 		generate_mesh(build_meshes[0], build_meshes[1], build_meshes[2], world_material)
-	#visualize_points()
-
-func _input(event):
-	if event.is_action_pressed("ui_accept"):
-		get_tree().reload_current_scene()
+	yield(get_tree(), "idle_frame")
 
 func generate_map():
 	generate = true
@@ -177,24 +185,38 @@ func find_spawn_point():
 func find_pickup_points():
 	var tiles = []
 	var removals = []
-	var final = []
+	var viable_tiles = []
 	for x in range(0, size.x-1):
 		for y in range(0, size.y-1):
 			if grid[x][y] == tile.ground:
 				tiles.append([Vector2(x, y).distance_squared_to(spawn_point), Vector2(x,y)])
-	for n in range(3):
+	for n in range(pickups_total):
 		print("Tiles in pool: ", tiles.size())
 		tiles.sort_custom(self, "sort_by_distance")
 		var tile = tiles.pop_front()
-		final.append(tile[1])
+		viable_tiles.append(tile[1])
 		for t in tiles:
-			if t[1].distance_squared_to(tile[1]) <= pickup_distance:
-				#print(t[1], ", ", tile[1], " : ", t[1].distance_squared_to(tile[1]))
+			if t[1].distance_squared_to(tile[1]) <= pickups_distance:
 				removals.append(t)
 		if removals.size() > 0:
 			for r in removals:
 				tiles.erase(r)
-	pickup_points = final
+	pickup_points = viable_tiles
+
+func find_enemy_spawn_points():
+	var tiles = []
+	var viable_tiles = []
+	for x in range(0, size.x-1):
+		for y in range(0, size.y-1):
+			if grid[x][y] == tile.ground:
+				tiles.append(Vector2(x,y))
+	var iterations = 0
+	while viable_tiles.size() < enemy_spawn_minimum and iterations < 100:
+		for t in tiles:
+			if t.distance_squared_to(spawn_point) >= enemy_spawn_distance and randf() <= enemy_spawn_chance:
+				viable_tiles.append(t)
+		iterations += 1
+	enemy_spawn_points = viable_tiles
 
 func sort_by_distance(a, b):
 	if a[0] > b[0]:

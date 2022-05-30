@@ -1,0 +1,30 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://assets/scripts/world/ZoneSettings.gd" type="Script" id=1]
+[ext_resource path="res://assets/scenes/world/world1.png" type="Texture" id=2]
+[ext_resource path="res://assets/scenes/player/Player.tscn" type="PackedScene" id=3]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 2 )
+
+[resource]
+script = ExtResource( 1 )
+player = ExtResource( 3 )
+pickups = [  ]
+enemies = [  ]
+size = Vector2( 30, 30 )
+cell_size = 32
+pickups_total = 3
+pickups_distance = 10
+ground_maximum = 110
+ground_minimum = 70
+walkers_maximum = 5
+walkers_create_chance = 0.02
+walkers_delete_chance = 0.01
+walkers_distance = 5
+walkers_2x_chance = 0.25
+walkers_3x_chance = 0.0
+enemy_spawn_chance = 0.11
+enemy_spawn_minimum = 10
+enemy_spawn_distance = 10
+world_material = SubResource( 1 )

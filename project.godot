@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Camera",
-"class": "Freelook",
-"language": "GDScript",
-"path": "res://assets/scenes/world/Freelook.gd"
-}, {
 "base": "Spatial",
 "class": "Generator",
 "language": "GDScript",
@@ -23,11 +18,22 @@ _global_script_classes=[ {
 "class": "Walker",
 "language": "GDScript",
 "path": "res://assets/scripts/world/Walker.gd"
+}, {
+"base": "Spatial",
+"class": "Zone",
+"language": "GDScript",
+"path": "res://assets/scripts/world/Zone.gd"
+}, {
+"base": "Resource",
+"class": "ZoneSettings",
+"language": "GDScript",
+"path": "res://assets/scripts/world/ZoneSettings.gd"
 } ]
 _global_script_class_icons={
-"Freelook": "",
 "Generator": "",
-"Walker": ""
+"Walker": "",
+"Zone": "",
+"ZoneSettings": ""
 }
 
 [application]
