@@ -5,6 +5,10 @@ signal changed_state
 var stack = []
 var current = null
 
+var camera
+var drop_plane
+var mouse_position
+
 onready var map = {
 	'idle': $States/Idle,
 	'move': $States/Move,
@@ -22,6 +26,8 @@ func _ready():
 	_change_state("idle")
 
 func _physics_process(delta):
+	if current.allow_mouselook:
+		_mouselook()
 	current.update(delta)
 
 func _input(event):
@@ -44,3 +50,14 @@ func _change_state(state):
 		current.enter()
 	
 	emit_signal("changed_state", stack)
+
+func _mouselook():
+	if not drop_plane:
+		drop_plane = Plane(Vector3(0, 1, 0), global_transform.origin.y)
+	var mouse_pos = get_viewport().get_mouse_position()
+	if not camera:
+		camera = camera_pivot.camera
+	mouse_position = drop_plane.intersects_ray(camera.project_ray_origin(mouse_pos), camera.project_ray_normal(mouse_pos)*100)
+	
+	var target = Vector3(mouse_position.x, global_transform.origin.y, mouse_position.z)
+	look_at(target, Vector3.UP)

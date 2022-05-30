@@ -12,7 +12,6 @@ func handle_input(event):
 	return .handle_input(event)
 
 func update(delta):
-	update_look_direction()
 	var direction = get_input_direction()
 	if not direction:
 		emit_signal("finished", "idle")

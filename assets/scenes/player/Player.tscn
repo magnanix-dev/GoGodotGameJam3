@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/scripts/player/StateMachine.gd" type="Script" id=1]
 [ext_resource path="res://assets/scripts/player/Move.gd" type="Script" id=2]
@@ -20,6 +20,16 @@ albedo_color = Color( 0, 0.647059, 1, 1 )
 
 [sub_resource type="SpatialMaterial" id=6]
 albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CylinderMesh" id=7]
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_color = Color( 0.0235294, 0.803922, 0.0196078, 1 )
+
+[sub_resource type="CubeMesh" id=9]
+
+[sub_resource type="SpatialMaterial" id=10]
+albedo_color = Color( 0, 0, 0, 1 )
 
 [node name="Player" type="KinematicBody"]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
@@ -63,7 +73,18 @@ projection = 1
 current = true
 size = 12.5
 
-[node name="MeshInstance" type="MeshInstance" parent="Pivot"]
+[node name="Source" type="MeshInstance" parent="Pivot"]
 mesh = SubResource( 5 )
 skeleton = NodePath("../..")
 material/0 = SubResource( 6 )
+
+[node name="Target" type="MeshInstance" parent="Pivot"]
+visible = false
+mesh = SubResource( 7 )
+skeleton = NodePath("../Camera")
+material/0 = SubResource( 8 )
+
+[node name="Midpoint" type="MeshInstance" parent="Pivot"]
+visible = false
+mesh = SubResource( 9 )
+material/0 = SubResource( 10 )
