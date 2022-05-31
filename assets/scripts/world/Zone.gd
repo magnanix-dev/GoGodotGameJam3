@@ -10,7 +10,6 @@ onready var map = $Dynamic/Map
 onready var generator = $Static/Generator
 
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	generator.gridmap = map
 	
 	generator.size = settings.size
@@ -56,10 +55,6 @@ func _ready():
 			var _enemy = _enemies[0].instance()
 			_enemy.global_transform.origin = vector2_to_3(e)
 			_dynamic.add_child(_enemy)
-
-func _input(event):
-	if event.is_action_pressed("ui_cancel"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func vector2_to_3(vector):
 	return Vector3(vector.x, 0, vector.y)
