@@ -32,6 +32,7 @@ var enemy_spawn_points : Array
 
 onready var meshes = $Mesh
 onready var global_light = $DirectionalLight
+var gridmap : GridMap
 
 var generate = true
 
@@ -54,8 +55,15 @@ func initialize():
 	var build_meshes = build_map()
 	if build_meshes.size():
 		generate_mesh(build_meshes[0], build_meshes[1], build_meshes[2], world_material)
+	#generate_tilemap()
 	yield(get_tree(), "idle_frame")
 	generate_lightmaps()
+
+func generate_tilemap():
+	for x in range(size.x):
+		for y in range(size.y):
+			if grid[x][y] == tile.ground: gridmap.set_cell_item(x, 0, y, 1)
+			if grid[x][y] == tile.ceiling: gridmap.set_cell_item(x, 0, y, 0)
 
 func generate_map():
 	generate = true
@@ -317,26 +325,26 @@ func build_map():
 						uvs.append(Vector2(0.6, 0.4))
 					if grid[x-1][y] == tile.ground:
 						verts.append(Vector3(x, z - z_height, y))
-						normals.append(Vector3.LEFT)
+						normals.append(Vector3.RIGHT)
 						verts.append(Vector3(x, z, y))
-						normals.append(Vector3.LEFT)
+						normals.append(Vector3.RIGHT)
 						verts.append(Vector3(x, z, y + 1))
-						normals.append(Vector3.LEFT)
+						normals.append(Vector3.RIGHT)
 						verts.append(Vector3(x, z - z_height, y + 1))
-						normals.append(Vector3.LEFT)
+						normals.append(Vector3.RIGHT)
 						uvs.append(Vector2(0.6, 0.1))
 						uvs.append(Vector2(0.9, 0.1))
 						uvs.append(Vector2(0.9, 0.4))
 						uvs.append(Vector2(0.6, 0.4))
 					if grid[x+1][y] == tile.ground:
 						verts.append(Vector3(x + 1, z - z_height, y + 1))
-						normals.append(Vector3.RIGHT)
+						normals.append(Vector3.LEFT)
 						verts.append(Vector3(x + 1, z, y + 1))
-						normals.append(Vector3.RIGHT)
+						normals.append(Vector3.LEFT)
 						verts.append(Vector3(x + 1, z, y))
-						normals.append(Vector3.RIGHT)
+						normals.append(Vector3.LEFT)
 						verts.append(Vector3(x + 1, z - z_height, y))
-						normals.append(Vector3.RIGHT)
+						normals.append(Vector3.LEFT)
 						uvs.append(Vector2(0.6, 0.1))
 						uvs.append(Vector2(0.9, 0.1))
 						uvs.append(Vector2(0.9, 0.4))

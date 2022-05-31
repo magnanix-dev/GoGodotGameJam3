@@ -9,15 +9,40 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "DrawLine3D",
+"language": "GDScript",
+"path": "res://assets/scripts/development/DrawLine3D.gd"
+}, {
+"base": "Resource",
+"class": "Evolutions",
+"language": "GDScript",
+"path": "res://assets/resources/Evolutions.gd"
+}, {
 "base": "Spatial",
 "class": "Generator",
 "language": "GDScript",
 "path": "res://assets/scripts/world/Generator.gd"
 }, {
+"base": "Resource",
+"class": "ProjectileSettings",
+"language": "GDScript",
+"path": "res://assets/resources/ProjectileSettings.gd"
+}, {
 "base": "Node",
 "class": "Walker",
 "language": "GDScript",
 "path": "res://assets/scripts/world/Walker.gd"
+}, {
+"base": "Position3D",
+"class": "Weapon",
+"language": "GDScript",
+"path": "res://assets/scripts/player/Weapon.gd"
+}, {
+"base": "Resource",
+"class": "WeaponSettings",
+"language": "GDScript",
+"path": "res://assets/resources/WeaponSettings.gd"
 }, {
 "base": "Spatial",
 "class": "Zone",
@@ -27,11 +52,16 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "ZoneSettings",
 "language": "GDScript",
-"path": "res://assets/scripts/world/ZoneSettings.gd"
+"path": "res://assets/resources/ZoneSettings.gd"
 } ]
 _global_script_class_icons={
+"DrawLine3D": "",
+"Evolutions": "",
 "Generator": "",
+"ProjectileSettings": "",
 "Walker": "",
+"Weapon": "",
+"WeaponSettings": "",
 "Zone": "",
 "ZoneSettings": ""
 }
@@ -41,6 +71,10 @@ _global_script_class_icons={
 config/name="GoGodotGameJam3"
 run/main_scene="res://assets/scenes/development/Testing.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+DrawLine3d="*res://assets/scripts/development/DrawLine3D.gd"
 
 [display]
 

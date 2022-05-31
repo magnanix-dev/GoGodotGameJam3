@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/scripts/world/Zone.gd" type="Script" id=1]
 [ext_resource path="res://assets/scripts/world/zones/Zone1.tres" type="Resource" id=2]
 [ext_resource path="res://assets/scenes/world/Generator.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/scripts/development/Debug.gd" type="Script" id=4]
+[ext_resource path="res://assets/libraries/basic_tilemap.tres" type="MeshLibrary" id=5]
 
 [node name="Test Zone" type="Spatial"]
 script = ExtResource( 1 )
@@ -10,6 +12,32 @@ settings = ExtResource( 2 )
 
 [node name="Dynamic" type="Node" parent="."]
 
+[node name="Map" type="GridMap" parent="Dynamic"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+mesh_library = ExtResource( 5 )
+cell_octant_size = 4
+cell_center_y = false
+data = {
+"cells": PoolIntArray(  )
+}
+__meta__ = {
+"_editor_clip_": 0
+}
+
 [node name="Static" type="Node" parent="."]
 
 [node name="Generator" parent="Static" instance=ExtResource( 3 )]
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+
+[node name="FPS" type="Label" parent="Control"]
+anchor_right = 1.0
+margin_right = -512.0
+margin_bottom = 14.0
+rect_scale = Vector2( 2, 2 )
+text = "FPS: ##"
+align = 2
+uppercase = true

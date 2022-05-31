@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://assets/resources/ProjectileSettings.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+speed = 12.0
+speed_variance = 0.0
+damage = 1.0
+spread = 0.0

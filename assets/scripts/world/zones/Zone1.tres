@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=5 format=2]
 
-[ext_resource path="res://assets/scripts/world/ZoneSettings.gd" type="Script" id=1]
+[ext_resource path="res://assets/resources/ZoneSettings.gd" type="Script" id=1]
 [ext_resource path="res://assets/scenes/world/world1.png" type="Texture" id=2]
 [ext_resource path="res://assets/scenes/player/Player.tscn" type="PackedScene" id=3]
 
