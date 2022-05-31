@@ -2,9 +2,10 @@ extends 'res://assets/scripts/shared/State.gd'
 
 var speed = 0.0
 var velocity = Vector3.ZERO
-var allow_mouselook = true
 
 func handle_input(event):
+	if event.is_action_pressed("tertiary") and owner.allow_dash:
+		emit_signal("finished", "dash")
 	return .handle_input(event)
 
 func get_input_direction():

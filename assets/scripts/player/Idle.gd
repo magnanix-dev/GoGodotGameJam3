@@ -1,7 +1,5 @@
 extends 'Motion.gd'
 
-export var max_speed : float = 450
-
 func enter():
 	# Handle animations here
 	pass

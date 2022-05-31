@@ -31,6 +31,7 @@ var pickup_points : Array
 var enemy_spawn_points : Array
 
 onready var meshes = $Mesh
+onready var global_light = $DirectionalLight
 
 var generate = true
 
@@ -54,6 +55,7 @@ func initialize():
 	if build_meshes.size():
 		generate_mesh(build_meshes[0], build_meshes[1], build_meshes[2], world_material)
 	yield(get_tree(), "idle_frame")
+	generate_lightmaps()
 
 func generate_map():
 	generate = true
@@ -251,6 +253,7 @@ func visualize_points():
 		meshes.add_child(pickup)
 
 func build_map():
+	# Potention Change: Do a search through verts[] for existing Vec3s, if there - change the index provided to indices - in an attempt to merge the quads into a solid mesh.
 	var verts = PoolVector3Array()
 	var uvs = PoolVector2Array()
 	var normals = PoolVector3Array()
@@ -260,12 +263,12 @@ func build_map():
 				tile.ground:
 					var z = 0
 					verts.append(Vector3(x, z, y))
+					normals.append(Vector3.UP)
 					verts.append(Vector3(x + 1, z, y))
+					normals.append(Vector3.UP)
 					verts.append(Vector3(x + 1, z, y + 1))
+					normals.append(Vector3.UP)
 					verts.append(Vector3(x, z, y + 1))
-					normals.append(Vector3.UP)
-					normals.append(Vector3.UP)
-					normals.append(Vector3.UP)
 					normals.append(Vector3.UP)
 					uvs.append(Vector2(0.1, 0.1))
 					uvs.append(Vector2(0.4, 0.1))
@@ -273,65 +276,66 @@ func build_map():
 					uvs.append(Vector2(0.1, 0.4))
 				tile.ceiling:
 					var z = 1
+					var z_height = 1
 					verts.append(Vector3(x, z, y))
+					normals.append(Vector3.UP)
 					verts.append(Vector3(x + 1, z, y))
+					normals.append(Vector3.UP)
 					verts.append(Vector3(x + 1, z, y + 1))
+					normals.append(Vector3.UP)
 					verts.append(Vector3(x, z, y + 1))
-					normals.append(Vector3.UP)
-					normals.append(Vector3.UP)
-					normals.append(Vector3.UP)
 					normals.append(Vector3.UP)
 					uvs.append(Vector2(0.1, 0.6))
 					uvs.append(Vector2(0.4, 0.6))
 					uvs.append(Vector2(0.4, 0.9))
 					uvs.append(Vector2(0.1, 0.9))
 					if grid[x][y-1] == tile.ground:
-						verts.append(Vector3(x + 1, z - 1, y))
+						verts.append(Vector3(x + 1, z - z_height, y))
+						normals.append(Vector3.FORWARD)
 						verts.append(Vector3(x + 1, z, y))
+						normals.append(Vector3.FORWARD)
 						verts.append(Vector3(x, z, y))
-						verts.append(Vector3(x, z - 1, y))
 						normals.append(Vector3.FORWARD)
-						normals.append(Vector3.FORWARD)
-						normals.append(Vector3.FORWARD)
+						verts.append(Vector3(x, z - z_height, y))
 						normals.append(Vector3.FORWARD)
 						uvs.append(Vector2(0.6, 0.1))
 						uvs.append(Vector2(0.9, 0.1))
 						uvs.append(Vector2(0.9, 0.4))
 						uvs.append(Vector2(0.6, 0.4))
 					if grid[x][y+1] == tile.ground:
-						verts.append(Vector3(x, z - 1, y + 1))
+						verts.append(Vector3(x, z - z_height, y + 1))
+						normals.append(Vector3.BACK)
 						verts.append(Vector3(x, z, y + 1))
+						normals.append(Vector3.BACK)
 						verts.append(Vector3(x + 1, z, y + 1))
-						verts.append(Vector3(x + 1, z - 1, y + 1))
 						normals.append(Vector3.BACK)
-						normals.append(Vector3.BACK)
-						normals.append(Vector3.BACK)
+						verts.append(Vector3(x + 1, z - z_height, y + 1))
 						normals.append(Vector3.BACK)
 						uvs.append(Vector2(0.6, 0.1))
 						uvs.append(Vector2(0.9, 0.1))
 						uvs.append(Vector2(0.9, 0.4))
 						uvs.append(Vector2(0.6, 0.4))
 					if grid[x-1][y] == tile.ground:
-						verts.append(Vector3(x, z - 1, y))
+						verts.append(Vector3(x, z - z_height, y))
+						normals.append(Vector3.LEFT)
 						verts.append(Vector3(x, z, y))
+						normals.append(Vector3.LEFT)
 						verts.append(Vector3(x, z, y + 1))
-						verts.append(Vector3(x, z - 1, y + 1))
 						normals.append(Vector3.LEFT)
-						normals.append(Vector3.LEFT)
-						normals.append(Vector3.LEFT)
+						verts.append(Vector3(x, z - z_height, y + 1))
 						normals.append(Vector3.LEFT)
 						uvs.append(Vector2(0.6, 0.1))
 						uvs.append(Vector2(0.9, 0.1))
 						uvs.append(Vector2(0.9, 0.4))
 						uvs.append(Vector2(0.6, 0.4))
 					if grid[x+1][y] == tile.ground:
-						verts.append(Vector3(x + 1, z - 1, y + 1))
+						verts.append(Vector3(x + 1, z - z_height, y + 1))
+						normals.append(Vector3.RIGHT)
 						verts.append(Vector3(x + 1, z, y + 1))
+						normals.append(Vector3.RIGHT)
 						verts.append(Vector3(x + 1, z, y))
-						verts.append(Vector3(x + 1, z - 1, y))
 						normals.append(Vector3.RIGHT)
-						normals.append(Vector3.RIGHT)
-						normals.append(Vector3.RIGHT)
+						verts.append(Vector3(x + 1, z - z_height, y))
 						normals.append(Vector3.RIGHT)
 						uvs.append(Vector2(0.6, 0.1))
 						uvs.append(Vector2(0.9, 0.1))
@@ -342,7 +346,6 @@ func build_map():
 
 func generate_mesh(verts, uvs, normals, material = null):
 	var mesh_instance = MeshInstance.new()
-	meshes.add_child(mesh_instance)
 	var mesh = ArrayMesh.new()
 
 	var arr = []
@@ -357,14 +360,14 @@ func generate_mesh(verts, uvs, normals, material = null):
 		indices.append(n)
 		indices.append(n+1)
 		indices.append(n+2)
-	for n in range(0, verts.size()):
-		tangents.append_array([-1,0,0,1])
+	#for n in range(0, verts.size()):
+	#	tangents.append_array([-1,0,0,1])
 
 	# Assign arrays to mesh array.
 	arr[Mesh.ARRAY_VERTEX] = verts
 	arr[Mesh.ARRAY_TEX_UV] = uvs
 	arr[Mesh.ARRAY_NORMAL] = normals
-	arr[Mesh.ARRAY_TANGENT] = tangents
+	#arr[Mesh.ARRAY_TANGENT] = tangents
 	arr[Mesh.ARRAY_INDEX] = indices
 
 	# Create mesh surface from mesh array.
@@ -373,6 +376,9 @@ func generate_mesh(verts, uvs, normals, material = null):
 	if material != null: mesh_instance.material_override = material
 	mesh_instance.create_trimesh_collision()
 	mesh_instance.visible = true
+	mesh_instance.use_in_baked_light = true
+	meshes.add_child(mesh_instance)
+	mesh_instance.owner = $"."
 
 func count_ground():
 	var ground_count = 0
@@ -391,3 +397,11 @@ func array2d(w, h, v = false):
 			for y in range(h):
 				a[x][y] = v
 	return a
+
+func generate_lightmaps():
+	var gi_probe := GIProbe.new()
+	gi_probe.name = "GI_Probe"
+	gi_probe.global_transform.origin = Vector3(center_point.x, 0, center_point.y)
+	gi_probe.set_extents(Vector3(size.x * 1.5, size.x+size.y, size.y * 1.5))
+	add_child(gi_probe)
+	gi_probe.bake()

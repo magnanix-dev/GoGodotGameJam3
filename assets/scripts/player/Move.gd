@@ -1,6 +1,6 @@
 extends 'Motion.gd'
 
-export var max_speed : float = 6
+export var max_speed : float = 4
 
 func enter():
 	speed = 0.0

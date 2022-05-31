@@ -1,6 +1,7 @@
 extends KinematicBody
 
 signal changed_state
+signal can_dash
 
 var stack = []
 var current = null
@@ -9,9 +10,13 @@ var camera
 var drop_plane
 var mouse_position
 
+var allow_mouselook = true
+var allow_dash = true
+
 onready var map = {
 	'idle': $States/Idle,
 	'move': $States/Move,
+	'dash': $States/Dash,
 	'stagger': $States/Stagger,
 	'death': $States/Death,
 }
@@ -26,20 +31,21 @@ func _ready():
 	_change_state("idle")
 
 func _physics_process(delta):
-	if current.allow_mouselook:
+	if allow_mouselook:
 		_mouselook()
 	current.update(delta)
 
 func _input(event):
 	if event.is_action_pressed("primary"):
 		pass
+	current.handle_input(event)
 
 func _change_state(state):
 	if current: current.exit()
 	
 	if state == "previous":
 		stack.pop_front()
-	elif state in ["stagger"]:
+	elif state in ["stagger", "dash"]:
 		stack.push_front(map[state])
 	else:
 		var new = map[state]
@@ -61,3 +67,7 @@ func _mouselook():
 	
 	var target = Vector3(mouse_position.x, global_transform.origin.y, mouse_position.z)
 	look_at(target, Vector3.UP)
+
+func _on_dash_timer_timeout():
+	allow_dash = true
+	emit_signal("can_dash")
