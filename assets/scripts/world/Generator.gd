@@ -222,6 +222,8 @@ func find_enemy_spawn_points():
 				tiles.append(Vector2(x,y))
 	var iterations = 0
 	while viable_tiles.size() < enemy_spawn_minimum and iterations < 100:
+		if viable_tiles.size() >= enemy_spawn_minimum:
+			break
 		for t in tiles:
 			if t.distance_squared_to(spawn_point) >= enemy_spawn_distance and randf() <= enemy_spawn_chance:
 				viable_tiles.append(t)

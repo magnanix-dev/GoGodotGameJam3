@@ -15,6 +15,11 @@ _global_script_classes=[ {
 "path": "res://assets/scripts/development/DrawLine3D.gd"
 }, {
 "base": "Resource",
+"class": "EnemySettings",
+"language": "GDScript",
+"path": "res://assets/resources/EnemySettings.gd"
+}, {
+"base": "Resource",
 "class": "Evolutions",
 "language": "GDScript",
 "path": "res://assets/resources/Evolutions.gd"
@@ -23,6 +28,16 @@ _global_script_classes=[ {
 "class": "Generator",
 "language": "GDScript",
 "path": "res://assets/scripts/world/Generator.gd"
+}, {
+"base": "Spatial",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://assets/scripts/shared/Projectile.gd"
+}, {
+"base": "Position3D",
+"class": "ProjectileManager",
+"language": "GDScript",
+"path": "res://assets/scripts/shared/ProjectileManager.gd"
 }, {
 "base": "Resource",
 "class": "ProjectileSettings",
@@ -56,8 +71,11 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "DrawLine3D": "",
+"EnemySettings": "",
 "Evolutions": "",
 "Generator": "",
+"Projectile": "",
+"ProjectileManager": "",
 "ProjectileSettings": "",
 "Walker": "",
 "Weapon": "",
@@ -68,13 +86,15 @@ _global_script_class_icons={
 
 [application]
 
-config/name="GoGodotGameJam3"
+config/name="Relic Evolver"
+config/description="Escape containment, and return to your home using the power of evolution!
+Take from those that would take you, and become stronger through their folly!"
 run/main_scene="res://assets/scenes/development/Testing.tscn"
-config/icon="res://icon.png"
+config/icon="res://assets/images/Icon.png"
 
 [autoload]
 
-DrawLine3d="*res://assets/scripts/development/DrawLine3D.gd"
+Global="*res://assets/scripts/shared/Global.gd"
 
 [display]
 

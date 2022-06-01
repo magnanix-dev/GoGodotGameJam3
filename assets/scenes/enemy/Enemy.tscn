@@ -1,0 +1,99 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://assets/scripts/enemy/StateMachine.gd" type="Script" id=1]
+[ext_resource path="res://assets/scripts/enemy/states/Wander.gd" type="Script" id=2]
+[ext_resource path="res://assets/scripts/enemy/states/Hunt.gd" type="Script" id=3]
+[ext_resource path="res://assets/scripts/enemy/states/Idle.gd" type="Script" id=4]
+[ext_resource path="res://assets/scripts/enemy/states/Shoot.gd" type="Script" id=5]
+[ext_resource path="res://assets/scripts/enemy/states/Stagger.gd" type="Script" id=6]
+[ext_resource path="res://assets/scripts/enemy/states/Death.gd" type="Script" id=7]
+[ext_resource path="res://assets/scenes/player/Weapon.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/scripts/enemy/weapons/Single Shot.tres" type="Resource" id=9]
+[ext_resource path="res://assets/scripts/enemy/types/Basic.tres" type="Resource" id=10]
+
+[sub_resource type="CapsuleShape" id=2]
+radius = 0.2
+height = 0.2
+
+[sub_resource type="CapsuleMesh" id=1]
+radius = 0.2
+mid_height = 0.2
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CubeMesh" id=4]
+size = Vector3( 0.175, 0.05, 0.1 )
+
+[sub_resource type="CubeMesh" id=6]
+size = Vector3( 0.5, 0.5, 0.5 )
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 0, 0, 0, 1 )
+
+[node name="Enemy" type="KinematicBody"]
+collision_layer = 2
+script = ExtResource( 1 )
+settings = ExtResource( 10 )
+
+[node name="PrimaryWeapon" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.2 )
+settings = ExtResource( 9 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.3, 0 )
+shape = SubResource( 2 )
+
+[node name="Eyes" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, -50 )
+collision_mask = 3
+
+[node name="States" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="States"]
+script = ExtResource( 4 )
+
+[node name="Wander" type="Node" parent="States"]
+script = ExtResource( 2 )
+
+[node name="Hunt" type="Node" parent="States"]
+script = ExtResource( 3 )
+
+[node name="Shoot" type="Node" parent="States"]
+script = ExtResource( 5 )
+
+[node name="Stagger" type="Node" parent="States"]
+script = ExtResource( 6 )
+
+[node name="Death" type="Node" parent="States"]
+script = ExtResource( 7 )
+
+[node name="Mesh" type="Spatial" parent="."]
+
+[node name="Demo" type="MeshInstance" parent="Mesh"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.3, 0 )
+use_in_baked_light = true
+mesh = SubResource( 1 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 5 )
+
+[node name="Eye" type="MeshInstance" parent="Mesh/Demo"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.187816, -0.106417 )
+use_in_baked_light = true
+mesh = SubResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = null
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -512.0
+margin_bottom = -384.0
+rect_scale = Vector2( 2, 2 )
+text = "Details..."
+
+[node name="Test" type="MeshInstance" parent="."]
+mesh = SubResource( 6 )
+material/0 = SubResource( 7 )

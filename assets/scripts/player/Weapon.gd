@@ -1,103 +1,93 @@
 extends Position3D
 class_name Weapon
 
-export var settings : Resource
+signal fire_projectile(dir, mag)
+signal cooldown()
 
-var allow_primary = true
-var allow_secondary = true
+export (Resource) var settings
 
-var primary_timer : Timer
-var secondary_timer : Timer
+var allow = true
+var timer : Timer
+var input = ""
 
-var primary_list = []
-var primary_dead_list = []
-var secondary_list = []
-var secondary_dead_list = []
+var managers = []
+var dead_managers = []
+var projectiles = []
+var dead_projectiles = []
 
-onready var primary_pool = $Primary
-onready var secondary_pool = $Secondary
+onready var projectile_pool = $Projectiles
+onready var manager_pool = $Managers
 
 func _ready():
-	primary_timer = Timer.new()
-	primary_timer.connect("timeout", self, "_on_primary_timer_timeout")
-	secondary_timer = Timer.new()
-	secondary_timer.connect("timeout", self, "_on_secondary_timer_timeout")
-	add_child(primary_timer)
-	add_child(secondary_timer)
-	init_primary(64)
-	init_secondary(64)
+	timer = Timer.new()
+	timer.connect("timeout", self, "_on_timer_timeout")
+	add_child(timer)
+	initialize_managers(32)
+	initialize_projectiles(128)
 
 func _process(delta):
-	clean_lists()
+	clean()
 
-func init_primary(amount):
-	if settings.primary_object:
+func initialize_managers(amount):
+	for n in range(amount):
+		var m = ProjectileManager.new()
+		m.active = false
+		m.weapon = self
+		m.apply_settings(settings.settings, settings.behaviours)
+		dead_managers.push_back(m)
+		manager_pool.add_child(m)
+
+func initialize_projectiles(amount):
+	if settings.object:
 		for n in range(amount):
-			var b = settings.primary_object.instance()
+			var b = settings.object.instance()
 			b.active = false
-			b.settings = settings.primary_settings
-			b.weapon = self
-			primary_dead_list.push_back(b)
-			primary_pool.add_child(b)
+			dead_projectiles.push_back(b)
+			projectile_pool.add_child(b)
 
-func init_secondary(amount):
-	if settings.secondary_object:
-		for n in range(amount):
-			var b = settings.secondary_object.instance()
-			b.active = false
-			b.settings = settings.secondary_settings
-			b.weapon = self
-			secondary_dead_list.push_back(b)
-			secondary_pool.add_child(b)
+func cooldown(duration = 0.2):
+	if allow:
+		allow = false
+		timer.start(duration)
+		emit_signal("cooldown")
 
-func primary(pos, dir):
-	if allow_primary:
-		allow_primary = false
-		primary_timer.start(settings.primary_cooldown)
-		fire_primary(pos, dir, settings.primary_evolutions + owner.primary_evolutions)
+func prepare(key = ""):
+	if allow:
+		input = key
+		cooldown(settings.cooldown)
+#		print("Weapon: Prepared.")
+		execute()
 
-func fire_primary(pos, dir, evolutions = []):
-	var b = primary_dead_list[0]
-	primary_dead_list.pop_front()
-	b.call_func = "fire_secondary"
-	b.evolutions = evolutions
-	primary_list.append(b)
-	b.move(pos, dir)
-	b.execute()
+func execute():
+	var m = dead_managers[0]
+	dead_managers.pop_front()
+	managers.append(m)
+	m.behaviours = settings.behaviours
+#	print("Weapon: Executed.")
+	m.execute()
 
-func secondary(pos, dir):
-	if allow_secondary:
-		allow_secondary = false
-		secondary_timer.start(settings.secondary_cooldown)
-		fire_secondary(pos, dir, settings.secondary_evolutions + owner.secondary_evolutions)
+func request_projectile():
+	var b = dead_projectiles[0]
+	dead_projectiles.pop_front()
+	projectiles.append(b)
+	return b
 
-func fire_secondary(pos, dir, evolutions = []):
-	var b = secondary_dead_list[0]
-	secondary_dead_list.pop_front()
-	b.call_func = "fire_secondary"
-	b.evolutions = evolutions
-	secondary_list.append(b)
-	b.move(pos, dir)
-	b.execute()
+func _on_timer_timeout():
+	allow = true
 
-func _on_primary_timer_timeout():
-	allow_primary = true
-	
-func _on_secondary_timer_timeout():
-	allow_secondary = true
-
-func clean_lists():
+func clean():
 	var removals = []
-	for i in range(primary_list.size()):
-		if not primary_list[i].active:
+	for i in range(projectiles.size()):
+		if not projectiles[i].active:
 			removals.push_back(i)
-			primary_dead_list.push_back(primary_list[i])
+			dead_projectiles.push_back(projectiles[i])
 	for i in range(removals.size()):
-		primary_list.remove(removals[i])
+		projectiles.remove(removals[i])
 	removals.clear()
-	for i in range(secondary_list.size()):
-		if not secondary_list[i].active:
+	for i in range(managers.size()):
+		if not managers[i].active:
 			removals.push_back(i)
-			secondary_dead_list.push_back(secondary_list[i])
+			dead_managers.push_back(managers[i])
 	for i in range(removals.size()):
-		secondary_list.remove(removals[i])
+		managers.remove(removals[i])
+	removals.clear()

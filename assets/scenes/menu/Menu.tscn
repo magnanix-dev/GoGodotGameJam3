@@ -1,0 +1,294 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://assets/scenes/menu/unformed_relic.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/images/Title_EVOLVER.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/Title_RELIC.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/Title.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/Title_Flash.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/PlayButton_On.png" type="Texture" id=6]
+[ext_resource path="res://assets/images/PlayButton_Off.png" type="Texture" id=7]
+[ext_resource path="res://assets/scenes/shared/2DFogShader.tres" type="Shader" id=8]
+[ext_resource path="res://assets/images/WhiteDot.png" type="Texture" id=9]
+[ext_resource path="res://assets/images/OptionsButton_On.png" type="Texture" id=10]
+[ext_resource path="res://assets/images/QuitButton_On.png" type="Texture" id=11]
+[ext_resource path="res://assets/images/OptionsButton_Off.png" type="Texture" id=12]
+[ext_resource path="res://assets/images/QuitButton_Off.png" type="Texture" id=13]
+[ext_resource path="res://assets/images/OptionsButton_Disabled.png" type="Texture" id=14]
+[ext_resource path="res://assets/images/PlayButton_Disabled.png" type="Texture" id=15]
+[ext_resource path="res://assets/images/QuitButton_Disabled.png" type="Texture" id=16]
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 8 )
+shader_param/colour = Vector3( 0, 0, 0 )
+shader_param/octaves = 4
+
+[sub_resource type="ViewportTexture" id=1]
+viewport_path = NodePath("Viewport")
+
+[sub_resource type="Animation" id=2]
+resource_name = "Menu Title"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Relic:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -256, 256 ), Vector2( 256, 256 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Relic:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Evolver:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 256, -256 ), Vector2( 256, -256 ), Vector2( 256, 256 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Evolver:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Title:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Flash:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Flash:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 2, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Relic:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -256, 256 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Relic:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Evolver:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 256, -256 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Evolver:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Title:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Flash:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Flash:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Fog" type="Sprite" parent="."]
+material = SubResource( 4 )
+position = Vector2( 512, 384 )
+scale = Vector2( 32, 24 )
+texture = ExtResource( 9 )
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 512, 512 )
+own_world = true
+transparent_bg = true
+msaa = 2
+hdr = false
+usage = 3
+
+[node name="Spatial" parent="Viewport" instance=ExtResource( 1 )]
+
+[node name="Title" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ViewportSprite" type="Sprite" parent="Title"]
+position = Vector2( 256, 608 )
+scale = Vector2( 0.75, 0.75 )
+texture = SubResource( 1 )
+
+[node name="Relic" type="Sprite" parent="Title"]
+position = Vector2( -256, 256 )
+texture = ExtResource( 3 )
+
+[node name="Evolver" type="Sprite" parent="Title"]
+visible = false
+position = Vector2( 256, -256 )
+texture = ExtResource( 2 )
+
+[node name="Title" type="Sprite" parent="Title"]
+position = Vector2( 256, 256 )
+texture = ExtResource( 4 )
+
+[node name="Flash" type="Sprite" parent="Title"]
+visible = false
+position = Vector2( 256, 256 )
+texture = ExtResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Title"]
+autoplay = "Menu Title"
+"anims/Menu Title" = SubResource( 2 )
+anims/RESET = SubResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.75
+anchor_top = 0.5
+anchor_right = 0.9
+anchor_bottom = 0.5
+margin_left = -236.0
+margin_top = -280.0
+margin_right = 0.400024
+margin_bottom = 280.0
+custom_constants/separation = 32
+alignment = 1
+
+[node name="PlayButton" type="TextureButton" parent="VBoxContainer"]
+margin_top = 80.0
+margin_right = 390.0
+margin_bottom = 192.0
+rect_pivot_offset = Vector2( 195, 56 )
+texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 6 )
+texture_disabled = ExtResource( 15 )
+
+[node name="OptionsButton" type="TextureButton" parent="VBoxContainer"]
+margin_top = 224.0
+margin_right = 390.0
+margin_bottom = 336.0
+rect_pivot_offset = Vector2( 195, 56 )
+disabled = true
+texture_normal = ExtResource( 12 )
+texture_hover = ExtResource( 10 )
+texture_disabled = ExtResource( 14 )
+
+[node name="QuitButton" type="TextureButton" parent="VBoxContainer"]
+margin_top = 368.0
+margin_right = 390.0
+margin_bottom = 480.0
+rect_pivot_offset = Vector2( 195, 56 )
+disabled = true
+texture_normal = ExtResource( 13 )
+texture_hover = ExtResource( 11 )
+texture_disabled = ExtResource( 16 )

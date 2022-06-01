@@ -29,7 +29,8 @@ onready var map = {
 }
 
 onready var camera_pivot = $Pivot
-onready var weapon = $Weapon
+onready var primary = $PrimaryWeapon
+onready var secondary = $SecondaryWeapon
 
 func _ready():
 	for node in $States.get_children():
@@ -37,6 +38,13 @@ func _ready():
 	stack.push_front($States/Idle)
 	current = stack[0]
 	_change_state("idle")
+	
+	primary.connect("fire_projectile", camera_pivot, "_on_fire_projectile")
+	secondary.connect("fire_projectile", camera_pivot, "_on_fire_projectile")
+	primary.connect("cooldown", secondary, "cooldown")
+	secondary.connect("cooldown", primary, "cooldown")
+	
+	Global.set_player(self)
 
 func _physics_process(delta):
 	if allow_mouselook:
@@ -45,9 +53,9 @@ func _physics_process(delta):
 
 func _input(event):
 	if event.is_action_pressed("primary"):
-		weapon.primary(weapon.global_transform.origin, -weapon.global_transform.basis.z)
+		primary.prepare("primary")
 	if event.is_action_pressed("secondary"):
-		weapon.secondary(weapon.global_transform.origin, -weapon.global_transform.basis.z)
+		secondary.prepare("secondary")
 	current.handle_input(event)
 
 func _change_state(state):

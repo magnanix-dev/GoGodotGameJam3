@@ -53,7 +53,7 @@ func _ready():
 		for e in generator.enemy_spawn_points:
 			_enemies.shuffle()
 			var _enemy = _enemies[0].instance()
-			_enemy.global_transform.origin = vector2_to_3(e)
+			_enemy.global_transform.origin = vector2_to_3(e + Vector2(0.5, 0.5))
 			_dynamic.add_child(_enemy)
 
 func vector2_to_3(vector):
