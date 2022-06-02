@@ -25,10 +25,11 @@ onready var map = {
 
 onready var primary = $PrimaryWeapon
 onready var eyes = $Eyes
+onready var plan = $Plan
 onready var mesh_container = $Mesh
-onready var label = $Label
 
-onready var test = $Test
+onready var label = $DebugLabel
+onready var eyes_debug_target = $DebugEyesTarget
 
 var Line = preload("res://assets/scripts/development/DrawLine3D.gd").new()
 

@@ -26,13 +26,14 @@ albedo_color = Color( 1, 0, 0, 1 )
 size = Vector3( 0.175, 0.05, 0.1 )
 
 [sub_resource type="CubeMesh" id=6]
-size = Vector3( 0.5, 0.5, 0.5 )
+size = Vector3( 0.1, 0.1, 0.1 )
 
 [sub_resource type="SpatialMaterial" id=7]
 albedo_color = Color( 0, 0, 0, 1 )
 
 [node name="Enemy" type="KinematicBody"]
-collision_layer = 2
+collision_layer = 4
+collision_mask = 3
 script = ExtResource( 1 )
 settings = ExtResource( 10 )
 
@@ -43,6 +44,8 @@ settings = ExtResource( 9 )
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.3, 0 )
 shape = SubResource( 2 )
+
+[node name="Plan" type="RayCast" parent="."]
 
 [node name="Eyes" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
@@ -86,7 +89,8 @@ mesh = SubResource( 4 )
 skeleton = NodePath("../../..")
 material/0 = null
 
-[node name="Label" type="Label" parent="."]
+[node name="DebugLabel" type="Label" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -512.0
@@ -94,6 +98,7 @@ margin_bottom = -384.0
 rect_scale = Vector2( 2, 2 )
 text = "Details..."
 
-[node name="Test" type="MeshInstance" parent="."]
+[node name="DebugEyesTarget" type="MeshInstance" parent="."]
+visible = false
 mesh = SubResource( 6 )
 material/0 = SubResource( 7 )

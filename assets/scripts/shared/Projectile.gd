@@ -16,7 +16,7 @@ var last = Vector3.ZERO
 
 onready var ray = $RayCast
 
-var Line = preload("res://assets/scripts/development/DrawLine3D.gd").new()
+#var Line = preload("res://assets/scripts/development/DrawLine3D.gd").new()
 
 func activate():
 	visible = true
@@ -27,7 +27,7 @@ func deactivate():
 	visible = false
 
 func execute(lifetime = 3.0):
-	add_child(Line)
+	#add_child(Line)
 	activate()
 	lifetime_timer = lifetime
 #	print("Projectile: Executing...")
@@ -47,7 +47,7 @@ func _physics_process(delta):
 		ray.cast_to = last - global_transform.origin
 		ray.global_transform.origin = last
 		
-		Line.DrawRay(last, last - global_transform.origin, Color.white, 0.1)
+		#Line.DrawRay(last, last - global_transform.origin, Color.white, 0.1)
 		
 		ray.force_raycast_update()
 		if ray.is_colliding():

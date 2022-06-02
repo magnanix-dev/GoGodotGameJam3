@@ -2,25 +2,26 @@ extends 'Generic.gd'
 
 func enter():
 	var distance = look_target()
-	if target_direction: owner.mesh.look_at(target_direction, Vector3.UP)
+	duration = rand_range(owner.settings.shoot_duration_min, owner.settings.shoot_duration_max)
+	
 	owner.primary.look_at(owner.target.global_transform.origin + Vector3(0, owner.primary.global_transform.origin.y, 0), Vector3.UP)
 	owner.primary.prepare()
-	duration = rand_range(owner.settings.shoot_duration_min, owner.settings.shoot_duration_max)
 	
 	# Handle animations here
 	if owner.animations:
 		owner.animations.play("shoot")
 
 func update(delta):
-	var distance = look_target()
-	if not distance:
+	look_toward(owner.mesh, target_direction, delta * look_speed)
+	var found_target = look_target()
+	if not found_target:
 		if randf() <= owner.settings.whimsy:
 			next = "wander"
 		else:
 			next = "idle"
 	else:
 		next = "hunt"
-	if randf() <= owner.settings.shoot_repeat_chance and distance <= owner.settings.range_max and distance >= owner.settings.range_min:
+	if randf() <= owner.settings.shoot_repeat_chance and target_distance <= owner.settings.range_max and target_distance >= owner.settings.range_min:
 		next = "shoot"
 	duration -= delta
 	if duration <= 0.0:
