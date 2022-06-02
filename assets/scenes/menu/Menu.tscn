@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://assets/scenes/menu/unformed_relic.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/images/Title_EVOLVER.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://assets/images/OptionsButton_Disabled.png" type="Texture" id=14]
 [ext_resource path="res://assets/images/PlayButton_Disabled.png" type="Texture" id=15]
 [ext_resource path="res://assets/images/QuitButton_Disabled.png" type="Texture" id=16]
+[ext_resource path="res://assets/scripts/menu/Menu.gd" type="Script" id=17]
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 8 )
@@ -251,6 +252,7 @@ tracks/8/keys = {
 [node name="Menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 17 )
 
 [node name="Background" type="Sprite" parent="."]
 modulate = Color( 0, 0, 0, 1 )
@@ -342,7 +344,10 @@ margin_left = 672.0
 margin_right = 928.0
 margin_bottom = 64.0
 rect_pivot_offset = Vector2( 195, 56 )
-disabled = true
 texture_normal = ExtResource( 13 )
 texture_hover = ExtResource( 11 )
 texture_disabled = ExtResource( 16 )
+
+[connection signal="pressed" from="HBoxContainer/PlayButton" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="HBoxContainer/OptionsButton" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="HBoxContainer/QuitButton" to="." method="_on_quit_pressed"]
