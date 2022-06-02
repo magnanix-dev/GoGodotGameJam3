@@ -19,7 +19,7 @@
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 8 )
-shader_param/colour = Vector3( 0, 0, 0 )
+shader_param/colour = Vector3( 1, 0, 0 )
 shader_param/octaves = 4
 
 [sub_resource type="ViewportTexture" id=1]
@@ -38,7 +38,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -256, 256 ), Vector2( 256, 256 ) ]
+"values": [ Vector2( 512, -256 ), Vector2( 512, 256 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Relic:visible")
@@ -62,7 +62,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 1, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 256, -256 ), Vector2( 256, -256 ), Vector2( 256, 256 ) ]
+"values": [ Vector2( 256, -256 ), Vector2( -256, 256 ), Vector2( 512, 256 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Evolver:visible")
@@ -111,6 +111,30 @@ tracks/6/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("ViewportSprite:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("ViewportSprite:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 3, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -199,10 +223,40 @@ tracks/6/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("ViewportSprite:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("ViewportSprite:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="Background" type="Sprite" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 512, 384 )
+scale = Vector2( 32, 24 )
+texture = ExtResource( 9 )
 
 [node name="Fog" type="Sprite" parent="."]
 material = SubResource( 4 )
@@ -223,9 +277,12 @@ usage = 3
 [node name="Title" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -128.0
+margin_right = -128.0
+rect_scale = Vector2( 1.25, 1.25 )
 
 [node name="ViewportSprite" type="Sprite" parent="Title"]
-position = Vector2( 256, 608 )
+position = Vector2( 512, 256 )
 scale = Vector2( 0.75, 0.75 )
 texture = SubResource( 1 )
 
@@ -239,12 +296,12 @@ position = Vector2( 256, -256 )
 texture = ExtResource( 2 )
 
 [node name="Title" type="Sprite" parent="Title"]
-position = Vector2( 256, 256 )
+position = Vector2( 512, 256 )
 texture = ExtResource( 4 )
 
 [node name="Flash" type="Sprite" parent="Title"]
 visible = false
-position = Vector2( 256, 256 )
+position = Vector2( 512, 256 )
 texture = ExtResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Title"]
@@ -252,41 +309,38 @@ autoplay = "Menu Title"
 "anims/Menu Title" = SubResource( 2 )
 anims/RESET = SubResource( 3 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchor_left = 0.75
-anchor_top = 0.5
-anchor_right = 0.9
-anchor_bottom = 0.5
-margin_left = -236.0
-margin_top = -280.0
-margin_right = 0.400024
-margin_bottom = 280.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -192.0
+margin_bottom = -128.0
 custom_constants/separation = 32
 alignment = 1
 
-[node name="PlayButton" type="TextureButton" parent="VBoxContainer"]
-margin_top = 80.0
-margin_right = 390.0
-margin_bottom = 192.0
+[node name="PlayButton" type="TextureButton" parent="HBoxContainer"]
+margin_left = 96.0
+margin_right = 352.0
+margin_bottom = 64.0
 rect_pivot_offset = Vector2( 195, 56 )
 texture_normal = ExtResource( 7 )
 texture_hover = ExtResource( 6 )
 texture_disabled = ExtResource( 15 )
 
-[node name="OptionsButton" type="TextureButton" parent="VBoxContainer"]
-margin_top = 224.0
-margin_right = 390.0
-margin_bottom = 336.0
+[node name="OptionsButton" type="TextureButton" parent="HBoxContainer"]
+margin_left = 384.0
+margin_right = 640.0
+margin_bottom = 64.0
 rect_pivot_offset = Vector2( 195, 56 )
 disabled = true
 texture_normal = ExtResource( 12 )
 texture_hover = ExtResource( 10 )
 texture_disabled = ExtResource( 14 )
 
-[node name="QuitButton" type="TextureButton" parent="VBoxContainer"]
-margin_top = 368.0
-margin_right = 390.0
-margin_bottom = 480.0
+[node name="QuitButton" type="TextureButton" parent="HBoxContainer"]
+margin_left = 672.0
+margin_right = 928.0
+margin_bottom = 64.0
 rect_pivot_offset = Vector2( 195, 56 )
 disabled = true
 texture_normal = ExtResource( 13 )
