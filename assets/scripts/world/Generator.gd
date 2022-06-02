@@ -57,7 +57,7 @@ func initialize():
 		generate_mesh(build_meshes[0], build_meshes[1], build_meshes[2], world_material)
 	#generate_tilemap()
 	yield(get_tree(), "idle_frame")
-	generate_lightmaps()
+	#generate_lightmaps()
 
 func generate_tilemap():
 	for x in range(size.x):
@@ -280,10 +280,10 @@ func build_map():
 					normals.append(Vector3.UP)
 					verts.append(Vector3(x, z, y + 1))
 					normals.append(Vector3.UP)
-					uvs.append(Vector2(0.1, 0.1))
-					uvs.append(Vector2(0.4, 0.1))
-					uvs.append(Vector2(0.4, 0.4))
-					uvs.append(Vector2(0.1, 0.4))
+					uvs.append(Vector2(0.01, 0.01))
+					uvs.append(Vector2(0.49, 0.01))
+					uvs.append(Vector2(0.49, 0.49))
+					uvs.append(Vector2(0.01, 0.49))
 				tile.ceiling:
 					var z = 1
 					var z_height = 1
@@ -295,10 +295,10 @@ func build_map():
 					normals.append(Vector3.UP)
 					verts.append(Vector3(x, z, y + 1))
 					normals.append(Vector3.UP)
-					uvs.append(Vector2(0.1, 0.6))
-					uvs.append(Vector2(0.4, 0.6))
-					uvs.append(Vector2(0.4, 0.9))
-					uvs.append(Vector2(0.1, 0.9))
+					uvs.append(Vector2(0.01, 0.51))
+					uvs.append(Vector2(0.49, 0.51))
+					uvs.append(Vector2(0.49, 0.99))
+					uvs.append(Vector2(0.01, 0.99))
 					if grid[x][y-1] == tile.ground:
 						verts.append(Vector3(x + 1, z - z_height, y))
 						normals.append(Vector3.FORWARD)
@@ -308,10 +308,10 @@ func build_map():
 						normals.append(Vector3.FORWARD)
 						verts.append(Vector3(x, z - z_height, y))
 						normals.append(Vector3.FORWARD)
-						uvs.append(Vector2(0.6, 0.1))
-						uvs.append(Vector2(0.9, 0.1))
-						uvs.append(Vector2(0.9, 0.4))
-						uvs.append(Vector2(0.6, 0.4))
+						uvs.append(Vector2(0.51, 0.01))
+						uvs.append(Vector2(0.99, 0.01))
+						uvs.append(Vector2(0.99, 0.49))
+						uvs.append(Vector2(0.51, 0.49))
 					if grid[x][y+1] == tile.ground:
 						verts.append(Vector3(x, z - z_height, y + 1))
 						normals.append(Vector3.BACK)
@@ -321,10 +321,10 @@ func build_map():
 						normals.append(Vector3.BACK)
 						verts.append(Vector3(x + 1, z - z_height, y + 1))
 						normals.append(Vector3.BACK)
-						uvs.append(Vector2(0.6, 0.1))
-						uvs.append(Vector2(0.9, 0.1))
-						uvs.append(Vector2(0.9, 0.4))
-						uvs.append(Vector2(0.6, 0.4))
+						uvs.append(Vector2(0.51, 0.01))
+						uvs.append(Vector2(0.99, 0.01))
+						uvs.append(Vector2(0.99, 0.49))
+						uvs.append(Vector2(0.51, 0.49))
 					if grid[x-1][y] == tile.ground:
 						verts.append(Vector3(x, z - z_height, y))
 						normals.append(Vector3.RIGHT)
@@ -334,10 +334,10 @@ func build_map():
 						normals.append(Vector3.RIGHT)
 						verts.append(Vector3(x, z - z_height, y + 1))
 						normals.append(Vector3.RIGHT)
-						uvs.append(Vector2(0.6, 0.1))
-						uvs.append(Vector2(0.9, 0.1))
-						uvs.append(Vector2(0.9, 0.4))
-						uvs.append(Vector2(0.6, 0.4))
+						uvs.append(Vector2(0.51, 0.01))
+						uvs.append(Vector2(0.99, 0.01))
+						uvs.append(Vector2(0.99, 0.49))
+						uvs.append(Vector2(0.51, 0.49))
 					if grid[x+1][y] == tile.ground:
 						verts.append(Vector3(x + 1, z - z_height, y + 1))
 						normals.append(Vector3.LEFT)
@@ -347,10 +347,10 @@ func build_map():
 						normals.append(Vector3.LEFT)
 						verts.append(Vector3(x + 1, z - z_height, y))
 						normals.append(Vector3.LEFT)
-						uvs.append(Vector2(0.6, 0.1))
-						uvs.append(Vector2(0.9, 0.1))
-						uvs.append(Vector2(0.9, 0.4))
-						uvs.append(Vector2(0.6, 0.4))
+						uvs.append(Vector2(0.51, 0.01))
+						uvs.append(Vector2(0.99, 0.01))
+						uvs.append(Vector2(0.99, 0.49))
+						uvs.append(Vector2(0.51, 0.49))
 	
 	return [verts, uvs, normals]
 

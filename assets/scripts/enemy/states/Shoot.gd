@@ -9,7 +9,7 @@ func enter():
 	
 	# Handle animations here
 	if owner.animations:
-		owner.animations.play("shoot")
+		owner.animations.play(owner.animation_map["shoot"])
 
 func update(delta):
 	look_toward(owner.mesh, target_direction, delta * look_speed)

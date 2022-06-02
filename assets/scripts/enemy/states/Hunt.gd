@@ -31,7 +31,7 @@ func enter():
 	
 	# Handle animations here
 	if owner.animations:
-		owner.animations.play("walk")
+		owner.animations.play(owner.animation_map["walk"])
 
 func update(delta):
 	look_toward(owner.mesh, direction, delta * look_speed)

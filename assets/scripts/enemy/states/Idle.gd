@@ -6,7 +6,7 @@ func enter():
 	
 	# Handle animations here
 	if owner.animations:
-		owner.animations.play("idle")
+		owner.animations.play(owner.animation_map["idle"])
 
 func update(delta):
 	look_toward(owner.mesh, direction, delta * look_speed)

@@ -58,6 +58,9 @@ func _input(event):
 		secondary.prepare("secondary")
 	current.handle_input(event)
 
+func _on_animation_finished(animation):
+	current._on_animation_finished(animation)
+
 func _change_state(state):
 	if current: current.exit()
 	

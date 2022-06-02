@@ -10,6 +10,11 @@ onready var map = $Dynamic/Map
 onready var generator = $Static/Generator
 
 func _ready():
+	yield(initialize(), "completed")
+	generator.generate_lightmaps()
+
+func initialize():
+	
 	generator.gridmap = map
 	
 	generator.size = settings.size
@@ -55,6 +60,8 @@ func _ready():
 			var _enemy = _enemies[0].instance()
 			_enemy.global_transform.origin = vector2_to_3(e + Vector2(0.5, 0.5))
 			_dynamic.add_child(_enemy)
+	
+	yield(get_tree(), "idle_frame")
 
 func vector2_to_3(vector):
 	return Vector3(vector.x, 0, vector.y)

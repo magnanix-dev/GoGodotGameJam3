@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://assets/scripts/enemy/StateMachine.gd" type="Script" id=1]
 [ext_resource path="res://assets/scripts/enemy/states/Wander.gd" type="Script" id=2]
@@ -10,10 +10,14 @@
 [ext_resource path="res://assets/scenes/player/Weapon.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/scripts/enemy/weapons/Single Shot.tres" type="Resource" id=9]
 [ext_resource path="res://assets/scripts/enemy/types/Basic.tres" type="Resource" id=10]
+[ext_resource path="res://assets/materials/shared/shadow.tres" type="Material" id=11]
 
 [sub_resource type="CapsuleShape" id=2]
 radius = 0.2
 height = 0.2
+
+[sub_resource type="PlaneMesh" id=8]
+size = Vector2( 0.5, 0.5 )
 
 [sub_resource type="CapsuleMesh" id=1]
 radius = 0.2
@@ -75,18 +79,26 @@ script = ExtResource( 7 )
 
 [node name="Mesh" type="Spatial" parent="."]
 
-[node name="Demo" type="MeshInstance" parent="Mesh"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.3, 0 )
+[node name="Shadow" type="MeshInstance" parent="Mesh"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.001, 0 )
+mesh = SubResource( 8 )
+material/0 = ExtResource( 11 )
+
+[node name="Fix" type="Spatial" parent="Mesh"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+
+[node name="Demo" type="MeshInstance" parent="Mesh/Fix"]
+transform = Transform( -1, 8.74228e-08, -3.82137e-15, 0, -4.37114e-08, -1, -8.74228e-08, -1, 4.37114e-08, 0, 0.3, 0 )
 use_in_baked_light = true
 mesh = SubResource( 1 )
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 material/0 = SubResource( 5 )
 
-[node name="Eye" type="MeshInstance" parent="Mesh/Demo"]
+[node name="Eye" type="MeshInstance" parent="Mesh/Fix/Demo"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.187816, -0.106417 )
 use_in_baked_light = true
 mesh = SubResource( 4 )
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 material/0 = null
 
 [node name="DebugLabel" type="Label" parent="."]

@@ -8,7 +8,7 @@ var direction = Vector3.ZERO
 var duration = 0.0
 var next = ""
 
-var target_direction = false
+var target_direction = Vector3.ZERO
 var target_distance = 0.0
 
 func look_toward(origin, direction, delta):
@@ -34,7 +34,7 @@ func check_direction(dir):
 func look_target():
 	var target = owner.target
 	var ray = owner.eyes
-	target_direction = false
+	target_direction = Vector3.ZERO
 	target_distance = 0.0
 
 	if target:

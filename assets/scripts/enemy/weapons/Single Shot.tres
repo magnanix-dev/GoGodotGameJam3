@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://assets/resources/WeaponSettings.gd" type="Script" id=1]
-[ext_resource path="res://assets/scenes/shared/Projectile.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/scenes/enemy/projectiles/Projectile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/scripts/shared/projectiles/Single Shot.tres" type="Resource" id=3]
 
 [resource]

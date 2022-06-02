@@ -7,4 +7,4 @@ script = ExtResource( 1 )
 speed = 6.0
 damage = 1.0
 speed_variance = 0.0
-direction_variance = 0.0
+direction_variance = 5.0
