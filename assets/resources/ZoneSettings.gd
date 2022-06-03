@@ -1,6 +1,8 @@
 extends Resource
 class_name ZoneSettings
 
+export (String) var name = ""
+
 export (PackedScene) var player
 export (Array, PackedScene) var pickups
 export (Array, PackedScene) var enemies

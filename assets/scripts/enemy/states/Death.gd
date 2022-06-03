@@ -2,8 +2,10 @@ extends 'res://assets/scripts/shared/State.gd'
 
 func enter():
 	if owner.animations:
+		owner.animations.stop()
 		owner.animations.play(owner.animation_map["death"])
-	owner.collision_shape.disabled = true
+	owner.hitbox.disabled = true
+	owner.collider.disabled = true
 
 func _on_animation_finished(animation):
 	owner.shadow.visible = false

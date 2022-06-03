@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://assets/scripts/world/Generator.gd"
 }, {
+"base": "Resource",
+"class": "PlayerSettings",
+"language": "GDScript",
+"path": "res://assets/resources/PlayerSettings.gd"
+}, {
 "base": "Spatial",
 "class": "Projectile",
 "language": "GDScript",
@@ -74,6 +79,7 @@ _global_script_class_icons={
 "EnemySettings": "",
 "Evolutions": "",
 "Generator": "",
+"PlayerSettings": "",
 "Projectile": "",
 "ProjectileManager": "",
 "ProjectileSettings": "",
@@ -89,7 +95,7 @@ _global_script_class_icons={
 config/name="Relic Evolver"
 config/description="Escape containment, and return to your home using the power of evolution!
 Take from those that would take you, and become stronger through their folly!"
-run/main_scene="res://assets/scenes/development/Testing.tscn"
+run/main_scene="res://assets/scenes/menu/Menu.tscn"
 config/icon="res://assets/images/Icon.png"
 
 [autoload]
@@ -98,9 +104,16 @@ Global="*res://assets/scripts/shared/Global.gd"
 
 [display]
 
-window/size/height=768
-window/stretch/mode="viewport"
+window/size/width=400
+window/size/height=300
+window/size/test_width=1024
+window/size/test_height=768
+window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[gui]
+
+theme/custom="res://default_theme.tres"
 
 [input]
 

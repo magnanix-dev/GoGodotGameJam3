@@ -1,6 +1,10 @@
 extends Resource
 class_name EnemySettings
 
+export (String) var name = ""
+
+export (Resource) var weapon_settings
+
 export (PackedScene) var mesh
 export var health = 2
 

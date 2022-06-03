@@ -20,12 +20,12 @@ var burst = 1
 var delay = 0.0
 var bounce = 0
 
-func apply_settings(settings, behaviours):
+func apply_settings(settings):
 	speed = settings.speed
 	damage = settings.damage
 	direction_variance = settings.direction_variance
 	speed_variance = settings.speed_variance
-	behaviours = behaviours
+	behaviours = settings.behaviours
 
 func apply_manager_behaviours():
 	for b in behaviours:
@@ -43,7 +43,7 @@ func apply_manager_behaviours():
 				bounce = count
 			"auto":
 				full_auto = true
-#	print("Manager: Behaviours applied.")
+#	if Global.debug: print("Manager: Behaviours applied.")
 
 func apply_projectile_behaviours(projectile):
 	for b in behaviours:
@@ -79,7 +79,7 @@ func execute():
 		if direction_variance: dir = dir.rotated(Vector3.UP, deg2rad(rand_range(-direction_variance/2, direction_variance/2)))
 		if speed_variance: spd = clamp(speed + rand_range(-speed_variance/2, speed_variance), 0, 999)
 		p.setup(global_transform.origin, dir, spd, damage)
-#		print("Projectile: ", n)
+#		if Global.debug: print("Projectile: ", n)
 		p.execute()
 		accumulate_dir += dir
 		if delay > 0.0:
@@ -87,7 +87,7 @@ func execute():
 			yield(get_tree().create_timer(delay), "timeout")
 	if delay <= 0.0:
 		weapon.emit_signal("fire_projectile", accumulate_dir/burst, speed)
-#	print("Manager: Executed.")
+#	if Global.debug: print("Manager: Executed.")
 	if full_auto:
 		if Input.is_action_pressed(weapon.input):
 			if weapon.allow:
@@ -103,7 +103,7 @@ func clean():
 	var is_active = false
 	for p in projectiles:
 		if p.active: is_active = true
-#	if not is_active: print("No active projectiles!")
+#	if not is_active: if Global.debug: print("No active projectiles!")
 	active = is_active
 
 func _on_hit_bounce(dir, pos, norm):

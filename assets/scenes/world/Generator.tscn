@@ -10,8 +10,4 @@ albedo_texture = ExtResource( 2 )
 script = ExtResource( 1 )
 world_material = SubResource( 1 )
 
-[node name="Sun" type="DirectionalLight" parent="."]
-transform = Transform( -1, 7.57104e-08, -4.37114e-08, 0, 0.5, 0.866026, 8.74228e-08, 0.866026, -0.5, 0, 0, 0 )
-shadow_enabled = true
-
 [node name="Mesh" type="Node" parent="."]

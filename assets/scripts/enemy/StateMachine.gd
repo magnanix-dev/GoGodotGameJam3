@@ -31,7 +31,9 @@ var animation_map = {
 	"death": "Death",
 }
 
-onready var collision_shape = $CollisionShape
+onready var collider = $Collider
+onready var hitbox = $HitBox/HitBoxCollider
+
 onready var primary = $PrimaryWeapon
 onready var eyes = $Eyes
 onready var plan = $Plan
@@ -58,12 +60,20 @@ func _ready():
 		mesh_container.add_child(m)
 		animations = m.animations
 		animations.connect("animation_finished", self, "_on_animation_finished")
+	if settings.weapon_settings:
+		primary.settings = settings.weapon_settings
 	for node in $States.get_children():
 		node.connect("finished", self, "_change_state")
 	health = settings.health
-	stack.push_front($States/Idle)
-	current = stack[0]
-	_change_state("idle")
+	if randf() <= settings.whimsy:
+		stack.push_front($States/Wander)
+		current = stack[0]
+		_change_state("wander")
+	else:
+		stack.push_front($States/Idle)
+		current = stack[0]
+		_change_state("idle")
+	primary.initialize()
 
 func _set_target(object):
 	target = object
@@ -84,7 +94,7 @@ func _change_state(state):
 	else:
 		var new = map[state]
 		stack[0] = new
-		print("New State: ", state)
+		if Global.debug: print("New State: ", state)
 	
 	current = stack[0]
 	if state != "previous":
@@ -94,12 +104,13 @@ func _change_state(state):
 
 func hit(point, force, damage):
 	take_damage(damage)
-	current.emit_signal("finished", "stagger")
 
 func take_damage(damage):
 	health -= damage
 	if health <= 0:
 		current.emit_signal("finished", "death")
+	else:
+		current.emit_signal("finished", "stagger")
 
 #func _on_primary_timer_timeout():
 #	allow_primary = true

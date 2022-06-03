@@ -26,6 +26,14 @@ __meta__ = {
 
 [node name="Static" type="Node" parent="."]
 
+[node name="Sun" type="DirectionalLight" parent="Static"]
+transform = Transform( -1, -7.16125e-08, 5.01436e-08, 0, 0.573576, 0.819152, -8.74228e-08, 0.819152, -0.573576, 0, 0, 0 )
+light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
+light_size = 1.0
+shadow_enabled = true
+shadow_contact = 0.25
+directional_shadow_normal_bias = 0.4
+
 [node name="Generator" parent="Static" instance=ExtResource( 3 )]
 
 [node name="Control" type="Control" parent="."]

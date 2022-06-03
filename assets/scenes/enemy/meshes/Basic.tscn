@@ -1919,14 +1919,12 @@ bones/50/enabled = true
 bones/50/bound_children = [  ]
 
 [node name="Enemy" type="MeshInstance" parent="Enemy_grp/Enemy_rig/Skeleton"]
-cast_shadow = 0
 use_in_baked_light = true
 mesh = SubResource( 1 )
 skin = SubResource( 2 )
 material/0 = ExtResource( 1 )
 
 [node name="Gun" type="MeshInstance" parent="Enemy_grp/Enemy_rig/Skeleton"]
-cast_shadow = 0
 use_in_baked_light = true
 mesh = SubResource( 3 )
 skin = SubResource( 2 )

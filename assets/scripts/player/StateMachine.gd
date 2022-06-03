@@ -7,6 +7,8 @@ signal can_primary
 var stack = []
 var current = null
 
+export (Resource) var settings
+
 var primary_evolutions = []
 var secondary_evolutions = []
 var tertiary_evolutions = []
@@ -14,6 +16,7 @@ var tertiary_evolutions = []
 var camera
 var drop_plane
 var mouse_position
+var animations = false
 
 var allow_mouselook = true
 var allow_dash = true
@@ -24,25 +27,68 @@ onready var map = {
 	'idle': $States/Idle,
 	'move': $States/Move,
 	'dash': $States/Dash,
-	'stagger': $States/Stagger,
 	'death': $States/Death,
 }
+
+var animation_map = {
+	"idle": "Idle",
+	"walk": "Walk",
+	"dash": "Dash",
+	"shoot": "Shoot",
+	"stagger": "Stagger",
+	"death": "Death",
+}
+
+onready var collider = $Collider
+onready var hitbox = $HitBox/HitBoxCollider
 
 onready var camera_pivot = $Pivot
 onready var primary = $PrimaryWeapon
 onready var secondary = $SecondaryWeapon
 
+onready var mesh_container = $Mesh/Fix
+onready var shadow = $Mesh/Shadow
+
 func _ready():
+	settings = Global.player_settings
+	
+	if not Global.player_health_set:
+		Global.set_health(settings.health)
+	
+	if settings.mesh:
+		for n in mesh_container.get_children():
+			mesh_container.remove_child(n)
+			n.queue_free()
+		var m = settings.mesh.instance()
+		mesh_container.add_child(m)
+		animations = m.animations
+		animations.connect("animation_finished", self, "_on_animation_finished")
+	
+	if settings.primary_settings:
+		primary.settings = settings.primary_settings
+		primary.evolutions = Global.primary_evolutions
+	if settings.secondary_settings:
+		secondary.settings = settings.secondary_settings
+		secondary.evolutions = Global.secondary_evolutions
+	if settings.tertiary_settings:
+		map['dash'].settings = settings.tertiary_settings
+		map['dash'].evolutions = Global.tertiary_evolutions
+	
+	primary.connect("fire_projectile", camera_pivot, "_on_fire_projectile")
+#	primary.connect("fire_projectile", self, "_on_fire_projectile")
+	secondary.connect("fire_projectile", camera_pivot, "_on_fire_projectile")
+#	secondary.connect("fire_projectile", self, "_on_fire_projectile")
+	primary.connect("cooldown", secondary, "cooldown")
+	secondary.connect("cooldown", primary, "cooldown")
+	
+	primary.initialize()
+	secondary.initialize()
+	
 	for node in $States.get_children():
 		node.connect("finished", self, "_change_state")
 	stack.push_front($States/Idle)
 	current = stack[0]
 	_change_state("idle")
-	
-	primary.connect("fire_projectile", camera_pivot, "_on_fire_projectile")
-	secondary.connect("fire_projectile", camera_pivot, "_on_fire_projectile")
-	primary.connect("cooldown", secondary, "cooldown")
-	secondary.connect("cooldown", primary, "cooldown")
 	
 	Global.set_player(self)
 
@@ -52,21 +98,26 @@ func _physics_process(delta):
 	current.update(delta)
 
 func _input(event):
-	if event.is_action_pressed("primary"):
-		primary.prepare("primary")
-	if event.is_action_pressed("secondary"):
-		secondary.prepare("secondary")
+	if allow_mouselook:
+		if event.is_action_pressed("primary"):
+			primary.prepare("primary")
+			shoot_animation()
+		if event.is_action_pressed("secondary"):
+			secondary.prepare("secondary")
+			shoot_animation()
 	current.handle_input(event)
 
 func _on_animation_finished(animation):
 	current._on_animation_finished(animation)
+	if animation != current.animation:
+		animations.play(animation_map[current.animation])
 
 func _change_state(state):
 	if current: current.exit()
 	
 	if state == "previous":
 		stack.pop_front()
-	elif state in ["stagger", "dash"]:
+	elif state in ["dash"]:
 		stack.push_front(map[state])
 	else:
 		var new = map[state]
@@ -92,6 +143,29 @@ func _mouselook():
 func _on_dash_timer_timeout():
 	allow_dash = true
 	emit_signal("can_dash")
+
+func _on_fire_projectile():
+	pass
+
+func hit(point, force, damage):
+	take_damage(damage)
+
+func take_damage(damage):
+	Global.reduce_health(damage)
+	if Global.get_health() <= 0:
+		current.emit_signal("finished", "death")
+	else:
+		stagger_animation()
+		#current.emit_signal("finished", "stagger")
+
+func shoot_animation():
+	animations["parameters/Shooting/active"] = false
+	animations["parameters/Shooting_Seek/seek_position"] = 0.0
+	animations["parameters/Shooting/active"] = true
+
+func stagger_animation():
+	animations["parameters/Staggering/active"] = false
+	animations["parameters/Staggering/active"] = true
 
 #func _on_primary_timer_timeout():
 #	allow_primary = true

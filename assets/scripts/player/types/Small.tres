@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://assets/resources/PlayerSettings.gd" type="Script" id=1]
+[ext_resource path="res://assets/scripts/player/weapons/Charged_Pistol.tres" type="Resource" id=2]
+[ext_resource path="res://assets/scripts/player/weapons/Pistol.tres" type="Resource" id=3]
+[ext_resource path="res://assets/scenes/player/meshes/Small.tscn" type="PackedScene" id=4]
+
+[resource]
+script = ExtResource( 1 )
+name = "Small"
+mesh = ExtResource( 4 )
+health = 8
+primary_settings = ExtResource( 3 )
+secondary_settings = ExtResource( 2 )

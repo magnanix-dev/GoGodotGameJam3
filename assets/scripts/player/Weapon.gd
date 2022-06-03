@@ -5,6 +5,7 @@ signal fire_projectile(dir, mag)
 signal cooldown()
 
 export (Resource) var settings
+var evolutions = []
 
 var allow = true
 var timer : Timer
@@ -19,6 +20,9 @@ onready var projectile_pool = $Projectiles
 onready var manager_pool = $Managers
 
 func _ready():
+	pass
+
+func initialize():
 	timer = Timer.new()
 	timer.connect("timeout", self, "_on_timer_timeout")
 	add_child(timer)
@@ -33,7 +37,7 @@ func initialize_managers(amount):
 		var m = ProjectileManager.new()
 		m.active = false
 		m.weapon = self
-		m.apply_settings(settings.settings, settings.behaviours)
+		m.apply_settings(settings)
 		dead_managers.push_back(m)
 		manager_pool.add_child(m)
 
@@ -55,15 +59,15 @@ func prepare(key = ""):
 	if allow:
 		input = key
 		cooldown(settings.cooldown)
-#		print("Weapon: Prepared.")
+#		if Global.debug: print("Weapon: Prepared.")
 		execute()
 
 func execute():
 	var m = dead_managers[0]
 	dead_managers.pop_front()
 	managers.append(m)
-	m.behaviours = settings.behaviours
-#	print("Weapon: Executed.")
+	m.evolutions = evolutions
+#	if Global.debug: print("Weapon: Executed.")
 	m.execute()
 
 func request_projectile():
@@ -86,6 +90,7 @@ func clean():
 	removals.clear()
 	for i in range(managers.size()):
 		if not managers[i].active:
+			managers[i].projectiles.clear()
 			removals.push_back(i)
 			dead_managers.push_back(managers[i])
 	for i in range(removals.size()):
