@@ -2,6 +2,12 @@ extends Control
 
 onready var animation = $Node2D/Title/Control/AnimationPlayer
 
+export (Resource) var starting_zone
+
+func _ready():
+	Global.clean()
+	Global.zone_settings = starting_zone
+
 func _input(event):
 	if event.is_action_pressed("primary"):
 		var end = animation.current_animation_length

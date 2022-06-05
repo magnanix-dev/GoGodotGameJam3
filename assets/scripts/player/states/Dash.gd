@@ -49,7 +49,6 @@ func update(delta):
 		move(enter_mouse_direction * (dash_power * delta))
 		owner.look_at(enter_mouse_direction * dash_power, Vector3.UP)
 	dash_time -= (1/dash_duration) * delta
-	if Global.debug: print(dash_time)
 	if dash_time <= 0.0:
 		owner.animations["parameters/Dashing/active"] = false
 		owner.allow_mouselook = true

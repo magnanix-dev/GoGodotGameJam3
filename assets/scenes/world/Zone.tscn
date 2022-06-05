@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://assets/fonts/Maniac.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/materials/shared/atlas.tres" type="Material" id=3]
+[ext_resource path="res://assets/scripts/world/Zone.gd" type="Script" id=4]
+[ext_resource path="res://assets/scripts/development/Debug.gd" type="Script" id=5]
+[ext_resource path="res://assets/scenes/ui/UI.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/scenes/world/Generator.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/libraries/basic_tilemap.tres" type="MeshLibrary" id=8]
+[ext_resource path="res://assets/scenes/ui/Loading.tscn" type="PackedScene" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+size = 72
+extra_spacing_char = 2
+extra_spacing_space = 4
+font_data = ExtResource( 2 )
+
+[node name="Zone" type="Spatial"]
+script = ExtResource( 4 )
+
+[node name="Dynamic" type="Node" parent="."]
+
+[node name="Map" type="GridMap" parent="Dynamic"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+mesh_library = ExtResource( 8 )
+cell_octant_size = 4
+cell_center_y = false
+data = {
+"cells": PoolIntArray(  )
+}
+__meta__ = {
+"_editor_clip_": 0
+}
+
+[node name="Static" type="Node" parent="."]
+
+[node name="Sun" type="DirectionalLight" parent="Static"]
+transform = Transform( -1, -7.16125e-08, 5.01436e-08, 0, 0.573576, 0.819152, -8.74228e-08, 0.819152, -0.573576, 0, 0, 0 )
+light_energy = 0.25
+light_indirect_energy = 0.75
+light_size = 1.0
+shadow_enabled = true
+shadow_contact = 0.25
+directional_shadow_normal_bias = 0.4
+
+[node name="Generator" parent="Static" instance=ExtResource( 7 )]
+world_material = ExtResource( 3 )
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+
+[node name="FPS" type="Label" parent="Control"]
+visible = false
+anchor_right = 1.0
+margin_right = -512.0
+margin_bottom = 14.0
+theme = ExtResource( 1 )
+text = "FPS: ##"
+align = 2
+uppercase = true
+
+[node name="Seed" type="Label" parent="Control"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = -50.0
+margin_right = 410.0
+margin_bottom = 97.0
+rect_scale = Vector2( 0.25, 0.25 )
+theme = ExtResource( 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Seed:
+12345"
+uppercase = true
+
+[node name="UI" parent="." instance=ExtResource( 6 )]
+
+[node name="Loading" parent="." instance=ExtResource( 9 )]
+visible = false

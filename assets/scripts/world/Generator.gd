@@ -21,6 +21,9 @@ export var enemy_spawn_chance = 0.11
 export var enemy_spawn_minimum = 10
 export var enemy_spawn_distance = 10
 
+export var outside_environmental_spawn_chance = 0.05
+export var inside_environmental_spawn_chance = 0.05
+
 export var world_material : SpatialMaterial
 export var texture_width = 8
 export var tile_type_texture = {"ground": 0,"ceiling": 1,"wall": 2}
@@ -30,37 +33,59 @@ enum tile {ground, ceiling, none}
 var grid
 var center_point : Vector2
 var spawn_point : Vector2
+var spawn_dir : Vector2
+var exit_point : Vector2
+var exit_dir : Vector2
 var pickup_points : Array
 var enemy_spawn_points : Array
+var environmental_inside_spawn_points : Array
+var environmental_outside_spawn_points : Array
 
 onready var meshes = $Mesh
 #onready var global_light = $DirectionalLight
 var gridmap : GridMap
 
 var generate = true
+var generate_failed = false
 
 func _ready():
-	#VisualServer.set_debug_generate_wireframes(true)
-	#get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
-	randomize()
+	pass
+
+func _reset():
+	generate = true
+	generate_failed = false
+	grid = []
+#	center_point = Vector2.ZERO
+#	spawn_point = Vector2.ZERO
+#	spawn_dir = Vector2.ZERO
+#	exit_point = Vector2.ZERO
+#	exit_dir = Vector2.ZERO
+	pickup_points = []
+	enemy_spawn_points = []
+	environmental_inside_spawn_points = []
+	environmental_outside_spawn_points = []
 
 func initialize():
+	_reset()
 	yield(generate_map(), "completed")
-	if Global.debug: print("Completed!")
 	find_center_point()
 	find_spawn_point()
 	find_pickup_points()
 	find_enemy_spawn_points()
+	find_environmental_spawn_points()
 	# Sanity Checks:
-	if enemy_spawn_points.size() < enemy_spawn_minimum || pickup_points.size() < pickups_total || not spawn_point || not center_point:
-		initialize()
-		return
-	var build_meshes = build_map()
-	if build_meshes.size():
-		generate_mesh(build_meshes[0], build_meshes[1], build_meshes[2], world_material)
-	#generate_tilemap()
-	yield(get_tree(), "idle_frame")
-	#generate_lightmaps()
+	if enemy_spawn_points.size() < enemy_spawn_minimum || pickup_points.size() < pickups_total || not spawn_point || not exit_point || not center_point || grid[spawn_point.x][spawn_point.y] != tile.ground || grid[exit_point.x][exit_point.y] != tile.ground:
+		generate_failed = true
+	if not generate_failed:
+		var build_meshes = build_map()
+		if build_meshes.size():
+			generate_mesh(build_meshes[0], build_meshes[1], build_meshes[2], world_material)
+		#generate_tilemap()
+		yield(get_tree(), "idle_frame")
+		#generate_lightmaps()
+	else:
+		yield(initialize(), "completed")
+		yield(get_tree(), "idle_frame")
 
 func generate_tilemap():
 	for x in range(size.x):
@@ -77,7 +102,6 @@ func generate_map():
 	var iterations = 0
 	# Initial Walker:
 	walkers.append(Walker.new(midpoint, Vector2(1, size.x-2), Vector2(1, size.y-2), walkers_distance))
-	if Global.debug: print("generate_map loop start")
 	while generate:
 		iterations += 1
 		for w in walkers:
@@ -101,17 +125,13 @@ func generate_map():
 				w.queue_free()
 			removal.clear()
 		if count_ground() >= ground_maximum or walkers.size() <= 0:
-			generate = false	
-	if Global.debug: print("generate_map loop end")
+			generate = false
 	if not generate and walkers.size():
 		for w in walkers:
 			make_2x_room(w)
 			w.queue_free()
 		walkers.clear()
-	if Global.debug: print("Iterations: ", iterations)
-	if Global.debug: print("Ground Count: ", count_ground())
 	if count_ground() <= ground_minimum:
-		if Global.debug: print("Failed! - Restarting!")
 		yield(generate_map(), "completed")
 	var _x = Vector2(-1, -1)
 	var _y = Vector2(-1, -1)
@@ -163,7 +183,6 @@ func find_center_point():
 	var end = start
 	var found = false
 	var offset = 0
-	if Global.debug: print("find_center_point loop start")
 	while not found:
 		for n in range(-offset, offset):
 			if start.x+n <= 0 || start.x+n >= size.x:
@@ -174,7 +193,6 @@ func find_center_point():
 				end = Vector2(start.x+n, start.y+n)
 				break
 		offset += 1
-	if Global.debug: print("find_center_point loop end")
 	center_point = end
 
 func find_spawn_point():
@@ -184,7 +202,6 @@ func find_spawn_point():
 	var found = false
 	var pos = center_point
 	var end = pos
-	if Global.debug: print("find_spawn_point loop start")
 	while not found:
 		if pos.x+dir.x <= 0 || pos.x+dir.x >= size.x || pos.y+dir.y <= 0 || pos.y+dir.y >= size.y:
 			found = true
@@ -194,8 +211,24 @@ func find_spawn_point():
 			found = true
 			end = pos - dir
 			break
-	if Global.debug: print("find_spawn_point loop end")
 	spawn_point = end
+	spawn_dir = dir
+	dir *= -1
+	found = false
+	pos = center_point
+	end = pos
+	while not found:
+		if pos.x+dir.x <= 0 || pos.x+dir.x >= size.x || pos.y+dir.y <= 0 || pos.y+dir.y >= size.y:
+			found = true
+			break
+		pos = pos + dir
+		if grid[pos.x][pos.y] == tile.ceiling:
+			found = true
+			end = pos - dir
+			break
+	if end.distance_to(spawn_point) > 4:
+		exit_point = end
+		exit_dir = dir
 
 func find_pickup_points():
 	var tiles = []
@@ -204,9 +237,13 @@ func find_pickup_points():
 	for x in range(0, size.x-1):
 		for y in range(0, size.y-1):
 			if grid[x][y] == tile.ground:
-				tiles.append([Vector2(x, y).distance_squared_to(spawn_point), Vector2(x,y)])
+				var wallcount = 0
+				if grid[x+1][y] == tile.ceiling: wallcount += 1
+				if grid[x-1][y] == tile.ceiling: wallcount += 1
+				if grid[x][y+1] == tile.ceiling: wallcount += 1
+				if grid[x][y-1] == tile.ceiling: wallcount += 1
+				if wallcount <= 1: tiles.append([Vector2(x, y).distance_squared_to(spawn_point), Vector2(x,y)])
 	for n in range(pickups_total):
-		if Global.debug: print("Tiles in pool: ", tiles.size())
 		tiles.sort_custom(self, "sort_by_distance")
 		var tile = tiles.pop_front()
 		viable_tiles.append(tile[1])
@@ -226,7 +263,6 @@ func find_enemy_spawn_points():
 			if grid[x][y] == tile.ground:
 				tiles.append(Vector2(x,y))
 	var iterations = 0
-	if Global.debug: print("find_enemy_spawn_point loop start")
 	while viable_tiles.size() < enemy_spawn_minimum and iterations < 100:
 		if viable_tiles.size() >= enemy_spawn_minimum:
 			break
@@ -234,8 +270,26 @@ func find_enemy_spawn_points():
 			if t.distance_squared_to(spawn_point) >= enemy_spawn_distance and randf() <= enemy_spawn_chance:
 				viable_tiles.append(t)
 		iterations += 1
-	if Global.debug: print("find_enemy_spawn_point loop end")
 	enemy_spawn_points = viable_tiles
+
+func find_environmental_spawn_points():
+	var tiles = []
+	var inside_tiles = []
+	var outside_tiles = []
+	for x in range(0, size.x-1):
+		for y in range(0, size.y-1):
+			tiles.append({"x": x, "y": y, "type": grid[x][y]})
+	tiles.shuffle()
+	for t in tiles:
+		if t.type == tile.ground:
+			if randf() <= inside_environmental_spawn_chance:
+				inside_tiles.append(Vector2(t.x,t.y))
+		if t.type == tile.ceiling:
+			if randf() <= outside_environmental_spawn_chance:
+				outside_tiles.append(Vector2(t.x,t.y))
+	environmental_inside_spawn_points = inside_tiles
+	environmental_outside_spawn_points = outside_tiles
+	
 
 func sort_by_distance(a, b):
 	if a[0] > b[0]:

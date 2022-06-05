@@ -5,6 +5,7 @@ var previous_animation = ""
 func enter():
 	if owner.animations:
 		previous_animation = owner.animations.current_animation
+		owner.animations.stop()
 		owner.animations.play(owner.animation_map["stagger"])
 
 func _on_animation_finished(animation):

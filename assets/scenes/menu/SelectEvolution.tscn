@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/scripts/menu/SelectEvolution.gd" type="Script" id=2]
+[ext_resource path="res://assets/images/Select_Disabled.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/Select_Off.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/Select_On.png" type="Texture" id=5]
+[ext_resource path="res://maniac_font.tres" type="DynamicFont" id=6]
+
+[node name="SelectEvolution" type="TextureButton"]
+anchor_right = 0.64
+anchor_bottom = 1.20333
+margin_right = -216.0
+margin_bottom = -321.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource( 4 )
+texture_hover = ExtResource( 5 )
+texture_disabled = ExtResource( 3 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Left" type="Label" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = -136.0
+margin_right = -40.0
+margin_bottom = -35.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
+custom_fonts/font = ExtResource( 6 )
+valign = 1
+uppercase = true
+
+[connection signal="mouse_entered" from="." to="." method="_on_hover"]
+[connection signal="mouse_exited" from="." to="." method="_on_leave"]

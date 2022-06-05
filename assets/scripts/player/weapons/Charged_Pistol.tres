@@ -14,4 +14,4 @@ direction_variance = 0.0
 ability_icon = ExtResource( 3 )
 object = ExtResource( 2 )
 cooldown = 1.0
-behaviours = [ [ "charge", 0.5, 3.0, 0.75 ] ]
+behaviours = [ [ "charge", 0.5, 3.0, 0.75 ], [ "pierce", 1 ] ]

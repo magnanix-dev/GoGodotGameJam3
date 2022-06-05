@@ -27,6 +27,7 @@ var full_auto = false
 var burst = 1
 var delay = 0.0
 var bounce = 0
+var pierce = 0
 
 func apply_settings(settings):
 	speed = settings.speed
@@ -49,6 +50,9 @@ func apply_manager_behaviours():
 			"bounce":
 				var count = b[1]
 				bounce = count
+			"pierce":
+				var count = b[1]
+				pierce = count
 			"charge":
 				var limit = b[1]
 				var multiplier = b[2]
@@ -59,7 +63,6 @@ func apply_manager_behaviours():
 				charge = true
 			"auto":
 				full_auto = true
-#	if Global.debug: print("Manager: Behaviours applied.")
 
 func apply_projectile_behaviours(projectile):
 	for b in behaviours:
@@ -114,8 +117,8 @@ func execute():
 		var dmg = damage + charge_damage
 		if direction_variance: dir = dir.rotated(Vector3.UP, deg2rad(rand_range(-direction_variance/2, direction_variance/2)))
 		if speed_variance: spd = clamp(speed + rand_range(-speed_variance/2, speed_variance), 0, 999)
-		p.setup(global_transform.origin, dir, spd, dmg)
-#		if Global.debug: print("Projectile: ", n)
+		p.setup(global_transform.origin, dir, spd)
+		p.connect("hit", self, "_on_projectile_hit", [p, dmg])
 		p.execute()
 		accumulate_dir += dir
 		if delay > 0.0:
@@ -139,18 +142,28 @@ func clean():
 		var is_active = false
 		for p in projectiles:
 			if p.active: is_active = true
-	#	if not is_active: if Global.debug: print("No active projectiles!")
 		active = is_active
 
-func _on_hit_bounce(dir, pos, norm):
+func _on_projectile_hit(dir, pos, norm, col, projectile, damage):
+	var deactivate = true
+	if not projectile.hits.has(col) and col.has_method("hit"):
+		col.call("hit", pos, dir, damage)
+		projectile.hits.append(col)
+		if pierce > 0:
+			pierce -= 1
+			deactivate = false
+			projectile.lifetime_timer = 3.0
 	if bounce > 0:
 		var d = dir.bounce(norm).normalized()
 		var p = weapon.request_projectile()
 		p.manager = self
 		apply_projectile_behaviours(p)
 		apply_projectile_evolutions(p)
-		p.setup(pos, dir, speed, damage)
+		p.setup(pos, dir, speed)
+		p.connect("hit", self, "_on_projectile_hit", [p, damage])
 		p.execute()
 		projectiles.append(p)
 		bounce -= 1
-	
+		deactivate = true
+	if deactivate:
+		projectile.deactivate()

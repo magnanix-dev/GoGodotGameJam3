@@ -67,7 +67,7 @@ func _ready():
 		mesh_container.add_child(m)
 		aim_offset = m.get_aim_offset()
 		animations = m.animations
-		animations.connect("animation_finished", self, "_on_animation_finished")
+		#animations.connect("animation_finished", self, "_on_animation_finished")
 	
 	if settings.primary_settings:
 		primary.settings = settings.primary_settings

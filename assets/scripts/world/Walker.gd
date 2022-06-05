@@ -32,7 +32,6 @@ func step():
 		change_direction()
 	if pos:
 		var target = pos + dir
-		#if Global.debug: print(target.x, ", ", target.y)
 		if not out_of_bounds(target):
 			dist += 1
 			pos = target
@@ -48,10 +47,8 @@ func change_direction():
 	if can_reverse: turn.append(dir * -1)
 	turn.shuffle()
 	dir = turn.pop_front()
-	if Global.debug: print("walker change_direction loop start")
 	while out_of_bounds(pos + dir):
 		dir = turn.pop_front()
-	if Global.debug: print("walker change_direction loop end")
 
 func out_of_bounds(target):
 	if target:

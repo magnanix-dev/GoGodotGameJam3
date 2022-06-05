@@ -26,12 +26,13 @@ func _ready():
 
 func _physics_process(delta):
 	mesh.rotate_z(delta * 0.7)
-	if not allow_pickup:
+	spawn_time -= delta
+	if spawn_time >= 0.0:
 		rotation += spawn_rotation * (delta * spawn_rotation_speed)
 		move_and_slide(spawn_direction * (spawn_speed * delta))
-		spawn_time -= delta
-		if spawn_time <= 0.0: allow_pickup = true
-	if allow_pickup and vacuum_pickup:
+	else:
+		allow_pickup = true
+	if allow_pickup and vacuum_pickup and is_instance_valid(vacuum_target):
 		var direction = (vacuum_target.global_transform.origin - global_transform.origin).normalized()
 		move_and_slide(direction * (vacuum_speed * delta))
 		vacuum_speed += vacuum_accumulated_speed * delta
@@ -40,6 +41,7 @@ func pull(target):
 	vacuum_target = target
 	allow_pickup = true
 	vacuum_pickup = true
+	set_collision_mask_bit(0, false)
 
 func pickup(target):
 	Global.increase_exp(value)

@@ -56,6 +56,5 @@ func _update_experience(_current, _next, _level):
 		next_xp = _next
 
 func _update_level(_level):
-	print("Level Changed: ", _level)
 	if _level > current_level:
 		level_ups.push_back(_level)

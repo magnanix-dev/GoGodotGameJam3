@@ -1,0 +1,58 @@
+[gd_resource type="Resource" load_steps=18 format=2]
+
+[ext_resource path="res://assets/resources/ZoneSettings.gd" type="Script" id=1]
+[ext_resource path="res://assets/materials/shared/atlas.tres" type="Material" id=2]
+[ext_resource path="res://assets/scenes/player/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/scenes/enemy/Enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/scenes/pickups/ExperienceBox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/scenes/pickups/HealthBox.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/scenes/world/Gate.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/scenes/world/Arrow.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/scenes/environmentals/Weeds.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/scenes/environmentals/Tiles.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/scenes/environmentals/Rocks.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/scenes/environmentals/Palm.tscn" type="PackedScene" id=12]
+[ext_resource path="res://assets/scenes/environmentals/Bones.tscn" type="PackedScene" id=13]
+[ext_resource path="res://assets/scripts/enemy/types/Basic.tres" type="Resource" id=14]
+[ext_resource path="res://assets/scenes/environmentals/Rocks_1x.tscn" type="PackedScene" id=15]
+[ext_resource path="res://assets/scenes/environmentals/Tiles_1x.tscn" type="PackedScene" id=16]
+[ext_resource path="res://assets/scenes/environmentals/Rocks_2x.tscn" type="PackedScene" id=17]
+
+[resource]
+script = ExtResource( 1 )
+name = "The Desert II"
+player = ExtResource( 3 )
+gate = ExtResource( 7 )
+arrow = ExtResource( 8 )
+size = Vector2( 45, 45 )
+cell_size = 32
+pickups_total = 3
+pickups_distance = 10
+pickup_health_object = ExtResource( 6 )
+pickup_health_chance = 0.01
+pickup_exp_object = ExtResource( 5 )
+pickup_exp_chance = 1
+ground_maximum = 110
+ground_minimum = 90
+walkers_maximum = 10
+walkers_create_chance = 0.02
+walkers_delete_chance = 0.01
+walkers_distance = 20
+walkers_2x_chance = 0.05
+walkers_3x_chance = 0.01
+enemy = ExtResource( 4 )
+enemies = [ ExtResource( 14 ) ]
+enemy_spawn_chance = 0.01
+enemy_spawn_minimum = 8
+enemy_spawn_distance = 10
+outside_environmentals = [ ExtResource( 12 ) ]
+inside_environmentals = [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 15 ), ExtResource( 17 ), ExtResource( 10 ), ExtResource( 16 ), ExtResource( 9 ) ]
+outside_environmental_spawn_chance = 0.15
+inside_environmental_spawn_chance = 0.05
+world_material = ExtResource( 2 )
+texture_width = 8
+tile_type_texture = {
+"ceiling": 8,
+"ground": 7,
+"wall": 7
+}

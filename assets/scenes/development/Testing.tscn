@@ -31,6 +31,7 @@ __meta__ = {
 
 [node name="Sun" type="DirectionalLight" parent="Static"]
 transform = Transform( -1, -7.16125e-08, 5.01436e-08, 0, 0.573576, 0.819152, -8.74228e-08, 0.819152, -0.573576, 0, 0, 0 )
+visible = false
 light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
 light_size = 1.0
 shadow_enabled = true

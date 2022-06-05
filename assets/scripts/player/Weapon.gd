@@ -39,10 +39,10 @@ func initialize():
 	add_child(Line)
 
 func _process(delta):
-	if Input.is_action_just_pressed(input) and not pressed:
+	if input != "" and Input.is_action_just_pressed(input) and not pressed:
 		emit_signal("ability_pressed")
 		pressed = true
-	if Input.is_action_just_released(input) and pressed:
+	if input != "" and Input.is_action_just_released(input) and pressed:
 		emit_signal("ability_released")
 		pressed = false
 	if input == "primary":
@@ -84,7 +84,6 @@ func cooldown(duration = 0.2, emit = true):
 func prepare(key = ""):
 	if allow:
 		input = key
-#		if Global.debug: print("Weapon: Prepared.")
 		execute()
 
 func execute(bypass = false):
@@ -93,7 +92,6 @@ func execute(bypass = false):
 		dead_managers.pop_front()
 		managers.append(m)
 		m.evolutions = evolutions
-	#	if Global.debug: print("Weapon: Executed.")
 		m.execute()
 
 func request_projectile():

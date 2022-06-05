@@ -1,6 +1,7 @@
 extends KinematicBody
 
 signal changed_state
+signal death
 
 export (Resource) var settings
 
@@ -47,7 +48,7 @@ onready var eyes_debug_target = $DebugEyesTarget
 
 var Line = preload("res://assets/scripts/development/DrawLine3D.gd").new()
 
-func _ready():
+func initialize():
 	add_child(Line)
 	if Global.player:
 		_set_target(Global.player)
@@ -65,7 +66,7 @@ func _ready():
 		primary.settings = settings.weapon_settings
 	for node in $States.get_children():
 		node.connect("finished", self, "_change_state")
-	health = settings.health
+	health = settings.health * floor(Global.get_difficulty() * 0.5)
 	if randf() <= settings.whimsy:
 		stack.push_front($States/Wander)
 		current = stack[0]
@@ -87,7 +88,7 @@ func _on_animation_finished(animation):
 
 func _change_state(state):
 	if current: current.exit()
-	
+		
 	if state == "previous":
 		stack.pop_front()
 	elif state in ["stagger", "death"]:
@@ -95,7 +96,6 @@ func _change_state(state):
 	else:
 		var new = map[state]
 		stack[0] = new
-		if Global.debug: print("New State: ", state)
 	
 	current = stack[0]
 	if state != "previous":

@@ -6,7 +6,6 @@ func enter():
 	var target_found = look_target()
 	var iterated = 0
 	if not target_found:
-#		if Global.debug: print("Cannot find player, leaving hunt...")
 		next = "idle"
 		if randf() <= owner.settings.whimsy:
 			next = "wander"
@@ -15,20 +14,15 @@ func enter():
 	elif target_distance < owner.settings.range_min:
 		direction = -target_direction.rotated(Vector3.UP, rad2deg(rand_range(-owner.settings.hunt_spread/2, owner.settings.hunt_spread/2)))
 		iterated = 0
-		if Global.debug: print("hunt direction check loop start")
 		while not check_direction(direction) and iterated < 20:
 			direction = -target_direction.rotated(Vector3.UP, rad2deg(rand_range(-owner.settings.hunt_spread/2, owner.settings.hunt_spread/2)))
 			iterated += 1
-		if Global.debug: print("hunt direction check loop end")
 	else:
 		direction = target_direction.rotated(Vector3.UP, rad2deg(rand_range(-owner.settings.hunt_spread/2, owner.settings.hunt_spread/2)))
 		iterated = 0
-		if Global.debug: print("hunt direction check loop start")
 		while not check_direction(direction) and iterated < 20:
 			direction = target_direction.rotated(Vector3.UP, rad2deg(rand_range(-owner.settings.hunt_spread/2, owner.settings.hunt_spread/2)))
 			iterated += 1
-		if Global.debug: print("hunt direction check loop end")
-#	if Global.debug: print("Hunting direction: ", direction)
 	next = "hunt"
 	if randf() <= owner.settings.shoot_repeat_chance and target_distance <= owner.settings.range_max and target_distance >= owner.settings.range_min:
 		emit_signal("finished", "shoot")

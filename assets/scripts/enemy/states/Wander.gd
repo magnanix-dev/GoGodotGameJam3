@@ -6,11 +6,9 @@ func enter():
 	duration = rand_range(owner.settings.wander_duration_min, owner.settings.wander_duration_max)
 	if direction == Vector3.ZERO: direction = (Vector3.RIGHT).rotated(Vector3.UP, deg2rad(rand_range(0, 360)))
 	var iterated = 0
-	if Global.debug: print("wander direction check loop start")
 	while not check_direction(direction) and iterated < 20:
 		direction = direction.rotated(Vector3.UP, deg2rad(rand_range(0, 360)))
 		iterated += 1
-	if Global.debug: print("wander direction check loop end")
 	next = "idle"
 	
 	# Handle animations here

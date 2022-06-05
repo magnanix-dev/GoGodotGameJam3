@@ -3,11 +3,23 @@ extends Control
 export (PackedScene) var action
 
 onready var action_bar = $ActionBar
+onready var top_bar = $TopBar
 
 var abilities = []
 
 func _ready():
+	top_bar.visible = false
+	action_bar.visible = false
 	Global.set_ui(self)
+	yield(get_tree().create_timer(1.0), "timeout")
+	if Global.player:
+		_show_ui()
+	else:
+		Global.connect("player_changed", self, "_show_ui")
+
+func _show_ui():
+	top_bar.visible = true
+	action_bar.visible = true
 
 func add_ability(action_name, icon, cooldown, user):
 	var removal = []

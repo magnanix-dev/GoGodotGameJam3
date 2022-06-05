@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=7 format=2]
+[gd_resource type="Resource" load_steps=11 format=2]
 
 [ext_resource path="res://assets/resources/ZoneSettings.gd" type="Script" id=1]
 [ext_resource path="res://assets/materials/shared/atlas.tres" type="Material" id=2]
@@ -6,18 +6,24 @@
 [ext_resource path="res://assets/scenes/enemy/Enemy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/scenes/pickups/ExperienceBox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/scenes/pickups/HealthBox.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/scenes/world/Gate.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/scripts/world/zones/Zone2.tres" type="Resource" id=8]
+[ext_resource path="res://assets/scenes/world/Arrow.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/scripts/enemy/types/Basic.tres" type="Resource" id=15]
 
 [resource]
 script = ExtResource( 1 )
-name = ""
+name = "The Desert I"
+next_zone_settings = ExtResource( 8 )
 player = ExtResource( 3 )
-enemies = [ ExtResource( 4 ) ]
+gate = ExtResource( 7 )
+arrow = ExtResource( 9 )
 size = Vector2( 30, 30 )
 cell_size = 32
 pickups_total = 3
 pickups_distance = 10
 pickup_health_object = ExtResource( 6 )
-pickup_health_chance = 1.0
+pickup_health_chance = 0.01
 pickup_exp_object = ExtResource( 5 )
 pickup_exp_chance = 1
 ground_maximum = 110
@@ -28,9 +34,15 @@ walkers_delete_chance = 0.01
 walkers_distance = 5
 walkers_2x_chance = 0.25
 walkers_3x_chance = 0.0
+enemy = ExtResource( 4 )
+enemies = [ ExtResource( 15 ) ]
 enemy_spawn_chance = 0.01
-enemy_spawn_minimum = 1
+enemy_spawn_minimum = 4
 enemy_spawn_distance = 10
+outside_environmentals = [  ]
+inside_environmentals = [  ]
+outside_environmental_spawn_chance = 0.05
+inside_environmental_spawn_chance = 0.05
 world_material = ExtResource( 2 )
 texture_width = 8
 tile_type_texture = {

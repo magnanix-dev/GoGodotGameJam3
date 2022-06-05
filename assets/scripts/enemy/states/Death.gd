@@ -7,6 +7,7 @@ func enter():
 	owner.hitbox.disabled = true
 	owner.collider.disabled = true
 	owner.drop_pickups()
+	owner.emit_signal("death")
 
 func _on_animation_finished(animation):
 	owner.shadow.visible = false

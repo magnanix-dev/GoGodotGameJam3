@@ -492,6 +492,7 @@ tracks/41/keys = PoolRealArray( 0, 1, 0, 0, 0, -4.58568e-23, 6.30251e-12, -7.275
 [sub_resource type="Animation" id=5]
 resource_name = "Idle"
 length = 3.375
+loop = true
 tracks/0/type = "transform"
 tracks/0/path = NodePath("Enemy_grp/Enemy_rig/Skeleton:hand.r")
 tracks/0/interp = 1
@@ -1358,6 +1359,7 @@ tracks/41/keys = PoolRealArray( 0, 1, 0, 0, 0, -4.58568e-23, 6.30251e-12, -7.275
 [sub_resource type="Animation" id=8]
 resource_name = "Walk"
 length = 1.70833
+loop = true
 tracks/0/type = "transform"
 tracks/0/path = NodePath("Enemy_grp/Enemy_rig/Skeleton:hand.r")
 tracks/0/interp = 1
@@ -1653,7 +1655,7 @@ tracks/41/imported = false
 tracks/41/enabled = true
 tracks/41/keys = PoolRealArray( 0, 1, 0, 0, 0, -4.58568e-23, 6.30251e-12, -7.27596e-12, 1, 1, 1, 1, 1.70833, 1, 0, 0, 0, -4.58568e-23, 6.30251e-12, -7.27596e-12, 1, 1, 1, 1 )
 
-[node name="enemy" type="Spatial"]
+[node name="Basic" type="Spatial"]
 script = ExtResource( 3 )
 
 [node name="Enemy_grp" type="Spatial" parent="."]
@@ -1931,6 +1933,7 @@ skin = SubResource( 2 )
 material/0 = ExtResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
 anims/Death = SubResource( 4 )
 anims/Idle = SubResource( 5 )
 anims/Shoot = SubResource( 6 )

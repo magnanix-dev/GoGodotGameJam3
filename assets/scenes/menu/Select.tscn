@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://assets/scripts/menu/Select.gd" type="Script" id=1]
-[ext_resource path="res://assets/scenes/menu/SelectButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/scripts/menu/BaseOptions.gd" type="Script" id=1]
+[ext_resource path="res://assets/scenes/menu/SelectBase.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/scripts/player/types/Small.tres" type="Resource" id=3]
 [ext_resource path="res://assets/scripts/player/types/Unknown.tres" type="Resource" id=4]
 [ext_resource path="res://assets/fonts/Maniac.ttf" type="DynamicFontData" id=5]
@@ -69,7 +69,7 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 4
 custom_constants/shadow_offset_y = 4
 custom_fonts/font = SubResource( 5 )
-text = "Select evolution"
+text = "Select base evolution"
 align = 1
 valign = 1
 autowrap = true

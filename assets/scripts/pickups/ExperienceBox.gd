@@ -1,6 +1,6 @@
 extends Spatial
 
-export var exp_drops = 12
+export var exp_drops = 20
 
 onready var mesh = $Mesh
 onready var animation = $Mesh/AnimationPlayer
@@ -22,12 +22,11 @@ func pickup(user):
 
 func open():
 	open = true
-	var exp_value = Global.experience_value()
+	var exp_value = Global.experience_value() * 3
 	for n in exp_drops:
 		var val = (exp_value / exp_drops) * 1.0
 		var xp = Global.get_exp_object()
 		xp.value = val
-#		print(exp_value, " ", val, " ", xp.value)
 		xp.global_transform.origin = global_transform.origin
 	collider.disabled = true
 	pickup_collider.disabled = true

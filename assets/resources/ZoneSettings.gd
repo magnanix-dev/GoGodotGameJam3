@@ -2,10 +2,11 @@ extends Resource
 class_name ZoneSettings
 
 export (String) var name = ""
+export (Resource) var next_zone_settings
 
 export (PackedScene) var player
-#export (Array, PackedScene) var pickups
-export (Array, PackedScene) var enemies
+export (PackedScene) var gate
+export (PackedScene) var arrow
 
 export var size = Vector2(30, 30)
 export var cell_size = 32
@@ -27,9 +28,16 @@ export var walkers_distance = 5
 export var walkers_2x_chance = 0.25
 export var walkers_3x_chance = 0.0
 
+export (PackedScene) var enemy
+export (Array, Resource) var enemies
 export var enemy_spawn_chance = 0.11
 export var enemy_spawn_minimum = 10
 export var enemy_spawn_distance = 10
+
+export (Array, PackedScene) var outside_environmentals
+export (Array, PackedScene) var inside_environmentals
+export var outside_environmental_spawn_chance = 0.05
+export var inside_environmental_spawn_chance = 0.05
 
 export var world_material : SpatialMaterial
 export var texture_width = 8
