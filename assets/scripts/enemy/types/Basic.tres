@@ -13,7 +13,8 @@ health = 2
 can_drop_exp = true
 loot_table = [ {
 } ]
-aggression = 0.33
+aggression = 0.9
+early_aggression = 0.33
 whimsy = 0.5
 collision_avoid_distance = 1
 range_min = 1
@@ -29,4 +30,4 @@ hunt_max_speed = 1
 hunt_spread = 90
 shoot_duration_min = 2.0
 shoot_duration_max = 3
-shoot_repeat_chance = 0.125
+shoot_repeat_chance = 0.33

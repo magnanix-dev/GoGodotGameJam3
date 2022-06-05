@@ -24,7 +24,7 @@ func enter():
 			direction = target_direction.rotated(Vector3.UP, rad2deg(rand_range(-owner.settings.hunt_spread/2, owner.settings.hunt_spread/2)))
 			iterated += 1
 	next = "hunt"
-	if randf() <= owner.settings.shoot_repeat_chance and target_distance <= owner.settings.range_max and target_distance >= owner.settings.range_min:
+	if randf() <= owner.settings.early_aggression and target_distance <= owner.settings.range_max and target_distance >= owner.settings.range_min:
 		emit_signal("finished", "shoot")
 	
 	# Handle animations here

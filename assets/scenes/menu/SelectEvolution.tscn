@@ -1,10 +1,17 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
+[ext_resource path="res://assets/images/SquareSelect_On.png" type="Texture" id=1]
 [ext_resource path="res://assets/scripts/menu/SelectEvolution.gd" type="Script" id=2]
-[ext_resource path="res://assets/images/Select_Disabled.png" type="Texture" id=3]
-[ext_resource path="res://assets/images/Select_Off.png" type="Texture" id=4]
-[ext_resource path="res://assets/images/Select_On.png" type="Texture" id=5]
-[ext_resource path="res://maniac_font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://assets/images/SquareSelect_Disabled.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/SquareSelect_Off.png" type="Texture" id=4]
+[ext_resource path="res://assets/fonts/Maniac.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://assets/fonts/72px_maniac.tres" type="DynamicFont" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 72
+extra_spacing_char = 2
+extra_spacing_space = 4
+font_data = ExtResource( 5 )
 
 [node name="SelectEvolution" type="TextureButton"]
 anchor_right = 0.64
@@ -13,14 +20,53 @@ margin_right = -216.0
 margin_bottom = -321.0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 4 )
-texture_hover = ExtResource( 5 )
+texture_hover = ExtResource( 1 )
 texture_disabled = ExtResource( 3 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="Left" type="Label" parent="."]
+[node name="Title" type="Label" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = -214.0
+margin_right = -40.0
+margin_bottom = -150.0
+rect_min_size = Vector2( 352, 64 )
+rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
+custom_fonts/font = SubResource( 1 )
+text = "Title"
+align = 1
+uppercase = true
+
+[node name="Type" type="Label" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = -182.0
+margin_right = 488.0
+margin_bottom = -54.0
+rect_min_size = Vector2( 704, 128 )
+rect_scale = Vector2( 0.25, 0.25 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
+custom_fonts/font = SubResource( 1 )
+text = "Evolves: Primary"
+align = 1
+valign = 1
+uppercase = true
+
+[node name="Details" type="Label" parent="."]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -28,12 +74,15 @@ margin_left = 40.0
 margin_top = -136.0
 margin_right = -40.0
 margin_bottom = -35.0
+rect_min_size = Vector2( 704, 400 )
+rect_scale = Vector2( 0.25, 0.25 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 3
 custom_constants/shadow_offset_y = 3
 custom_fonts/font = ExtResource( 6 )
-valign = 1
+text = "Description of the evolution that has been rolled..."
+autowrap = true
 uppercase = true
 
 [connection signal="mouse_entered" from="." to="." method="_on_hover"]

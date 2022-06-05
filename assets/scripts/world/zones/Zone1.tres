@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=11 format=2]
+[gd_resource type="Resource" load_steps=12 format=2]
 
 [ext_resource path="res://assets/resources/ZoneSettings.gd" type="Script" id=1]
 [ext_resource path="res://assets/materials/shared/atlas.tres" type="Material" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/scenes/world/Gate.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/scripts/world/zones/Zone2.tres" type="Resource" id=8]
 [ext_resource path="res://assets/scenes/world/Arrow.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/scripts/enemy/types/Rare.tres" type="Resource" id=10]
 [ext_resource path="res://assets/scripts/enemy/types/Basic.tres" type="Resource" id=15]
 
 [resource]
@@ -35,7 +36,7 @@ walkers_distance = 5
 walkers_2x_chance = 0.25
 walkers_3x_chance = 0.0
 enemy = ExtResource( 4 )
-enemies = [ ExtResource( 15 ) ]
+enemies = [ ExtResource( 15 ), ExtResource( 15 ), ExtResource( 15 ), ExtResource( 15 ), ExtResource( 15 ), ExtResource( 15 ), ExtResource( 15 ), ExtResource( 15 ), ExtResource( 15 ), ExtResource( 10 ) ]
 enemy_spawn_chance = 0.01
 enemy_spawn_minimum = 4
 enemy_spawn_distance = 10

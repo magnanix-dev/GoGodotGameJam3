@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=18 format=2]
+[gd_resource type="Resource" load_steps=19 format=2]
 
 [ext_resource path="res://assets/resources/ZoneSettings.gd" type="Script" id=1]
 [ext_resource path="res://assets/materials/shared/atlas.tres" type="Material" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://assets/scenes/environmentals/Rocks_1x.tscn" type="PackedScene" id=15]
 [ext_resource path="res://assets/scenes/environmentals/Tiles_1x.tscn" type="PackedScene" id=16]
 [ext_resource path="res://assets/scenes/environmentals/Rocks_2x.tscn" type="PackedScene" id=17]
+[ext_resource path="res://assets/scripts/enemy/types/Rare.tres" type="Resource" id=18]
 
 [resource]
 script = ExtResource( 1 )
@@ -41,7 +42,7 @@ walkers_distance = 20
 walkers_2x_chance = 0.05
 walkers_3x_chance = 0.01
 enemy = ExtResource( 4 )
-enemies = [ ExtResource( 14 ) ]
+enemies = [ ExtResource( 14 ), ExtResource( 14 ), ExtResource( 14 ), ExtResource( 14 ), ExtResource( 18 ) ]
 enemy_spawn_chance = 0.01
 enemy_spawn_minimum = 8
 enemy_spawn_distance = 10

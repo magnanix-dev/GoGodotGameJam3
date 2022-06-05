@@ -12,6 +12,7 @@ export var can_drop_exp = true
 export (Array, Dictionary) var loot_table
 
 export var aggression = 0.33
+export var early_aggression = 0.33
 export var whimsy = 0.5
 
 export var collision_avoid_distance = 1

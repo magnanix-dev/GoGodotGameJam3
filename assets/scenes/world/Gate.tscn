@@ -100,16 +100,55 @@ surfaces/0 = {
 [sub_resource type="Animation" id=6]
 resource_name = "Closed"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Mesh/Gate:blend_shapes/Lift")
+tracks/0/path = NodePath("Mesh/Glowing_Brick_Open:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Mesh/Glowing_Brick_Closed:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Mesh/Gate:translation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0 ]
+"values": [ Vector3( 0, 1.8, 0.2 ), Vector3( 0, 0, 0.2 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Open"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Mesh/Glowing_Brick_Closed:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Mesh/Glowing_Brick_Open:visible")
@@ -121,64 +160,25 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Mesh/Glowing_Brick_Closed:visible")
+tracks/2/path = NodePath("Mesh/Gate:translation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-
-[sub_resource type="Animation" id=7]
-resource_name = "Open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Mesh/Gate:blend_shapes/Lift")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 0.0, 1.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Mesh/Glowing_Brick_Closed:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Mesh/Glowing_Brick_Open:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"values": [ Vector3( 0, 0, 0.2 ), Vector3( 0, 1.8, 0.2 ) ]
 }
 
 [sub_resource type="Animation" id=8]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Mesh/Gate:blend_shapes/Lift")
+tracks/0/path = NodePath("Mesh/Glowing_Brick_Closed:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -187,10 +187,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 1.0 ]
+"values": [ false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Mesh/Glowing_Brick_Closed:visible")
+tracks/1/path = NodePath("Mesh/Glowing_Brick_Open:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -199,10 +199,10 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ false ]
+"values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Mesh/Glowing_Brick_Open:visible")
+tracks/2/path = NodePath("Mesh/Gate:translation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -211,7 +211,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ true ]
+"values": [ Vector3( 0, 0, 0.2 ) ]
 }
 
 [node name="Gate" type="Spatial"]
@@ -249,7 +249,7 @@ material/0 = SubResource( 11 )
 transform = Transform( 1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0.2 )
 mesh = SubResource( 2 )
 skeleton = NodePath("../..")
-blend_shapes/Lift = 1.0
+blend_shapes/Lift = 0.0
 material/0 = ExtResource( 2 )
 
 [node name="Brick" type="MeshInstance" parent="Mesh"]

@@ -17,7 +17,7 @@
 [ext_resource path="res://assets/images/PlayButton_Disabled.png" type="Texture" id=15]
 [ext_resource path="res://assets/images/QuitButton_Disabled.png" type="Texture" id=16]
 [ext_resource path="res://assets/scripts/menu/Menu.gd" type="Script" id=17]
-[ext_resource path="res://assets/scripts/world/zones/Zone2.tres" type="Resource" id=18]
+[ext_resource path="res://assets/scripts/world/zones/Zone1.tres" type="Resource" id=18]
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 8 )

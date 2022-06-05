@@ -36,6 +36,7 @@ func _ready():
 	else:
 		Global.connect("player_set", self, "_set_player")
 	loading.visible = false
+	Global.ui.show_zone_name()
 
 func _set_player(object):
 	player = object

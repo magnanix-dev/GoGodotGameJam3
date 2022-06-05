@@ -3,24 +3,32 @@ extends TextureButton
 export (Resource) var evolution
 export var type = "primary"
 
-onready var left_label = $Left
+onready var title_label = $Title
+onready var type_label = $Type
+onready var details_label = $Details
 
 var base_colour = null
 
 func _ready():
 	if disabled:
-		mouse_default_cursor_shape = CURSOR_ARROW		
+		mouse_default_cursor_shape = CURSOR_ARROW
 		modulate = Color(1.0,1.0,1.0,0.5)
 	else:
 		modulate = Color(1.0,1.0,1.0,1.0)
-	left_label.set("custom_colors/font_color", Color.black)
-	base_colour = left_label.get("custom_colors/font_color")
+	title_label.set("custom_colors/font_color", Color.black)
+	type_label.set("custom_colors/font_color", Color.black)
+	details_label.set("custom_colors/font_color", Color.black)
+	base_colour = title_label.get("custom_colors/font_color")
 
 
 func _on_hover():
 	if not disabled:
-		left_label.set("custom_colors/font_color", Color.white)
+		title_label.set("custom_colors/font_color", Color.white)
+		type_label.set("custom_colors/font_color", Color.white)
+		details_label.set("custom_colors/font_color", Color.white)
 
 
 func _on_leave():
-	left_label.set("custom_colors/font_color", base_colour)
+	title_label.set("custom_colors/font_color", base_colour)
+	type_label.set("custom_colors/font_color", base_colour)
+	details_label.set("custom_colors/font_color", base_colour)

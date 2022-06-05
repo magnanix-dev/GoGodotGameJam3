@@ -4,6 +4,8 @@ export (PackedScene) var action
 
 onready var action_bar = $ActionBar
 onready var top_bar = $TopBar
+onready var zone_name = $ZoneName
+onready var tween = $Tween
 
 var abilities = []
 
@@ -16,6 +18,15 @@ func _ready():
 		_show_ui()
 	else:
 		Global.connect("player_changed", self, "_show_ui")
+
+func show_zone_name():
+	zone_name.text = Global.zone_settings.name
+	tween.interpolate_property(zone_name, "self_modulate", Color(1,1,1,0.0), Color(1,1,1,1.0), 0.25)
+	tween.start()
+	yield(tween, "tween_completed")
+	yield(get_tree().create_timer(2.0), "timeout")
+	tween.interpolate_property(zone_name, "self_modulate", Color(1,1,1,1.0), Color(1,1,1,0.0), 0.125)
+	tween.start()
 
 func _show_ui():
 	top_bar.visible = true
