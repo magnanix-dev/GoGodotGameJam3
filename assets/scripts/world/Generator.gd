@@ -22,6 +22,9 @@ export var enemy_spawn_minimum = 10
 export var enemy_spawn_distance = 10
 
 export var world_material : SpatialMaterial
+export var texture_width = 8
+export var tile_type_texture = {"ground": 0,"ceiling": 1,"wall": 2}
+var texture_tilesize = 1.0 / texture_width
 
 enum tile {ground, ceiling, none}
 var grid
@@ -271,6 +274,10 @@ func build_map():
 	var verts = PoolVector3Array()
 	var uvs = PoolVector2Array()
 	var normals = PoolVector3Array()
+	var ground_uvs = calc_uv(tile_type_texture["ground"])
+	var ceiling_uvs = calc_uv(tile_type_texture["ceiling"])
+	var wall_uvs = calc_uv(tile_type_texture["wall"])
+	
 	for x in range(0, size.x-1):
 		for y in range(0, size.y-1):
 			match grid[x][y]:
@@ -284,10 +291,10 @@ func build_map():
 					normals.append(Vector3.UP)
 					verts.append(Vector3(x, z, y + 1))
 					normals.append(Vector3.UP)
-					uvs.append(Vector2(0.01, 0.01))
-					uvs.append(Vector2(0.49, 0.01))
-					uvs.append(Vector2(0.49, 0.49))
-					uvs.append(Vector2(0.01, 0.49))
+					uvs.append(ground_uvs[0])
+					uvs.append(ground_uvs[1])
+					uvs.append(ground_uvs[2])
+					uvs.append(ground_uvs[3])
 				tile.ceiling:
 					var z = 1
 					var z_height = 1
@@ -299,10 +306,10 @@ func build_map():
 					normals.append(Vector3.UP)
 					verts.append(Vector3(x, z, y + 1))
 					normals.append(Vector3.UP)
-					uvs.append(Vector2(0.01, 0.51))
-					uvs.append(Vector2(0.49, 0.51))
-					uvs.append(Vector2(0.49, 0.99))
-					uvs.append(Vector2(0.01, 0.99))
+					uvs.append(ceiling_uvs[0])
+					uvs.append(ceiling_uvs[1])
+					uvs.append(ceiling_uvs[2])
+					uvs.append(ceiling_uvs[3])
 					if grid[x][y-1] == tile.ground:
 						verts.append(Vector3(x + 1, z - z_height, y))
 						normals.append(Vector3.FORWARD)
@@ -312,10 +319,10 @@ func build_map():
 						normals.append(Vector3.FORWARD)
 						verts.append(Vector3(x, z - z_height, y))
 						normals.append(Vector3.FORWARD)
-						uvs.append(Vector2(0.51, 0.01))
-						uvs.append(Vector2(0.99, 0.01))
-						uvs.append(Vector2(0.99, 0.49))
-						uvs.append(Vector2(0.51, 0.49))
+						uvs.append(wall_uvs[0])
+						uvs.append(wall_uvs[1])
+						uvs.append(wall_uvs[2])
+						uvs.append(wall_uvs[3])
 					if grid[x][y+1] == tile.ground:
 						verts.append(Vector3(x, z - z_height, y + 1))
 						normals.append(Vector3.BACK)
@@ -325,10 +332,10 @@ func build_map():
 						normals.append(Vector3.BACK)
 						verts.append(Vector3(x + 1, z - z_height, y + 1))
 						normals.append(Vector3.BACK)
-						uvs.append(Vector2(0.51, 0.01))
-						uvs.append(Vector2(0.99, 0.01))
-						uvs.append(Vector2(0.99, 0.49))
-						uvs.append(Vector2(0.51, 0.49))
+						uvs.append(wall_uvs[0])
+						uvs.append(wall_uvs[1])
+						uvs.append(wall_uvs[2])
+						uvs.append(wall_uvs[3])
 					if grid[x-1][y] == tile.ground:
 						verts.append(Vector3(x, z - z_height, y))
 						normals.append(Vector3.RIGHT)
@@ -338,10 +345,10 @@ func build_map():
 						normals.append(Vector3.RIGHT)
 						verts.append(Vector3(x, z - z_height, y + 1))
 						normals.append(Vector3.RIGHT)
-						uvs.append(Vector2(0.51, 0.01))
-						uvs.append(Vector2(0.99, 0.01))
-						uvs.append(Vector2(0.99, 0.49))
-						uvs.append(Vector2(0.51, 0.49))
+						uvs.append(wall_uvs[0])
+						uvs.append(wall_uvs[1])
+						uvs.append(wall_uvs[2])
+						uvs.append(wall_uvs[3])
 					if grid[x+1][y] == tile.ground:
 						verts.append(Vector3(x + 1, z - z_height, y + 1))
 						normals.append(Vector3.LEFT)
@@ -351,10 +358,10 @@ func build_map():
 						normals.append(Vector3.LEFT)
 						verts.append(Vector3(x + 1, z - z_height, y))
 						normals.append(Vector3.LEFT)
-						uvs.append(Vector2(0.51, 0.01))
-						uvs.append(Vector2(0.99, 0.01))
-						uvs.append(Vector2(0.99, 0.49))
-						uvs.append(Vector2(0.51, 0.49))
+						uvs.append(wall_uvs[0])
+						uvs.append(wall_uvs[1])
+						uvs.append(wall_uvs[2])
+						uvs.append(wall_uvs[3])
 	
 	return [verts, uvs, normals]
 
@@ -419,3 +426,16 @@ func generate_lightmaps():
 	gi_probe.set_extents(Vector3(size.x * 1.5, size.x+size.y, size.y * 1.5))
 	add_child(gi_probe)
 	gi_probe.bake()
+
+func calc_uv(tile_id):
+	var row = tile_id / texture_width
+	var col = tile_id % texture_width
+	
+	var border_offset = 0.025
+	
+	return [
+		texture_tilesize * Vector2(col + border_offset, row + border_offset),
+		texture_tilesize * Vector2(col + border_offset, row + 1 - border_offset),
+		texture_tilesize * Vector2(col + 1 - border_offset, row + border_offset),
+		texture_tilesize * Vector2(col + 1 - border_offset, row + 1 - border_offset),
+	]

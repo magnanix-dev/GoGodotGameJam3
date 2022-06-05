@@ -54,7 +54,7 @@ func _physics_process(delta):
 		ray.force_raycast_update()
 		if ray.is_colliding():
 			var collider = ray.get_collider()
-#			if Global.debug: print("Hit: ", collider.name)
+			print("Hit: ", collider.name)
 			if collider.has_method("hit"):
 #				if Global.debug: print("Collider has 'hit' method!")
 				collider.call("hit", ray.get_collision_point(), delta * speed, damage)

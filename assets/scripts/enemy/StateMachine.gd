@@ -34,6 +34,7 @@ var animation_map = {
 onready var collider = $Collider
 onready var hitbox = $HitBox/HitBoxCollider
 
+var aim_offset = Vector3.ZERO
 onready var primary = $PrimaryWeapon
 onready var eyes = $Eyes
 onready var plan = $Plan
@@ -112,10 +113,13 @@ func take_damage(damage):
 	else:
 		current.emit_signal("finished", "stagger")
 
-#func _on_primary_timer_timeout():
-#	allow_primary = true
-#	emit_signal("can_primary")
-#
-#func _on_secondary_timer_timeout():
-#	allow_secondary = true
-#	emit_signal("can_secondary")
+func drop_pickups():
+	if settings.can_drop_exp:
+		var exp_value = Global.experience_value()
+		var exp_drops = rand_range(3, 10)
+		for n in exp_drops:
+			var val = exp_value / exp_drops
+			var xp = Global.get_exp_object()
+			xp.value = val
+			xp.global_transform.origin = global_transform.origin
+	#loop logic for pickups (just HP at this time)

@@ -1,20 +1,25 @@
-[gd_resource type="Resource" load_steps=5 format=2]
+[gd_resource type="Resource" load_steps=7 format=2]
 
 [ext_resource path="res://assets/resources/ZoneSettings.gd" type="Script" id=1]
-[ext_resource path="res://assets/materials/world/zone1.tres" type="Material" id=2]
+[ext_resource path="res://assets/materials/shared/atlas.tres" type="Material" id=2]
 [ext_resource path="res://assets/scenes/player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/scenes/enemy/Enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/scenes/pickups/ExperienceBox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/scenes/pickups/HealthBox.tscn" type="PackedScene" id=6]
 
 [resource]
 script = ExtResource( 1 )
 name = ""
 player = ExtResource( 3 )
-pickups = [  ]
 enemies = [ ExtResource( 4 ) ]
 size = Vector2( 30, 30 )
 cell_size = 32
 pickups_total = 3
 pickups_distance = 10
+pickup_health_object = ExtResource( 6 )
+pickup_health_chance = 1.0
+pickup_exp_object = ExtResource( 5 )
+pickup_exp_chance = 1
 ground_maximum = 110
 ground_minimum = 70
 walkers_maximum = 5
@@ -27,3 +32,9 @@ enemy_spawn_chance = 0.01
 enemy_spawn_minimum = 1
 enemy_spawn_distance = 10
 world_material = ExtResource( 2 )
+texture_width = 8
+tile_type_texture = {
+"ceiling": 8,
+"ground": 7,
+"wall": 7
+}

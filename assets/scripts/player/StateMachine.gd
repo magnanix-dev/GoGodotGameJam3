@@ -17,6 +17,7 @@ var camera
 var drop_plane
 var mouse_position
 var animations = false
+var aim_offset = Vector3.ZERO
 
 var allow_mouselook = true
 var allow_dash = true
@@ -49,6 +50,9 @@ onready var secondary = $SecondaryWeapon
 onready var mesh_container = $Mesh/Fix
 onready var shadow = $Mesh/Shadow
 
+onready var pull = $Pull
+onready var pickup = $Pickup
+
 func _ready():
 	settings = Global.player_settings
 	
@@ -61,6 +65,7 @@ func _ready():
 			n.queue_free()
 		var m = settings.mesh.instance()
 		mesh_container.add_child(m)
+		aim_offset = m.get_aim_offset()
 		animations = m.animations
 		animations.connect("animation_finished", self, "_on_animation_finished")
 	
@@ -78,11 +83,26 @@ func _ready():
 #	primary.connect("fire_projectile", self, "_on_fire_projectile")
 	secondary.connect("fire_projectile", camera_pivot, "_on_fire_projectile")
 #	secondary.connect("fire_projectile", self, "_on_fire_projectile")
-	primary.connect("cooldown", secondary, "cooldown")
-	secondary.connect("cooldown", primary, "cooldown")
+	primary.connect("cooldown", secondary, "cooldown", [0.2, false])
+	primary.connect("cooldown", self, "shoot_animation")
+	secondary.connect("cooldown", primary, "cooldown", [0.2, false])
+	secondary.connect("cooldown", self, "shoot_animation")
 	
 	primary.initialize()
 	secondary.initialize()
+	
+	if Global.ui:
+		_create_ability(Global.ui, "primary", primary.settings.ability_icon, primary.settings.cooldown, primary)
+		_create_ability(Global.ui, "secondary", secondary.settings.ability_icon, secondary.settings.cooldown, secondary)
+		_create_ability(Global.ui, "tertiary", map["dash"].dash_icon, map["dash"].dash_cooldown, map["dash"])
+	else:
+		Global.connect("ui_changed", self, "_create_ability", ["primary", primary.settings.ability_icon, primary.settings.cooldown, primary])
+		Global.connect("ui_changed", self, "_create_ability", ["secondary", secondary.settings.ability_icon, secondary.settings.cooldown, secondary])
+		Global.connect("ui_changed", self, "_create_ability", ["tertiary", map["dash"].dash_icon, map["dash"].dash_cooldown, map["dash"]])
+	
+	pull.connect("body_entered", self, "_on_pull_item")
+	pickup.connect("body_entered", self, "_on_pickup_item")
+	pickup.connect("area_entered", self, "_on_pickup_item")
 	
 	for node in $States.get_children():
 		node.connect("finished", self, "_change_state")
@@ -92,6 +112,14 @@ func _ready():
 	
 	Global.set_player(self)
 
+func _process(delta):
+	if Input.is_action_just_pressed("tertiary") and not map["dash"].pressed:
+		map["dash"].emit_signal("ability_pressed")
+		map["dash"].pressed = true
+	if Input.is_action_just_released("tertiary") and map["dash"].pressed:
+		map["dash"].emit_signal("ability_released")
+		map["dash"].pressed = false
+
 func _physics_process(delta):
 	if allow_mouselook:
 		_mouselook()
@@ -99,10 +127,10 @@ func _physics_process(delta):
 
 func _input(event):
 	if allow_mouselook:
-		if event.is_action_pressed("primary"):
+		if event.is_action_pressed("primary") and primary.allow:
 			primary.prepare("primary")
 			shoot_animation()
-		if event.is_action_pressed("secondary"):
+		if event.is_action_pressed("secondary") and secondary.allow:
 			secondary.prepare("secondary")
 			shoot_animation()
 	current.handle_input(event)
@@ -167,10 +195,13 @@ func stagger_animation():
 	animations["parameters/Staggering/active"] = false
 	animations["parameters/Staggering/active"] = true
 
-#func _on_primary_timer_timeout():
-#	allow_primary = true
-#	emit_signal("can_primary")
-#
-#func _on_secondary_timer_timeout():
-#	allow_secondary = true
-#	emit_signal("can_secondary")
+func _on_pull_item(item):
+	if item.has_method("pull"):
+		item.pull(self)
+
+func _on_pickup_item(item):
+	if item.has_method("pickup"):
+		item.pickup(self)
+
+func _create_ability(ui, action_name, icon, cooldown, user):
+	ui.add_ability(action_name, icon, cooldown, user)

@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/dnabox.glb-d9dc918fd5c5bf5939b1c7f60859936f.scn"
+path="res://.import/experiencebox.glb-da88191a9a3376a126f5b865b90f48ae.scn"
 
 [deps]
 
-source_file="res://assets/models/dnabox.glb"
-dest_files=[ "res://.import/dnabox.glb-d9dc918fd5c5bf5939b1c7f60859936f.scn" ]
+source_file="res://assets/models/experiencebox.glb"
+dest_files=[ "res://.import/experiencebox.glb-da88191a9a3376a126f5b865b90f48ae.scn" ]
 
 [params]
 

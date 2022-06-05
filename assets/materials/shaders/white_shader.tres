@@ -4,6 +4,7 @@
 code = "shader_type canvas_item;
 
 uniform float width : hint_range(0.0, 30.0);
+uniform vec4 border_color : hint_color;
 uniform vec4 solid_color : hint_color;
 
 void fragment() {
@@ -19,5 +20,6 @@ void fragment() {
 	alpha += texture(TEXTURE, UV + vec2(-size, size)).a;
 	alpha += texture(TEXTURE, UV + vec2(-size, -size)).a;
 	
-	COLOR = vec4(solid_color.rgb, clamp(abs(alpha) + texture_color.a, 0.0, 1.0));
+	vec4 final = mix(solid_color, border_color, clamp(alpha, 0.0, 1.0));
+	COLOR = vec4(final.rgb, clamp(abs(alpha) + texture_color.a, 0.0, 1.0));
 }"

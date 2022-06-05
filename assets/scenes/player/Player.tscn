@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/scripts/player/StateMachine.gd" type="Script" id=1]
 [ext_resource path="res://assets/scripts/player/states/Move.gd" type="Script" id=2]
@@ -30,6 +30,14 @@ height = 0.2
 [sub_resource type="CylinderShape" id=12]
 radius = 0.4
 height = 0.6
+
+[sub_resource type="CylinderShape" id=13]
+radius = 1.5
+height = 1.0
+
+[sub_resource type="CylinderShape" id=14]
+radius = 0.15
+height = 1.0
 
 [sub_resource type="SphereMesh" id=5]
 
@@ -95,6 +103,24 @@ script = ExtResource( 12 )
 [node name="HitBoxCollider" type="CollisionShape" parent="HitBox"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
 shape = SubResource( 12 )
+
+[node name="Pull" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="PullCollider" type="CollisionShape" parent="Pull"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
+shape = SubResource( 13 )
+
+[node name="Pickup" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="PickupCollider" type="CollisionShape" parent="Pickup"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
+shape = SubResource( 14 )
 
 [node name="States" type="Node" parent="."]
 

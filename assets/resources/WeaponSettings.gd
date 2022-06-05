@@ -9,6 +9,7 @@ export var damage : float
 export var speed_variance : float
 export var direction_variance : float
 
+export var ability_icon : Texture
 export var object : PackedScene
 export var hit_object : PackedScene
 export var cooldown : float

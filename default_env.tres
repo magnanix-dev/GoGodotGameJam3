@@ -4,4 +4,6 @@
 
 [resource]
 background_sky = SubResource( 1 )
-ambient_light_color = Color( 0.666667, 0.666667, 0.666667, 1 )
+ambient_light_color = Color( 0.74902, 0.74902, 0.74902, 1 )
+tonemap_white = 0.0
+glow_enabled = true

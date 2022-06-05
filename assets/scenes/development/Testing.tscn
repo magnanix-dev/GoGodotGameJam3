@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/scripts/world/Zone.gd" type="Script" id=1]
 [ext_resource path="res://assets/scripts/world/zones/Zone1.tres" type="Resource" id=2]
 [ext_resource path="res://assets/scenes/world/Generator.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/scripts/development/Debug.gd" type="Script" id=4]
 [ext_resource path="res://assets/libraries/basic_tilemap.tres" type="MeshLibrary" id=5]
+[ext_resource path="res://assets/materials/shared/atlas.tres" type="Material" id=6]
+[ext_resource path="res://assets/scenes/ui/UI.tscn" type="PackedScene" id=7]
+[ext_resource path="res://default_theme.tres" type="Theme" id=8]
 
 [node name="Test Zone" type="Spatial"]
 script = ExtResource( 1 )
@@ -35,8 +38,10 @@ shadow_contact = 0.25
 directional_shadow_normal_bias = 0.4
 
 [node name="Generator" parent="Static" instance=ExtResource( 3 )]
+world_material = ExtResource( 6 )
 
 [node name="Control" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
@@ -45,7 +50,9 @@ script = ExtResource( 4 )
 anchor_right = 1.0
 margin_right = -512.0
 margin_bottom = 14.0
-rect_scale = Vector2( 2, 2 )
+theme = ExtResource( 8 )
 text = "FPS: ##"
 align = 2
 uppercase = true
+
+[node name="UI" parent="." instance=ExtResource( 7 )]

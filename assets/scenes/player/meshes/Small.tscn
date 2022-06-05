@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://assets/scripts/shared/Mesh.gd" type="Script" id=1]
 [ext_resource path="res://assets/materials/shared/atlas.tres" type="Material" id=2]
@@ -771,6 +771,21 @@ tracks/29/imported = false
 tracks/29/enabled = true
 tracks/29/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 0.01, 0.01, 0.01, 3.375, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 0.01, 0.01, 0.01 )
 
+[sub_resource type="Animation" id=60]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Small_arpbaseobject/Skeleton/RelicArm:blend_shapes/Fire")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
 [sub_resource type="Animation" id=7]
 resource_name = "Rotate"
 length = 0.875
@@ -1198,18 +1213,11 @@ tracks/29/loop_wrap = true
 tracks/29/imported = false
 tracks/29/enabled = true
 tracks/29/keys = {
-"times": PoolRealArray( 0.0416667, 0.0833333, 0.125, 0.166667, 0.208333, 0.25, 0.291667, 0.333333, 0.375, 0.416667, 0.458333, 0.5, 0.541667 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 0.259259, 0.740741, 1.0, 0.965706, 0.8738, 0.740741, 0.58299, 0.41701, 0.259259, 0.1262, 0.0342935, 0.0 ]
+"values": [ -0.25, 1.0, 0.0 ]
 }
-tracks/30/type = "transform"
-tracks/30/path = NodePath("Small_arpbaseobject")
-tracks/30/interp = 1
-tracks/30/loop_wrap = true
-tracks/30/imported = false
-tracks/30/enabled = true
-tracks/30/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 0.01, 0.01, 0.01, 0.541667, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 0.01, 0.01, 0.01 )
 
 [sub_resource type="Animation" id=9]
 resource_name = "Stagger"
@@ -2715,6 +2723,18 @@ tracks/29/imported = false
 tracks/29/enabled = true
 tracks/29/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 0.01, 0.01, 0.01, 1.70833, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 0.01, 0.01, 0.01 )
 
+[sub_resource type="AnimationNodeAnimation" id=63]
+animation = "Walk_FWD"
+
+[sub_resource type="AnimationNodeBlend2" id=64]
+filter_enabled = true
+filters = [ "Small_arpbaseobject/Skeleton:arm_stretch.r", "Small_arpbaseobject/Skeleton:arm_twist.r", "Small_arpbaseobject/Skeleton:forearm_stretch.r", "Small_arpbaseobject/Skeleton:forearm_twist.r", "Small_arpbaseobject/Skeleton:hand.r", "Small_arpbaseobject/Skeleton:shoulder.r" ]
+
+[sub_resource type="AnimationNodeAnimation" id=61]
+animation = "Dash"
+
+[sub_resource type="AnimationNodeOneShot" id=62]
+
 [sub_resource type="AnimationNodeBlend2" id=35]
 
 [sub_resource type="AnimationNodeAnimation" id=36]
@@ -2769,7 +2789,7 @@ animation = "Shoot"
 
 [sub_resource type="AnimationNodeOneShot" id=52]
 filter_enabled = true
-filters = [ "Small_arpbaseobject/Skeleton:arm_stretch.l", "Small_arpbaseobject/Skeleton:arm_stretch.r", "Small_arpbaseobject/Skeleton:arm_twist.l", "Small_arpbaseobject/Skeleton:arm_twist.r", "Small_arpbaseobject/Skeleton:forearm_stretch.l", "Small_arpbaseobject/Skeleton:forearm_stretch.r", "Small_arpbaseobject/Skeleton:forearm_twist.l", "Small_arpbaseobject/Skeleton:forearm_twist.r", "Small_arpbaseobject/Skeleton:hand.l", "Small_arpbaseobject/Skeleton:hand.r", "Small_arpbaseobject/Skeleton:head.x", "Small_arpbaseobject/Skeleton:neck.x", "Small_arpbaseobject/Skeleton:shoulder.l", "Small_arpbaseobject/Skeleton:shoulder.r", "Small_arpbaseobject/Skeleton:spine_01.x", "Small_arpbaseobject/Skeleton:spine_02.x", "Small_grp/Small_rig/Skeleton/RelicArm:blend_shapes/Fire", "Small_grp/Small_rig/Skeleton:arm_stretch.l", "Small_grp/Small_rig/Skeleton:arm_stretch.r", "Small_grp/Small_rig/Skeleton:arm_twist.l", "Small_grp/Small_rig/Skeleton:arm_twist.r", "Small_grp/Small_rig/Skeleton:c_arm_twist_offset.l", "Small_grp/Small_rig/Skeleton:c_arm_twist_offset.r", "Small_grp/Small_rig/Skeleton:c_head.x", "Small_grp/Small_rig/Skeleton:c_neck.x", "Small_grp/Small_rig/Skeleton:c_pos", "Small_grp/Small_rig/Skeleton:c_root_master.x", "Small_grp/Small_rig/Skeleton:c_shoulder.l", "Small_grp/Small_rig/Skeleton:c_shoulder.r", "Small_grp/Small_rig/Skeleton:c_spine_01.x", "Small_grp/Small_rig/Skeleton:c_spine_02.x", "Small_grp/Small_rig/Skeleton:c_traj", "Small_grp/Small_rig/Skeleton:forearm.l", "Small_grp/Small_rig/Skeleton:forearm.r", "Small_grp/Small_rig/Skeleton:forearm_stretch.l", "Small_grp/Small_rig/Skeleton:forearm_stretch.r", "Small_grp/Small_rig/Skeleton:forearm_twist.l", "Small_grp/Small_rig/Skeleton:forearm_twist.r", "Small_grp/Small_rig/Skeleton:hand.l", "Small_grp/Small_rig/Skeleton:hand.r", "Small_grp/Small_rig/Skeleton:head_scale_fix.x" ]
+filters = [ "Small_arpbaseobject/Skeleton/RelicArm:blend_shapes/Fire", "Small_arpbaseobject/Skeleton:arm_stretch.l", "Small_arpbaseobject/Skeleton:arm_stretch.r", "Small_arpbaseobject/Skeleton:arm_twist.l", "Small_arpbaseobject/Skeleton:arm_twist.r", "Small_arpbaseobject/Skeleton:forearm_stretch.l", "Small_arpbaseobject/Skeleton:forearm_stretch.r", "Small_arpbaseobject/Skeleton:forearm_twist.l", "Small_arpbaseobject/Skeleton:forearm_twist.r", "Small_arpbaseobject/Skeleton:hand.l", "Small_arpbaseobject/Skeleton:hand.r", "Small_arpbaseobject/Skeleton:head.x", "Small_arpbaseobject/Skeleton:neck.x", "Small_arpbaseobject/Skeleton:shoulder.l", "Small_arpbaseobject/Skeleton:shoulder.r", "Small_grp/Small_rig/Skeleton/RelicArm:blend_shapes/Fire", "Small_grp/Small_rig/Skeleton:arm_stretch.l", "Small_grp/Small_rig/Skeleton:arm_stretch.r", "Small_grp/Small_rig/Skeleton:arm_twist.l", "Small_grp/Small_rig/Skeleton:arm_twist.r", "Small_grp/Small_rig/Skeleton:c_arm_twist_offset.l", "Small_grp/Small_rig/Skeleton:c_arm_twist_offset.r", "Small_grp/Small_rig/Skeleton:c_head.x", "Small_grp/Small_rig/Skeleton:c_neck.x", "Small_grp/Small_rig/Skeleton:c_pos", "Small_grp/Small_rig/Skeleton:c_root_master.x", "Small_grp/Small_rig/Skeleton:c_shoulder.l", "Small_grp/Small_rig/Skeleton:c_shoulder.r", "Small_grp/Small_rig/Skeleton:c_spine_01.x", "Small_grp/Small_rig/Skeleton:c_spine_02.x", "Small_grp/Small_rig/Skeleton:c_traj", "Small_grp/Small_rig/Skeleton:forearm.l", "Small_grp/Small_rig/Skeleton:forearm.r", "Small_grp/Small_rig/Skeleton:forearm_stretch.l", "Small_grp/Small_rig/Skeleton:forearm_stretch.r", "Small_grp/Small_rig/Skeleton:forearm_twist.l", "Small_grp/Small_rig/Skeleton:forearm_twist.r", "Small_grp/Small_rig/Skeleton:hand.l", "Small_grp/Small_rig/Skeleton:hand.r", "Small_grp/Small_rig/Skeleton:head_scale_fix.x" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=21]
 
@@ -2783,11 +2803,19 @@ filters = [ "Small_arpbaseobject/Skeleton:arm_stretch.l", "Small_arpbaseobject/S
 [sub_resource type="AnimationNodeTimeScale" id=22]
 
 [sub_resource type="AnimationNodeBlendTree" id=59]
-graph_offset = Vector2( -342, -2.25 )
+graph_offset = Vector2( 75.1229, 31 )
+nodes/Aim/node = SubResource( 63 )
+nodes/Aim/position = Vector2( 460, 260 )
+nodes/Aiming/node = SubResource( 64 )
+nodes/Aiming/position = Vector2( 680, 80 )
+nodes/Dash/node = SubResource( 61 )
+nodes/Dash/position = Vector2( 1200, 260 )
+nodes/Dashing/node = SubResource( 62 )
+nodes/Dashing/position = Vector2( 1400, 80 )
 nodes/Dead/node = SubResource( 35 )
-nodes/Dead/position = Vector2( 1160, 80 )
+nodes/Dead/position = Vector2( 1640, 80 )
 nodes/Death/node = SubResource( 36 )
-nodes/Death/position = Vector2( 960, 260 )
+nodes/Death/position = Vector2( 1440, 260 )
 nodes/Direction/node = SubResource( 34 )
 nodes/Direction/position = Vector2( -160, 200 )
 nodes/Idle/node = SubResource( 43 )
@@ -2799,23 +2827,24 @@ nodes/Rotate/position = Vector2( 80, 80 )
 nodes/Rotating/node = SubResource( 25 )
 nodes/Rotating/position = Vector2( 260, 0 )
 nodes/Shoot/node = SubResource( 45 )
-nodes/Shoot/position = Vector2( 480, 380 )
+nodes/Shoot/position = Vector2( 720, 380 )
 nodes/Shooting/node = SubResource( 52 )
-nodes/Shooting/position = Vector2( 680, 80 )
+nodes/Shooting/position = Vector2( 920, 80 )
 nodes/Shooting_Seek/node = SubResource( 21 )
-nodes/Shooting_Seek/position = Vector2( 480, 260 )
+nodes/Shooting_Seek/position = Vector2( 720, 260 )
 nodes/Stagger/node = SubResource( 17 )
-nodes/Stagger/position = Vector2( 720, 260 )
+nodes/Stagger/position = Vector2( 960, 260 )
 nodes/Staggering/node = SubResource( 18 )
-nodes/Staggering/position = Vector2( 920, 80 )
+nodes/Staggering/position = Vector2( 1160, 80 )
 nodes/Walkspeed/node = SubResource( 22 )
 nodes/Walkspeed/position = Vector2( 240, 200 )
-nodes/output/position = Vector2( 1400, 80 )
-node_connections = [ "output", 0, "Dead", "Rotating", 0, "Idle", "Rotating", 1, "Rotate", "Walkspeed", 0, "Direction", "Shooting_Seek", 0, "Shoot", "Shooting", 0, "Movement", "Shooting", 1, "Shooting_Seek", "Movement", 0, "Rotating", "Movement", 1, "Walkspeed", "Dead", 0, "Staggering", "Dead", 1, "Death", "Staggering", 0, "Shooting", "Staggering", 1, "Stagger" ]
+nodes/output/position = Vector2( 1880, 80 )
+node_connections = [ "output", 0, "Dead", "Aiming", 0, "Movement", "Aiming", 1, "Aim", "Walkspeed", 0, "Direction", "Shooting", 0, "Aiming", "Shooting", 1, "Shooting_Seek", "Dashing", 0, "Staggering", "Dashing", 1, "Dash", "Dead", 0, "Dashing", "Dead", 1, "Death", "Shooting_Seek", 0, "Shoot", "Rotating", 0, "Idle", "Rotating", 1, "Rotate", "Movement", 0, "Rotating", "Movement", 1, "Walkspeed", "Staggering", 0, "Shooting", "Staggering", 1, "Stagger" ]
 
 [node name="player_small" type="Spatial"]
 transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
 script = ExtResource( 1 )
+aim_offset = Vector3( 0, 0.6, 0.225 )
 
 [node name="Small_arpbaseobject" type="Spatial" parent="."]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 4.37114e-10, 0, -4.37114e-10, 0.01, 0, 0, 0 )
@@ -2968,20 +2997,26 @@ bones/28/enabled = true
 bones/28/bound_children = [  ]
 
 [node name="RelicArm" type="MeshInstance" parent="Small_arpbaseobject/Skeleton"]
+use_in_baked_light = true
 mesh = SubResource( 1 )
 skin = SubResource( 2 )
 blend_shapes/Fire = 0.0
 material/0 = ExtResource( 2 )
 
 [node name="Small" type="MeshInstance" parent="Small_arpbaseobject/Skeleton"]
+use_in_baked_light = true
 mesh = SubResource( 3 )
 skin = SubResource( 2 )
 material/0 = ExtResource( 2 )
+
+[node name="AimOffset" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.92549, 1.60961 )
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 anims/Dash = SubResource( 4 )
 anims/Death = SubResource( 5 )
 anims/Idle = SubResource( 6 )
+anims/RESET = SubResource( 60 )
 anims/Rotate = SubResource( 7 )
 anims/Shoot = SubResource( 8 )
 anims/Stagger = SubResource( 9 )
@@ -2996,6 +3031,8 @@ anims/Walk_FWDR = SubResource( 15 )
 tree_root = SubResource( 59 )
 anim_player = NodePath("../Animation")
 active = true
+parameters/Aiming/blend_amount = 0.0
+parameters/Dashing/active = false
 parameters/Dead/blend_amount = 0.0
 parameters/Direction/blend_position = Vector2( -0.693195, 0.498294 )
 parameters/Movement/blend_amount = 0.0
@@ -3004,3 +3041,7 @@ parameters/Shooting/active = false
 parameters/Shooting_Seek/seek_position = -1.0
 parameters/Staggering/active = false
 parameters/Walkspeed/scale = 2.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0, 0, 0 )
+visible = false

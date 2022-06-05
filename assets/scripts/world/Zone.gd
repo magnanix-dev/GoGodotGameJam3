@@ -38,6 +38,8 @@ func initialize():
 	generator.enemy_spawn_distance = settings.enemy_spawn_distance
 	
 	generator.world_material = settings.world_material
+	generator.texture_width = settings.texture_width
+	generator.tile_type_texture = settings.tile_type_texture
 	
 	yield(generator.initialize(), "completed")
 	
@@ -46,12 +48,24 @@ func initialize():
 		_player.global_transform.origin = vector2_to_3(generator.spawn_point + Vector2(0.5, 0.5))
 		_dynamic.add_child(_player)
 	
-	if settings.pickups:
-		for p in settings.pickups:
-			var _pickup_pos = generator.pickup_points.pop_front()
-			var _pickup = p.instance()
-			_pickup.global_transform.origin = vector2_to_3(_pickup_pos)
-			_dynamic.add_child(_pickup)
+#	if settings.pickups:
+#		for p in settings.pickups:
+#			var _pickup_pos = generator.pickup_points.pop_front()
+#			var _pickup = p.instance()
+#			_pickup.global_transform.origin = vector2_to_3(_pickup_pos)
+#			_dynamic.add_child(_pickup)
+	var health_augment_chance = ((Global.player_health_max - Global.player_health) / Global.player_health_max) * 0.5
+	if settings.pickup_health_object != null and randf() <= (settings.pickup_health_chance + health_augment_chance):
+		var _pickup_pos = generator.pickup_points.pop_front()
+		var _pickup = settings.pickup_health_object.instance()
+		_pickup.global_transform.origin = vector2_to_3(_pickup_pos + Vector2(0.5, 0.5))
+		_dynamic.add_child(_pickup)
+	
+	if settings.pickup_exp_object != null and randf() <= (settings.pickup_exp_chance):
+		var _pickup_pos = generator.pickup_points.pop_front()
+		var _pickup = settings.pickup_exp_object.instance()
+		_pickup.global_transform.origin = vector2_to_3(_pickup_pos + Vector2(0.5, 0.5))
+		_dynamic.add_child(_pickup)
 	
 	if settings.enemies:
 		var _enemies = settings.enemies.duplicate()
