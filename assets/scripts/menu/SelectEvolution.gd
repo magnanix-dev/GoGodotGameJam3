@@ -1,7 +1,7 @@
 extends TextureButton
 
-export (Resource) var evolution
-export var type = "primary"
+var evolution
+var type = "primary"
 
 onready var title_label = $Title
 onready var type_label = $Type
@@ -20,13 +20,16 @@ func _ready():
 	details_label.set("custom_colors/font_color", Color.black)
 	base_colour = title_label.get("custom_colors/font_color")
 
+func initialize():
+	title_label.text = evolution.title
+	type_label.text = type.capitalize()
+	details_label.text = evolution.details
 
 func _on_hover():
 	if not disabled:
 		title_label.set("custom_colors/font_color", Color.white)
 		type_label.set("custom_colors/font_color", Color.white)
 		details_label.set("custom_colors/font_color", Color.white)
-
 
 func _on_leave():
 	title_label.set("custom_colors/font_color", base_colour)

@@ -1,7 +1,10 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=6 format=2]
 
 [ext_resource path="res://assets/resources/WeaponSettings.gd" type="Script" id=1]
 [ext_resource path="res://assets/scenes/enemy/projectiles/Projectile.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/sounds/enemy_shoot.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/sounds/enemy_shoot_2.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/sounds/enemy_shoot_3.wav" type="AudioStream" id=5]
 
 [resource]
 script = ExtResource( 1 )
@@ -13,3 +16,4 @@ direction_variance = 5.0
 object = ExtResource( 2 )
 cooldown = 0.5
 behaviours = [  ]
+sounds = [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ]

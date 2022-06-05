@@ -5,7 +5,9 @@ export (PackedScene) var action
 onready var action_bar = $ActionBar
 onready var top_bar = $TopBar
 onready var zone_name = $ZoneName
+onready var fade = $FadeOut
 onready var tween = $Tween
+onready var options_menu = $OptionsMenu
 
 var abilities = []
 
@@ -18,6 +20,11 @@ func _ready():
 		_show_ui()
 	else:
 		Global.connect("player_changed", self, "_show_ui")
+	options_menu.show_back = false
+
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		options_menu.visible = !options_menu.visible
 
 func show_zone_name():
 	zone_name.text = Global.zone_settings.name
@@ -31,6 +38,12 @@ func show_zone_name():
 func _show_ui():
 	top_bar.visible = true
 	action_bar.visible = true
+
+func fade_out():
+	fade.visible = true
+	tween.interpolate_property(fade, "modulate", Color(0,0,0,0), Color(0,0,0,1.0), 2.0)
+	tween.start()
+	yield(tween, "tween_completed")
 
 func add_ability(action_name, icon, cooldown, user):
 	var removal = []

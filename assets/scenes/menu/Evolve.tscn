@@ -63,9 +63,9 @@ texture = SubResource( 6 )
 
 [node name="Label" type="Label" parent="Node2D"]
 anchor_right = 1.0
-margin_top = 192.0
+margin_top = 224.0
 margin_right = 1024.0
-margin_bottom = 347.0
+margin_bottom = 379.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )

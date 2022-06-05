@@ -28,7 +28,7 @@ func update(delta):
 		var dot = dir.dot(mouse_dir)
 		var cross = dir.cross(mouse_dir)
 		owner.animations["parameters/Direction/blend_position"] = Vector2(dot, cross)
-	speed = max_speed
+	speed = max_speed + (Global.player_speed_max * 0.25)
 	move(speed, direction)
 
 func move(speed, direction):

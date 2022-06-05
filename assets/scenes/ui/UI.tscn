@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/scenes/ui/Action.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/scripts/ui/UI.gd" type="Script" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://assets/scripts/ui/Health.gd" type="Script" id=7]
 [ext_resource path="res://assets/scripts/ui/Experience.gd" type="Script" id=8]
 [ext_resource path="res://default_theme.tres" type="Theme" id=9]
+[ext_resource path="res://assets/images/WhiteDot.png" type="Texture" id=10]
+[ext_resource path="res://assets/scenes/menu/Options.tscn" type="PackedScene" id=11]
 
 [sub_resource type="DynamicFont" id=3]
 size = 72
@@ -274,3 +276,13 @@ __meta__ = {
 }
 
 [node name="Tween" type="Tween" parent="TopBar/Experience"]
+
+[node name="FadeOut" type="Sprite" parent="."]
+visible = false
+modulate = Color( 0, 0, 0, 0 )
+position = Vector2( 200, 150 )
+scale = Vector2( 12.5, 9.375 )
+texture = ExtResource( 10 )
+
+[node name="OptionsMenu" parent="." instance=ExtResource( 11 )]
+visible = false

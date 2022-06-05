@@ -55,6 +55,7 @@ transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
 
 [node name="Rocks" type="MeshInstance" parent="Mesh"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.515805, 0, 0.476129 )
+use_in_baked_light = true
 mesh = SubResource( 1 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
@@ -62,6 +63,7 @@ material/0 = ExtResource( 2 )
 [node name="Rocks1" type="MeshInstance" parent="Mesh"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.694353, 0, -0.304193 )
 visible = false
+use_in_baked_light = true
 mesh = SubResource( 2 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
@@ -69,6 +71,7 @@ material/0 = ExtResource( 2 )
 [node name="Rocks2" type="MeshInstance" parent="Mesh"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.476128, 0, 0 )
 visible = false
+use_in_baked_light = true
 mesh = SubResource( 3 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )

@@ -10,6 +10,8 @@ export (Texture) var dash_icon = null
 export var dash_power : float = 512
 export var dash_duration : float = 0.5
 export var dash_cooldown : float = 1.5
+export (Resource) var dash_sound
+
 
 var enter_move_direction = Vector3.ZERO
 var enter_mouse_direction = Vector3.ZERO
@@ -23,6 +25,7 @@ var pressed = false
 func enter():
 	owner.allow_mouselook = false
 	owner.allow_dash = false
+	Global.play_sound(dash_sound)
 	if not dash_timer:
 		dash_timer = Timer.new()
 		dash_timer.connect("timeout", owner, "_on_dash_timer_timeout")

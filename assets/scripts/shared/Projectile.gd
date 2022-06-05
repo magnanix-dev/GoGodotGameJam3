@@ -23,6 +23,7 @@ func activate():
 	active = true
 
 func deactivate():
+	hits = []
 	active = false
 	visible = false
 
@@ -31,6 +32,7 @@ func execute(lifetime = 3.0):
 	lifetime_timer = lifetime
 
 func setup(pos, dir, spd):
+	hits = []
 	global_transform.origin = pos
 	direction = dir
 	speed = spd
@@ -51,8 +53,9 @@ func _physics_process(delta):
 		ray.force_raycast_update()
 		if ray.is_colliding():
 			var collider = ray.get_collider()
-			global_transform.origin = ray.get_collision_point()
-			emit_signal("hit", direction * (delta * speed), ray.get_collision_point(), ray.get_collision_normal(), collider)
+			if not hits.has(collider):
+				global_transform.origin = ray.get_collision_point()
+				emit_signal("hit", direction * (delta * speed), ray.get_collision_point(), ray.get_collision_normal(), collider)
 		
 #		last = translation
 		lifetime_timer -= delta

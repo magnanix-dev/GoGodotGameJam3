@@ -2,6 +2,7 @@ extends Spatial
 class_name Zone
 
 export (Resource) var settings
+export (Resource) var complete_sfx
 
 onready var _dynamic = $Dynamic
 onready var _static = $Static
@@ -19,6 +20,7 @@ var entry_gate
 var exit_gate
 
 var zone_ended = false
+var start = 0.0
 
 var player
 
@@ -36,6 +38,9 @@ func _ready():
 	else:
 		Global.connect("player_set", self, "_set_player")
 	loading.visible = false
+	Global.connect("game_over_time", self, "store_time")
+	start = OS.get_unix_time()
+	Global.play_music(settings.music)
 	Global.ui.show_zone_name()
 
 func _set_player(object):
@@ -175,12 +180,18 @@ func end_zone():
 	arrow = settings.arrow.instance()
 	_dynamic.add_child(arrow)
 	zone_ended = true
+	Global.play_sound(complete_sfx)
+
+func store_time():
+	Global.zonetime += OS.get_unix_time() - start
 
 func exit_zone():
+	store_time()
 	if settings.next_zone_settings:
 		Global.zone_settings = settings.next_zone_settings
 		Global.evolve()
 	else:
+		Global.won = true
 		Global.game_over = true
 		Global.move_zones()
 
@@ -192,5 +203,6 @@ func _on_player_entered(object):
 
 func _on_enemy_death():
 	enemy_count -= 1
+	Global.killcount += 1
 	if enemy_count <= 0:
 		end_zone()

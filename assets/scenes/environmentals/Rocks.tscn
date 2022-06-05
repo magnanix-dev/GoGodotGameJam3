@@ -54,16 +54,19 @@ surfaces/0 = {
 transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
 
 [node name="Rocks" type="MeshInstance" parent="Mesh"]
+use_in_baked_light = true
 mesh = SubResource( 1 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Rocks1" type="MeshInstance" parent="Mesh"]
+use_in_baked_light = true
 mesh = SubResource( 2 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Rocks2" type="MeshInstance" parent="Mesh"]
+use_in_baked_light = true
 mesh = SubResource( 3 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )

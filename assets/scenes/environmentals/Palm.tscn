@@ -159,6 +159,7 @@ surfaces/0 = {
 transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
 
 [node name="Palm" type="MeshInstance" parent="Mesh"]
+use_in_baked_light = true
 mesh = SubResource( 1 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
@@ -167,54 +168,63 @@ material/0 = ExtResource( 2 )
 
 [node name="Nut 1" type="MeshInstance" parent="Mesh"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.24163, 5.5818, 0 )
+use_in_baked_light = true
 mesh = SubResource( 2 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Nut 2" type="MeshInstance" parent="Mesh"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.24163, 5.5818, 0 )
+use_in_baked_light = true
 mesh = SubResource( 3 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Nut 3" type="MeshInstance" parent="Mesh"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.24163, 5.5818, 0 )
+use_in_baked_light = true
 mesh = SubResource( 4 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Leaf" type="MeshInstance" parent="Mesh"]
 transform = Transform( 0.943183, -0.332274, 0, 0.332274, 0.943183, 0, 0, 0, 1, 1.24163, 5.5818, 0 )
+use_in_baked_light = true
 mesh = SubResource( 5 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Leaf Core" type="MeshInstance" parent="Mesh"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.24163, 5.5818, 0 )
+use_in_baked_light = true
 mesh = SubResource( 6 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Leaf 1" type="MeshInstance" parent="Mesh"]
 transform = Transform( 0.406737, -7.45058e-09, -0.913545, 0.169647, 0.982606, 0.0755315, 0.897655, -0.185701, 0.399662, 1.24163, 5.5818, 0 )
+use_in_baked_light = true
 mesh = SubResource( 7 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Leaf 2" type="MeshInstance" parent="Mesh"]
 transform = Transform( -0.61048, 0.531751, -0.586987, 0.383308, 0.846901, 0.368557, 0.693101, 0, -0.720841, 1.24163, 5.5818, 0 )
+use_in_baked_light = true
 mesh = SubResource( 8 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Leaf 3" type="MeshInstance" parent="Mesh"]
 transform = Transform( -0.720769, 0.637405, 0.27241, 0.596242, 0.770529, -0.225346, -0.353536, 8.19564e-08, -0.935421, 1.24163, 5.5818, 0 )
+use_in_baked_light = true
 mesh = SubResource( 9 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Leaf 4" type="MeshInstance" parent="Mesh"]
 transform = Transform( 0.0746786, -1.19209e-07, 0.997208, 0.533972, 0.844556, -0.0399878, -0.842198, 0.535467, 0.0630704, 1.24163, 5.5818, 0 )
+use_in_baked_light = true
 mesh = SubResource( 10 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=19 format=2]
+[gd_resource type="Resource" load_steps=21 format=2]
 
 [ext_resource path="res://assets/resources/ZoneSettings.gd" type="Script" id=1]
 [ext_resource path="res://assets/materials/shared/atlas.tres" type="Material" id=2]
@@ -18,10 +18,13 @@
 [ext_resource path="res://assets/scenes/environmentals/Tiles_1x.tscn" type="PackedScene" id=16]
 [ext_resource path="res://assets/scenes/environmentals/Rocks_2x.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/scripts/enemy/types/Rare.tres" type="Resource" id=18]
+[ext_resource path="res://assets/sounds/loop.mp3" type="AudioStream" id=19]
+[ext_resource path="res://assets/scripts/world/zones/Zone3.tres" type="Resource" id=20]
 
 [resource]
 script = ExtResource( 1 )
 name = "The Desert II"
+next_zone_settings = ExtResource( 20 )
 player = ExtResource( 3 )
 gate = ExtResource( 7 )
 arrow = ExtResource( 8 )
@@ -57,3 +60,4 @@ tile_type_texture = {
 "ground": 7,
 "wall": 7
 }
+music = ExtResource( 19 )

@@ -6,6 +6,7 @@ func enter():
 	owner.allow_mouselook = false
 	owner.hitbox.disabled = true
 	owner.collider.disabled = true
+	Global.game_over()
 
 func _on_animation_finished(animation):
 	owner.shadow.visible = false

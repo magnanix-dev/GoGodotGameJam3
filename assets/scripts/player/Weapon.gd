@@ -7,7 +7,7 @@ signal ability_pressed()
 signal ability_released()
 
 export (Resource) var settings
-var evolutions = []
+var evolutions = null
 
 var allow = true
 var timer : Timer
@@ -35,7 +35,7 @@ func initialize():
 	timer.connect("timeout", self, "_on_timer_timeout")
 	add_child(timer)
 	initialize_managers(32)
-	initialize_projectiles(128)
+	initialize_projectiles(256)
 	add_child(Line)
 
 func _process(delta):
@@ -63,6 +63,7 @@ func initialize_managers(amount):
 		var m = ProjectileManager.new()
 		m.active = false
 		m.weapon = self
+		m.evolutions = evolutions
 		m.apply_settings(settings)
 		dead_managers.push_back(m)
 		manager_pool.add_child(m)
@@ -91,11 +92,19 @@ func execute(bypass = false):
 		var m = dead_managers[0]
 		dead_managers.pop_front()
 		managers.append(m)
-		m.evolutions = evolutions
+		m.initialize()
 		m.execute()
+
+func disconnect_signals(obj):
+	var signals = obj.get_signal_list()
+	for sig in signals:
+		var cons = obj.get_signal_connection_list(sig.name)
+		for c in cons:
+			c.source.disconnect(c.signal, obj, c.method)
 
 func request_projectile():
 	var b = dead_projectiles[0]
+	disconnect_signals(b)
 	dead_projectiles.pop_front()
 	projectiles.append(b)
 	return b
@@ -105,18 +114,18 @@ func _on_timer_timeout():
 
 func clean():
 	var removals = []
-	for i in range(projectiles.size()):
-		if not projectiles[i].active:
-			removals.push_back(i)
-			dead_projectiles.push_back(projectiles[i])
-	for i in range(removals.size()):
-		projectiles.remove(removals[i])
+	for i in projectiles:
+		if not i.active:
+			removals.append(i)
+			dead_projectiles.push_back(i)
+	for i in removals:
+		projectiles.erase(i)
 	removals.clear()
-	for i in range(managers.size()):
-		if not managers[i].active:
-			managers[i].projectiles.clear()
+	for i in managers:
+		if not i.active:
+			i.projectiles.clear()
 			removals.push_back(i)
-			dead_managers.push_back(managers[i])
-	for i in range(removals.size()):
-		managers.remove(removals[i])
+			dead_managers.push_back(i)
+	for i in removals:
+		managers.erase(i)
 	removals.clear()

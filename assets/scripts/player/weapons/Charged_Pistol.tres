@@ -1,8 +1,11 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" load_steps=7 format=2]
 
 [ext_resource path="res://assets/resources/WeaponSettings.gd" type="Script" id=1]
 [ext_resource path="res://assets/scenes/player/projectiles/Projectile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/images/icons/reticule.png" type="Texture" id=3]
+[ext_resource path="res://assets/sounds/secondary_2.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/sounds/secondary_3.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sounds/secondary_1.wav" type="AudioStream" id=6]
 
 [resource]
 script = ExtResource( 1 )
@@ -15,3 +18,4 @@ ability_icon = ExtResource( 3 )
 object = ExtResource( 2 )
 cooldown = 1.0
 behaviours = [ [ "charge", 0.5, 3.0, 0.75 ], [ "pierce", 1 ] ]
+sounds = [ ExtResource( 6 ), ExtResource( 4 ), ExtResource( 5 ) ]

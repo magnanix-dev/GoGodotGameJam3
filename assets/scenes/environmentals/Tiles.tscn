@@ -39,11 +39,13 @@ surfaces/0 = {
 transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
 
 [node name="Tiles" type="MeshInstance" parent="Mesh"]
+use_in_baked_light = true
 mesh = SubResource( 1 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )
 
 [node name="Tiles1" type="MeshInstance" parent="Mesh"]
+use_in_baked_light = true
 mesh = SubResource( 2 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 2 )

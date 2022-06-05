@@ -1,8 +1,10 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" load_steps=6 format=2]
 
 [ext_resource path="res://assets/resources/WeaponSettings.gd" type="Script" id=1]
 [ext_resource path="res://assets/scenes/player/projectiles/Projectile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/images/icons/gunshot.png" type="Texture" id=3]
+[ext_resource path="res://assets/sounds/shoot_2.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sounds/shoot_3.wav" type="AudioStream" id=6]
 
 [resource]
 script = ExtResource( 1 )
@@ -15,3 +17,4 @@ ability_icon = ExtResource( 3 )
 object = ExtResource( 2 )
 cooldown = 0.1
 behaviours = [  ]
+sounds = [ ExtResource( 5 ), ExtResource( 6 ) ]

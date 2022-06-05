@@ -21,6 +21,7 @@ func _ready():
 		i += 1
 
 func _on_option_pressed(settings):
+	Global.button_pressed()
 	Global.set_player_settings(settings)
 
 func _on_player_settings_changed(_settings):

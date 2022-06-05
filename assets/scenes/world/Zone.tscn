@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://default_theme.tres" type="Theme" id=1]
 [ext_resource path="res://assets/fonts/Maniac.ttf" type="DynamicFontData" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/scenes/world/Generator.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/libraries/basic_tilemap.tres" type="MeshLibrary" id=8]
 [ext_resource path="res://assets/scenes/ui/Loading.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/sounds/complete.wav" type="AudioStream" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 72
@@ -18,6 +19,7 @@ font_data = ExtResource( 2 )
 
 [node name="Zone" type="Spatial"]
 script = ExtResource( 4 )
+complete_sfx = ExtResource( 10 )
 
 [node name="Dynamic" type="Node" parent="."]
 
@@ -63,6 +65,7 @@ align = 2
 uppercase = true
 
 [node name="Seed" type="Label" parent="Control"]
+visible = false
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0

@@ -78,6 +78,7 @@ func initialize():
 	primary.initialize()
 
 func _set_target(object):
+	yield(get_tree().create_timer(1.0), "timeout")
 	target = object
 
 func _physics_process(delta):

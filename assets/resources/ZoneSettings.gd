@@ -42,3 +42,5 @@ export var inside_environmental_spawn_chance = 0.05
 export var world_material : SpatialMaterial
 export var texture_width = 8
 export var tile_type_texture = {"ground": 0,"ceiling": 1,"wall": 2}
+
+export (Resource) var music

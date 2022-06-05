@@ -5,9 +5,9 @@
 [ext_resource path="res://assets/scripts/menu/GameOver.gd" type="Script" id=3]
 [ext_resource path="res://assets/images/WhiteDot.png" type="Texture" id=4]
 [ext_resource path="res://assets/scenes/menu/RotateModel.tscn" type="PackedScene" id=5]
-[ext_resource path="res://assets/images/PlayButton_Off.png" type="Texture" id=6]
-[ext_resource path="res://assets/images/PlayButton_Disabled.png" type="Texture" id=7]
-[ext_resource path="res://assets/images/PlayButton_On.png" type="Texture" id=8]
+[ext_resource path="res://assets/images/AgainButton_Off.png" type="Texture" id=6]
+[ext_resource path="res://assets/images/AgainButton_On.png" type="Texture" id=7]
+[ext_resource path="res://assets/images/AgainButton_Disabled.png" type="Texture" id=8]
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 2 )
@@ -55,15 +55,16 @@ scale = Vector2( 32, 24 )
 texture = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Node2D"]
-position = Vector2( 512, 320 )
+position = Vector2( 512, 116 )
 scale = Vector2( 0.45, 0.45 )
 texture = SubResource( 6 )
 
-[node name="Label" type="Label" parent="Node2D"]
+[node name="Lose" type="Label" parent="Node2D"]
+visible = false
 anchor_right = 1.0
-margin_top = 384.0
+margin_top = 192.0
 margin_right = 1024.0
-margin_bottom = 512.0
+margin_bottom = 320.0
 rect_min_size = Vector2( 1024, 128 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
@@ -76,7 +77,45 @@ align = 1
 valign = 1
 autowrap = true
 
-[node name="PlayButton" type="TextureButton" parent="Node2D"]
+[node name="Won" type="Label" parent="Node2D"]
+visible = false
+anchor_right = 1.0
+margin_top = 220.0
+margin_right = 1024.0
+margin_bottom = 367.0
+rect_min_size = Vector2( 1024, 128 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 5 )
+text = "You escaped the
+alien desert!"
+align = 1
+autowrap = true
+
+[node name="Stats" type="Label" parent="Node2D"]
+anchor_right = 1.0
+margin_top = 400.0
+margin_right = 2048.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 2048, 320 )
+rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 5 )
+text = "Time Elapsed: 00.0
+Total Kills: 0
+Final EXP: 0 (level 0)
+Seed: 1234"
+align = 1
+autowrap = true
+
+[node name="AgainButton" type="TextureButton" parent="Node2D"]
 margin_left = 400.0
 margin_top = 600.0
 margin_right = 656.0
@@ -85,7 +124,7 @@ rect_min_size = Vector2( 256, 64 )
 rect_pivot_offset = Vector2( 128, 32 )
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 6 )
-texture_hover = ExtResource( 8 )
-texture_disabled = ExtResource( 7 )
+texture_hover = ExtResource( 7 )
+texture_disabled = ExtResource( 8 )
 
-[connection signal="pressed" from="Node2D/PlayButton" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Node2D/AgainButton" to="." method="_on_play_pressed"]

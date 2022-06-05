@@ -3,11 +3,16 @@ extends 'Generic.gd'
 var last_direction = Vector3(1, 0, 1)
 
 func enter():
-	var distance = look_target()
+	var found_target = look_target()
 	duration = rand_range(owner.settings.shoot_duration_min, owner.settings.shoot_duration_max)
 	
 	owner.primary.look_at(owner.target.global_transform.origin + Vector3(0, owner.primary.global_transform.origin.y, 0), Vector3.UP)
 	owner.primary.prepare()
+	var sfx_volume = clamp(-target_distance, -30.0, -3.0)
+	if owner.primary.settings.sounds.size() > 0:
+		var sounds = owner.primary.settings.sounds
+		sounds.shuffle()
+		Global.play_sound(sounds[0], rand_range(0.7, 1.4), sfx_volume)
 	
 	last_direction = target_direction
 	

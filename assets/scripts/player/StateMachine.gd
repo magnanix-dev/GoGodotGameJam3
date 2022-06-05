@@ -8,10 +8,7 @@ var stack = []
 var current = null
 
 export (Resource) var settings
-
-var primary_evolutions = []
-var secondary_evolutions = []
-var tertiary_evolutions = []
+export (Resource) var hurt_sfx
 
 var camera
 var drop_plane
@@ -77,11 +74,13 @@ func _ready():
 		secondary.evolutions = Global.secondary_evolutions
 	if settings.tertiary_settings:
 		map['dash'].settings = settings.tertiary_settings
-		map['dash'].evolutions = Global.tertiary_evolutions
+		#map['dash'].evolutions = Global.tertiary_evolutions
 	
 	primary.connect("fire_projectile", camera_pivot, "_on_fire_projectile")
+	primary.connect("fire_projectile", self, "_fire_sound", [primary.settings.sounds])
 #	primary.connect("fire_projectile", self, "_on_fire_projectile")
 	secondary.connect("fire_projectile", camera_pivot, "_on_fire_projectile")
+	secondary.connect("fire_projectile", self, "_fire_sound", [secondary.settings.sounds])
 #	secondary.connect("fire_projectile", self, "_on_fire_projectile")
 	primary.connect("cooldown", secondary, "cooldown", [0.2, false])
 	primary.connect("cooldown", self, "shoot_animation")
@@ -192,6 +191,7 @@ func shoot_animation():
 	animations["parameters/Shooting/active"] = true
 
 func stagger_animation():
+	Global.play_sound(hurt_sfx, rand_range(0.7, 1.4), -6.0)
 	animations["parameters/Staggering/active"] = false
 	animations["parameters/Staggering/active"] = true
 
@@ -205,3 +205,8 @@ func _on_pickup_item(item):
 
 func _create_ability(ui, action_name, icon, cooldown, user):
 	ui.add_ability(action_name, icon, cooldown, user)
+
+func _fire_sound(dir, mag, sounds):
+	if sounds == null: return
+	sounds.shuffle()
+	Global.play_sound(sounds[0], rand_range(0.7, 1.4))
