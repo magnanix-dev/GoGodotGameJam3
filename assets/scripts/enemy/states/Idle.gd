@@ -1,6 +1,7 @@
 extends 'Generic.gd'
 
 func enter():
+	if direction == Vector3.ZERO: direction = (Vector3.RIGHT).rotated(Vector3.UP, deg2rad(rand_range(0, 360)))
 	duration = rand_range(owner.settings.idle_duration_min, owner.settings.idle_duration_max)
 	next = "idle"
 	
