@@ -5,17 +5,11 @@
 [ext_resource path="res://assets/images/Title_RELIC.png" type="Texture" id=3]
 [ext_resource path="res://assets/images/Title.png" type="Texture" id=4]
 [ext_resource path="res://assets/images/Title_Flash.png" type="Texture" id=5]
-[ext_resource path="res://assets/images/PlayButton_On.png" type="Texture" id=6]
-[ext_resource path="res://assets/images/PlayButton_Off.png" type="Texture" id=7]
+[ext_resource path="res://assets/fonts/72px_maniac.tres" type="DynamicFont" id=6]
+[ext_resource path="res://assets/scripts/ui/ButtonShadow.gd" type="Script" id=7]
 [ext_resource path="res://assets/scenes/shared/2DFogShader.tres" type="Shader" id=8]
 [ext_resource path="res://assets/images/WhiteDot.png" type="Texture" id=9]
-[ext_resource path="res://assets/images/OptionsButton_On.png" type="Texture" id=10]
-[ext_resource path="res://assets/images/QuitButton_On.png" type="Texture" id=11]
-[ext_resource path="res://assets/images/OptionsButton_Off.png" type="Texture" id=12]
-[ext_resource path="res://assets/images/QuitButton_Off.png" type="Texture" id=13]
-[ext_resource path="res://assets/images/OptionsButton_Disabled.png" type="Texture" id=14]
-[ext_resource path="res://assets/images/PlayButton_Disabled.png" type="Texture" id=15]
-[ext_resource path="res://assets/images/QuitButton_Disabled.png" type="Texture" id=16]
+[ext_resource path="res://assets/sounds/menu.mp3" type="AudioStream" id=10]
 [ext_resource path="res://assets/scripts/menu/Menu.gd" type="Script" id=17]
 [ext_resource path="res://assets/scripts/world/zones/Zone1.tres" type="Resource" id=18]
 [ext_resource path="res://assets/scenes/menu/Options.tscn" type="PackedScene" id=19]
@@ -24,6 +18,18 @@
 shader = ExtResource( 8 )
 shader_param/colour = Vector3( 1, 1, 1 )
 shader_param/octaves = 4
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="StyleBoxEmpty" id=10]
 
 [sub_resource type="ViewportTexture" id=1]
 viewport_path = NodePath("Viewport")
@@ -169,6 +175,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 17 )
+menu_music = ExtResource( 10 )
 starting_zone = ExtResource( 18 )
 
 [node name="Viewport" type="Viewport" parent="."]
@@ -204,48 +211,110 @@ margin_bottom = 768.0
 mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Node2D/Title"]
-visible = false
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -192.0
 margin_bottom = -128.0
 mouse_filter = 2
-custom_constants/separation = 32
+custom_constants/separation = 64
 alignment = 1
 
-[node name="PlayButton" type="TextureButton" parent="Node2D/Title/HBoxContainer"]
-margin_left = 96.0
-margin_right = 352.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 256, 64 )
-rect_pivot_offset = Vector2( 195, 56 )
+[node name="PlayButton" type="Button" parent="Node2D/Title/HBoxContainer"]
+margin_left = 134.0
+margin_right = 312.0
+margin_bottom = 78.0
 mouse_default_cursor_shape = 2
-texture_normal = ExtResource( 7 )
-texture_hover = ExtResource( 6 )
-texture_disabled = ExtResource( 15 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.376471, 0.376471, 0.376471, 1 )
+custom_colors/font_color_pressed = Color( 0.501961, 0.501961, 0.501961, 1 )
+custom_fonts/font = ExtResource( 6 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 6 )
+text = "Play"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
-[node name="OptionsButton" type="TextureButton" parent="Node2D/Title/HBoxContainer"]
-margin_left = 384.0
-margin_right = 640.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 256, 64 )
-rect_pivot_offset = Vector2( 195, 56 )
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource( 12 )
-texture_hover = ExtResource( 10 )
-texture_disabled = ExtResource( 14 )
+[node name="Shadow" type="Label" parent="Node2D/Title/HBoxContainer/PlayButton"]
+show_behind_parent = true
+margin_left = 12.0
+margin_top = 10.0
+margin_right = 190.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 36 )
+custom_colors/font_color = Color( 0.12549, 0.12549, 0.12549, 0.501961 )
+custom_fonts/font = ExtResource( 6 )
+text = "Play"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
-[node name="QuitButton" type="TextureButton" parent="Node2D/Title/HBoxContainer"]
-margin_left = 672.0
-margin_right = 928.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 256, 64 )
-rect_pivot_offset = Vector2( 195, 56 )
+[node name="OptionsButton" type="Button" parent="Node2D/Title/HBoxContainer"]
+margin_left = 376.0
+margin_right = 665.0
+margin_bottom = 78.0
 mouse_default_cursor_shape = 2
-texture_normal = ExtResource( 13 )
-texture_hover = ExtResource( 11 )
-texture_disabled = ExtResource( 16 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.376471, 0.376471, 0.376471, 1 )
+custom_colors/font_color_pressed = Color( 0.501961, 0.501961, 0.501961, 1 )
+custom_fonts/font = ExtResource( 6 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 8 )
+text = "Options"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Shadow" type="Label" parent="Node2D/Title/HBoxContainer/OptionsButton"]
+show_behind_parent = true
+margin_left = 12.0
+margin_top = 10.0
+margin_right = 289.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 36 )
+custom_colors/font_color = Color( 0.12549, 0.12549, 0.12549, 0.501961 )
+custom_fonts/font = ExtResource( 6 )
+text = "Options"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="QuitButton" type="Button" parent="Node2D/Title/HBoxContainer"]
+margin_left = 729.0
+margin_right = 889.0
+margin_bottom = 78.0
+mouse_default_cursor_shape = 2
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.376471, 0.376471, 0.376471, 1 )
+custom_colors/font_color_pressed = Color( 0.501961, 0.501961, 0.501961, 1 )
+custom_fonts/font = ExtResource( 6 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/focus = SubResource( 10 )
+text = "Quit"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Shadow" type="Label" parent="Node2D/Title/HBoxContainer/QuitButton"]
+show_behind_parent = true
+margin_left = 12.0
+margin_top = 10.0
+margin_right = 190.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 36 )
+custom_colors/font_color = Color( 0.12549, 0.12549, 0.12549, 0.501961 )
+custom_fonts/font = ExtResource( 6 )
+text = "Quit"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Control" type="Control" parent="Node2D/Title"]
 anchor_right = 1.0

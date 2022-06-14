@@ -24,7 +24,8 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
-		options_menu.visible = !options_menu.visible
+		Global._paused = !Global._paused
+		#options_menu.visible = !options_menu.visible
 
 func show_zone_name():
 	zone_name.text = Global.zone_settings.name

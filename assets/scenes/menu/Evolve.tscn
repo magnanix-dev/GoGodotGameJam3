@@ -1,9 +1,8 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/scripts/menu/EvolutionOptions.gd" type="Script" id=1]
-[ext_resource path="res://assets/images/SkipButton_Off.png" type="Texture" id=2]
-[ext_resource path="res://assets/images/SkipButton_Disabled.png" type="Texture" id=3]
-[ext_resource path="res://assets/images/SkipButton_On.png" type="Texture" id=4]
+[ext_resource path="res://assets/scripts/ui/ButtonShadow.gd" type="Script" id=2]
+[ext_resource path="res://assets/fonts/72px_maniac.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/fonts/Maniac.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://assets/scenes/menu/RotateModel.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/scripts/menu/Evolve.gd" type="Script" id=7]
@@ -24,6 +23,10 @@ size = 72
 extra_spacing_char = 2
 extra_spacing_space = 4
 font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=8]
 
 [node name="Evolve" type="Control"]
 anchor_right = 1.0
@@ -87,20 +90,44 @@ mouse_filter = 2
 script = ExtResource( 1 )
 select = ExtResource( 10 )
 
-[node name="SkipButton" type="TextureButton" parent="Node2D/Options"]
-anchor_top = 1.0
+[node name="Button" type="HBoxContainer" parent="Node2D/Options"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 384.0
-margin_top = -128.0
-margin_right = -384.0
-margin_bottom = -64.0
-rect_min_size = Vector2( 256, 64 )
-rect_pivot_offset = Vector2( 128, 32 )
+margin_top = 360.0
+margin_bottom = -74.0
+rect_min_size = Vector2( 1024, 0 )
+mouse_filter = 2
+custom_constants/separation = 32
+alignment = 1
+
+[node name="SkipButton" type="Button" parent="Node2D/Options/Button"]
+margin_left = 429.0
+margin_right = 594.0
+margin_bottom = 78.0
 mouse_default_cursor_shape = 2
-texture_normal = ExtResource( 2 )
-texture_hover = ExtResource( 4 )
-texture_disabled = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.376471, 0.376471, 0.376471, 1 )
+custom_colors/font_color_pressed = Color( 0.501961, 0.501961, 0.501961, 1 )
+custom_fonts/font = ExtResource( 3 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 8 )
+text = "Skip"
+flat = true
+
+[node name="Shadow" type="Label" parent="Node2D/Options/Button/SkipButton"]
+show_behind_parent = true
+margin_left = 12.0
+margin_top = 10.0
+margin_right = 190.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 36 )
+custom_colors/font_color = Color( 0.12549, 0.12549, 0.12549, 0.501961 )
+custom_fonts/font = ExtResource( 3 )
+text = "Skip"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Row" type="HBoxContainer" parent="Node2D/Options"]
 anchor_right = 1.0
@@ -109,4 +136,4 @@ mouse_filter = 2
 custom_constants/separation = 32
 alignment = 1
 
-[connection signal="pressed" from="Node2D/Options/SkipButton" to="." method="_on_skip_pressed"]
+[connection signal="pressed" from="Node2D/Options/Button/SkipButton" to="." method="_on_skip_pressed"]

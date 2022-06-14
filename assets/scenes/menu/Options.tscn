@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/scripts/menu/OptionsMenu.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/72px_maniac.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/scripts/ui/ButtonShadow.gd" type="Script" id=3]
+[ext_resource path="res://assets/fonts/Maniac.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://assets/scripts/ui/VolumeSlider.gd" type="Script" id=5]
 [ext_resource path="res://assets/scenes/shared/2DFogShader.tres" type="Shader" id=8]
 [ext_resource path="res://assets/images/WhiteDot.png" type="Texture" id=9]
 
@@ -10,7 +13,22 @@ shader = ExtResource( 8 )
 shader_param/colour = Vector3( 1, 1, 1 )
 shader_param/octaves = 4
 
+[sub_resource type="DynamicFont" id=5]
+size = 72
+extra_spacing_char = 2
+extra_spacing_space = 4
+font_data = ExtResource( 4 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.639216, 0.639216, 0.639216, 1 )
+
 [node name="OptionsMenu" type="Control"]
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -20,13 +38,13 @@ script = ExtResource( 1 )
 scale = Vector2( 0.391, 0.391 )
 
 [node name="Background" type="Sprite" parent="Node2D"]
-modulate = Color( 0, 0, 0, 0.196078 )
+modulate = Color( 0, 0, 0, 0.501961 )
 position = Vector2( 512, 384 )
 scale = Vector2( 32, 24 )
 texture = ExtResource( 9 )
 
 [node name="Fog" type="Sprite" parent="Node2D"]
-modulate = Color( 1, 1, 1, 0.196078 )
+modulate = Color( 1, 1, 1, 0.501961 )
 material = SubResource( 4 )
 position = Vector2( 512, 384 )
 scale = Vector2( 32, 24 )
@@ -38,42 +56,169 @@ anchor_bottom = 1.0
 margin_right = 1024.0
 margin_bottom = 768.0
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Node2D/Title"]
-anchor_top = 1.0
+[node name="Vertical" type="VBoxContainer" parent="Node2D/Title"]
+anchor_top = 0.0833333
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -704.0
 rect_min_size = Vector2( 1024, 704 )
 mouse_filter = 2
 custom_constants/separation = 32
 alignment = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
-[node name="ToggleMusic" type="Button" parent="Node2D/Title/VBoxContainer"]
-margin_top = 125.0
+[node name="MasterVolume" type="HBoxContainer" parent="Node2D/Title/Vertical"]
+margin_top = 77.0
 margin_right = 1024.0
-margin_bottom = 203.0
-custom_fonts/font = ExtResource( 2 )
-text = "Music: ON"
-flat = true
+margin_bottom = 149.0
+alignment = 1
 
-[node name="ToggleSFX" type="Button" parent="Node2D/Title/VBoxContainer"]
-margin_top = 235.0
-margin_right = 1024.0
-margin_bottom = 313.0
-custom_fonts/font = ExtResource( 2 )
-text = "SFX: ON"
-flat = true
+[node name="Master" type="Label" parent="Node2D/Title/Vertical/MasterVolume"]
+margin_left = 126.0
+margin_right = 510.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 384, 72 )
+rect_pivot_offset = Vector2( 192, 29 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 5 )
+text = "MASTER: "
+align = 2
 
-[node name="Back" type="Button" parent="Node2D/Title/VBoxContainer"]
-margin_top = 345.0
+[node name="Volume" type="HSlider" parent="Node2D/Title/Vertical/MasterVolume"]
+margin_left = 514.0
+margin_right = 898.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 384, 58 )
+rect_pivot_offset = Vector2( 192, 29 )
+custom_icons/grabber_highlight = ExtResource( 9 )
+custom_icons/grabber = ExtResource( 9 )
+custom_styles/slider = SubResource( 6 )
+custom_styles/grabber_area_highlight = SubResource( 7 )
+custom_styles/grabber_area = SubResource( 7 )
+min_value = -40.0
+max_value = 0.0
+script = ExtResource( 5 )
+
+[node name="MusicVolume" type="HBoxContainer" parent="Node2D/Title/Vertical"]
+margin_top = 181.0
 margin_right = 1024.0
-margin_bottom = 579.0
-rect_min_size = Vector2( 1024, 234 )
+margin_bottom = 253.0
+alignment = 1
+
+[node name="Music" type="Label" parent="Node2D/Title/Vertical/MusicVolume"]
+margin_left = 126.0
+margin_right = 510.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 384, 72 )
+rect_pivot_offset = Vector2( 192, 29 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 5 )
+text = "Music: "
+align = 2
+
+[node name="Volume" type="HSlider" parent="Node2D/Title/Vertical/MusicVolume"]
+margin_left = 514.0
+margin_right = 898.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 384, 58 )
+rect_pivot_offset = Vector2( 192, 29 )
+custom_icons/grabber_highlight = ExtResource( 9 )
+custom_icons/grabber = ExtResource( 9 )
+custom_styles/slider = SubResource( 6 )
+custom_styles/grabber_area_highlight = SubResource( 7 )
+custom_styles/grabber_area = SubResource( 7 )
+min_value = -40.0
+max_value = 0.0
+script = ExtResource( 5 )
+bus_name = "Music"
+
+[node name="SFXVolume" type="HBoxContainer" parent="Node2D/Title/Vertical"]
+margin_top = 285.0
+margin_right = 1024.0
+margin_bottom = 357.0
+alignment = 1
+
+[node name="SFX" type="Label" parent="Node2D/Title/Vertical/SFXVolume"]
+margin_left = 126.0
+margin_right = 510.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 384, 72 )
+rect_pivot_offset = Vector2( 192, 29 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 5 )
+text = "SFX: "
+align = 2
+
+[node name="Volume" type="HSlider" parent="Node2D/Title/Vertical/SFXVolume"]
+margin_left = 514.0
+margin_right = 898.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 384, 58 )
+rect_pivot_offset = Vector2( 192, 29 )
+custom_icons/grabber_highlight = ExtResource( 9 )
+custom_icons/grabber = ExtResource( 9 )
+custom_styles/slider = SubResource( 6 )
+custom_styles/grabber_area_highlight = SubResource( 7 )
+custom_styles/grabber_area = SubResource( 7 )
+min_value = -40.0
+max_value = 0.0
+script = ExtResource( 5 )
+bus_name = "SFX"
+
+[node name="Blank" type="HBoxContainer" parent="Node2D/Title/Vertical"]
+margin_top = 389.0
+margin_right = 1024.0
+margin_bottom = 517.0
+rect_min_size = Vector2( 0, 128 )
+alignment = 1
+
+[node name="GoBack" type="HBoxContainer" parent="Node2D/Title/Vertical"]
+margin_top = 549.0
+margin_right = 1024.0
+margin_bottom = 627.0
+alignment = 1
+
+[node name="Back" type="Button" parent="Node2D/Title/Vertical/GoBack"]
+margin_left = 359.0
+margin_right = 664.0
+margin_bottom = 78.0
 custom_fonts/font = ExtResource( 2 )
 text = "Go Back"
 flat = true
 
-[connection signal="pressed" from="Node2D/Title/VBoxContainer/ToggleMusic" to="." method="_on_music_pressed"]
-[connection signal="pressed" from="Node2D/Title/VBoxContainer/ToggleSFX" to="." method="_on_sfx_pressed"]
-[connection signal="pressed" from="Node2D/Title/VBoxContainer/Back" to="." method="_on_back_pressed"]
+[node name="Shadow" type="Label" parent="Node2D/Title/Vertical/GoBack/Back"]
+show_behind_parent = true
+margin_left = 12.0
+margin_top = 10.0
+margin_right = 190.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 36 )
+custom_colors/font_color = Color( 0.12549, 0.12549, 0.12549, 0.501961 )
+custom_fonts/font = ExtResource( 2 )
+text = "Go Back"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="value_changed" from="Node2D/Title/Vertical/MasterVolume/Volume" to="." method="_on_master_volume_changed"]
+[connection signal="value_changed" from="Node2D/Title/Vertical/MusicVolume/Volume" to="." method="_on_music_volume_changed"]
+[connection signal="value_changed" from="Node2D/Title/Vertical/SFXVolume/Volume" to="." method="_on_sfx_volume_changed"]
+[connection signal="pressed" from="Node2D/Title/Vertical/GoBack/Back" to="." method="_on_back_pressed"]

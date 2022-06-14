@@ -16,6 +16,6 @@ func _ready():
 		won.visible = false
 	stats.text = "Time Elapsed: " + str(Global.zonetime) + " secs\nTotal Kills: " + str(Global.killcount) + "\nFinal EXP: " + str(floor(Global.get_total_exp())) + " (level " + str(Global.exp_level) + ")\n\nSeed: " + str(Global._seed)
 
-func _on_play_pressed():
+func _on_again_pressed():
 	Global.button_pressed()
 	get_tree().change_scene("res://assets/scenes/menu/Menu.tscn")

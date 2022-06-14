@@ -11,6 +11,8 @@ signal experience_changed
 signal level_changed
 signal game_over_time
 
+var _paused = false setget set_paused
+
 var player = null
 var player_speed_max = 0
 var player_health = 0
@@ -52,9 +54,6 @@ var wait_frames = 1
 var time_max = 100
 var current_scene = null
 var loading = preload("res://assets/scenes/ui/Loading.tscn")
-
-var play_music = true
-var play_sound = true
 
 var music_player = []
 var audio_players = []
@@ -126,28 +125,31 @@ func randomize_seed():
 func get_difficulty():
 	return difficulty + floor(difficulty*1.0 / exp_level*1.0)
 
-func toggle_sound():
-	play_sound = !play_sound
-	for n in audio_players:
-		n.stop()
+func set_paused(val):
+	if ui != null:
+		_paused = val
+		get_tree().paused = _paused
+		ui.options_menu.visible = _paused
 
-func toggle_music():
-	if not play_music:
-		play_music = true
-		for n in music_player:
-			n.volume_db = -6.0
-	else:
-		play_music = false
-		for n in music_player:
-			n.volume_db = -255.0
+func set_master_volume(value):
+	if value <= -38.00: value = -255.0
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), value)
+	
+func set_music_volume(value):
+	if value <= -38.00: value = -255.0
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), value)
+	
+func set_sfx_volume(value):
+	if value <= -38.00: value = -255.0
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), value)
 
 func play_music(music, volume = -6.0):
-	if not play_music:
-		volume = -255.0
 	var play = null
 	if music_player.size() < 1:
 		play = AudioStreamPlayer.new()
 		play.autoplay = true
+		play.bus = "Music"
+		play.pause_mode = Node.PAUSE_MODE_PROCESS
 		get_tree().get_root().add_child(play)
 		music_player.push_back(play)
 	else:
@@ -161,12 +163,12 @@ func play_music(music, volume = -6.0):
 		play.play(true)
 
 func play_sound(sfx, pitch_scale = 1.0, volume = -3.0):
-	if not play_sound:
-		volume = -255.0
 	var play = null
 	if audio_players.size() < 10:
 		play = AudioStreamPlayer.new()
 		play.autoplay = true
+		play.bus = "SFX"
+		play.pause_mode = Node.PAUSE_MODE_PROCESS
 		get_tree().get_root().add_child(play)
 		audio_players.push_back(play)
 	else:
